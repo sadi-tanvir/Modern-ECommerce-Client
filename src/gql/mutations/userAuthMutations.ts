@@ -20,7 +20,6 @@ export const USER_LOGIN_MUTATION = gql`
                 name
                 email
                 phone
-                image
                 gender
                 role
                 darkMode

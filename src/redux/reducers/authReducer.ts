@@ -4,6 +4,8 @@ export interface AuthReducerUserType {
     _id: string;
     name: string;
     phone?: string;
+    email: string;
+    gender?: string;
 };
 
 export interface AuthReducerStateType {
@@ -24,13 +26,15 @@ const initialState = {
     userInfo: {
         _id: "",
         name: '',
-        phone: ''
+        email: '',
+        phone: '',
+        gender: '',
     },
 } as AuthReducerStateType;
 
 const loginUser = createAction('loginUser');
 const accessAdmin = createAction('accessAdmin');
-const accessCustomer = createAction('accessCustomer');
+const accessUser = createAction('accessUser');
 const userRole = createAction('userRole');
 const accessToken = createAction('accessToken');
 const setUserInfo = createAction('setUserInfo');
@@ -45,7 +49,7 @@ const authReducer = createReducer(initialState, (builder) => {
         state.isAdmin = true
     });
 
-    builder.addCase(accessCustomer, (state, action) => {
+    builder.addCase(accessUser, (state, action) => {
         state.isUser = true;
     });
 
@@ -61,6 +65,8 @@ const authReducer = createReducer(initialState, (builder) => {
         state.userInfo._id = action.payload._id;
         state.userInfo.name = action.payload.name;
         state.userInfo.phone = action.payload.phone;
+        state.userInfo.email = action.payload.email;
+        state.userInfo.gender = action.payload.gender;
     });
 
     builder.addCase(logOutUser, (state, action) => {
@@ -73,6 +79,8 @@ const authReducer = createReducer(initialState, (builder) => {
             _id: "",
             name: '',
             phone: '',
+            email: '',
+            gender: '',
         };
     });
 

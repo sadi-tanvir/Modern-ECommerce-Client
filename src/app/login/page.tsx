@@ -5,12 +5,20 @@ import Button from '../components/shared/Button';
 import Swal from 'sweetalert2';
 import { useMutation } from '@apollo/client';
 import { USER_LOGIN_MUTATION } from '@/gql/mutations/userAuthMutations';
+import { useAppDispatch } from '@/redux/hooks/hooks';
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
     const [userInput, setUserInput] = useState({
         email: '',
         password: ''
     })
+
+    // redux
+    const dispatch = useAppDispatch()
+
+    // router
+    const router = useRouter();
 
     // signIn mutation
     const [signInMutation, { data, loading, error }] = useMutation(USER_LOGIN_MUTATION);
@@ -56,11 +64,41 @@ const LoginForm = () => {
         }
 
         if (data?.loginUser?.status) {
+            const { user, token } = data?.loginUser;
             // success notification
             Toast.fire({
                 icon: 'success',
                 title: data?.loginUser.message
             })
+
+            const userInfo = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                gender: user.gender,
+            }
+
+            // store data into localStorage
+            localStorage.setItem("userInfo", JSON.stringify(userInfo))
+            localStorage.setItem("accessToken", JSON.stringify(token))
+
+            // dispatch data into redux store
+            dispatch({ type: 'setUserInfo', payload: userInfo })
+            dispatch({ type: 'accessToken', payload: token })
+            dispatch({ type: 'userRole', payload: user.role })
+            dispatch({ type: 'loginUser' })
+            if (user.role === 'admin') dispatch({ type: 'accessAdmin' })
+            if (user.role === 'user') dispatch({ type: 'accessUser' })
+
+            // success toast notification
+            Toast.fire({
+                icon: 'success',
+                title: 'Successfully Logged In.'
+            })
+
+            // redirect to home page
+            router.push('/')
         };
     }, [data]);
 
