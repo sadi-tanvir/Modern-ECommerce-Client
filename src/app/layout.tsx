@@ -6,6 +6,7 @@ import { Mulish } from 'next/font/google';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { HttpLink } from '@apollo/client/link/http';
 import { setContext } from '@apollo/client/link/context';
+import Swal from 'sweetalert2';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,6 +43,18 @@ const client = new ApolloClient({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // notification toast
+  Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 4000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
   return (
     <html lang="en">
       <body className={mulish.className}>

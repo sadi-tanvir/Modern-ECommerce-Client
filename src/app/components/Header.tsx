@@ -20,7 +20,7 @@ export default function Header() {
                 </div>
                 <ul className="menu menu-horizontal px-1">
                     <li>
-                        <Link href={{ pathname: '/about' }}>About</Link>
+                        <Link href={{ pathname: '/signup' }}>Sign Up</Link>
                     </li>
                     <li>
                         <Link href={{ pathname: '/contact' }}>Contact</Link>
