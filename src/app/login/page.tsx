@@ -4,18 +4,16 @@ import TextInputField from '../components/shared/TextInputField';
 import Button from '../components/shared/Button';
 import Swal from 'sweetalert2';
 import { useMutation } from '@apollo/client';
-import { USER_SIGN_UP_MUTATION } from '@/gql/mutations/userAuthMutations';
+import { USER_LOGIN_MUTATION } from '@/gql/mutations/userAuthMutations';
 
-const SignUpForm = () => {
+const LoginForm = () => {
     const [userInput, setUserInput] = useState({
-        name: '',
         email: '',
-        password: '',
-        phone: '',
+        password: ''
     })
 
     // signIn mutation
-    const [signUpMutation, { data, loading, error }] = useMutation(USER_SIGN_UP_MUTATION);
+    const [signInMutation, { data, loading, error }] = useMutation(USER_LOGIN_MUTATION);
 
     // handle input change 
     const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -37,12 +35,12 @@ const SignUpForm = () => {
     });
 
     // handle user signUp
-    const handleUserSignUp = (e: FormEvent) => {
+    const handleUserLogin = (e: FormEvent) => {
         e.preventDefault();
-        const { name, email, password, phone } = userInput;
-        signUpMutation({
+        const { email, password } = userInput;
+        signInMutation({
             variables: {
-                info: { name, email, phone, password }
+                info: { email, password }
             }
         });
     };
@@ -53,15 +51,15 @@ const SignUpForm = () => {
         if (error) {
             Toast.fire({
                 icon: 'error',
-                title: 'Failed to Sign Up'
+                title: 'Failed to Sign In'
             })
         }
 
-        if (data?.signUpUser?.status) {
+        if (data?.loginUser?.status) {
             // success notification
             Toast.fire({
                 icon: 'success',
-                title: data?.signUpUser.message
+                title: data?.loginUser.message
             })
         };
     }, [data]);
@@ -71,15 +69,8 @@ const SignUpForm = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-3xl font-semibold text-center mb-4">Sign Up</h2>
-                <form onSubmit={handleUserSignUp}>
-                    <TextInputField
-                        name="name"
-                        labelName="Name"
-                        placeholder="Your Name"
-                        value={userInput.name}
-                        onChange={handleInputChange}
-                    />
+                <h2 className="text-3xl font-semibold text-center mb-4">Login</h2>
+                <form onSubmit={handleUserLogin}>
                     <TextInputField
                         name="email"
                         labelName="Email"
@@ -98,21 +89,12 @@ const SignUpForm = () => {
                         onChange={handleInputChange}
                         isRequired={true}
                     />
-                    <TextInputField
-                        name="phone"
-                        labelName="Phone"
-                        placeholder="01xxxxxxxxx"
-                        inputType="number"
-                        value={userInput.phone}
-                        onChange={handleInputChange}
-                        isRequired={true}
-                    />
 
-                    <Button buttonType='submit'>Sign Up</Button>
+                    <Button buttonType='submit'>Login</Button>
                 </form>
             </div>
         </div>
     );
 };
 
-export default SignUpForm;
+export default LoginForm;

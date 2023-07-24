@@ -8,3 +8,23 @@ export const USER_SIGN_UP_MUTATION = gql`
         }
     }
 `;
+
+export const USER_LOGIN_MUTATION = gql`
+    mutation loginUser($info:UserLoginInputs!) {
+        loginUser(data:$info){
+            status
+            message
+            token
+            user {
+                _id
+                name
+                email
+                phone
+                image
+                gender
+                role
+                darkMode
+            }
+        }
+    }
+`;

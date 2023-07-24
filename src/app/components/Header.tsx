@@ -23,7 +23,7 @@ export default function Header() {
                         <Link href={{ pathname: '/signup' }}>Sign Up</Link>
                     </li>
                     <li>
-                        <Link href={{ pathname: '/contact' }}>Contact</Link>
+                        <Link href={{ pathname: '/login' }}>Login</Link>
                     </li>
                     <li>
                         <Link href={{ pathname: '/posts' }}>Posts</Link>

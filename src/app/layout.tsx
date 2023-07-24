@@ -7,6 +7,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { HttpLink } from '@apollo/client/link/http';
 import { setContext } from '@apollo/client/link/context';
 import Swal from 'sweetalert2';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -59,8 +61,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={mulish.className}>
         <ApolloProvider client={client}>
-          <Header />
-          {children}
+          <Provider store={store}>
+            <Header />
+            {children}
+          </Provider>
         </ApolloProvider>
       </body>
     </html>
