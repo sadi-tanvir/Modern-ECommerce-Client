@@ -75,6 +75,7 @@ const Navbar = () => {
                             isAuthenticate ?
                                 <>
                                     <NavItem path='/'>Home</NavItem>
+                                    <NavItem path='/products'>Products</NavItem>
                                     <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500">Logout</Button>
                                 </>
                                 :
