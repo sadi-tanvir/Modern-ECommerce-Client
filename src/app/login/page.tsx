@@ -5,7 +5,7 @@ import Button from '../components/shared/Button';
 import Swal from 'sweetalert2';
 import { useMutation } from '@apollo/client';
 import { USER_LOGIN_MUTATION } from '@/gql/mutations/userAuthMutations';
-import { useAppDispatch } from '@/redux/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
@@ -16,6 +16,7 @@ const LoginForm = () => {
 
     // redux
     const dispatch = useAppDispatch()
+    const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
 
     // router
     const router = useRouter();
@@ -77,6 +78,7 @@ const LoginForm = () => {
                 email: user.email,
                 phone: user.phone,
                 gender: user.gender,
+                role: user.role
             }
 
             // store data into localStorage
@@ -101,6 +103,15 @@ const LoginForm = () => {
             router.push('/')
         };
     }, [data]);
+
+
+    // authentication
+    useEffect(() => {
+        if (isAuthenticate) {
+            // redirect to login
+            router.push('/')
+        }
+    }, [isAuthenticate])
 
 
 

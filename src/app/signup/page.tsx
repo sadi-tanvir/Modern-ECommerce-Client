@@ -5,6 +5,8 @@ import Button from '../components/shared/Button';
 import Swal from 'sweetalert2';
 import { useMutation } from '@apollo/client';
 import { USER_SIGN_UP_MUTATION } from '@/gql/mutations/userAuthMutations';
+import { useAppSelector } from '@/redux/hooks/hooks';
+import { useRouter } from "next/navigation";
 
 const SignUpForm = () => {
     const [userInput, setUserInput] = useState({
@@ -13,6 +15,12 @@ const SignUpForm = () => {
         password: '',
         phone: '',
     })
+
+    // redux
+    const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
+
+    // router
+    const router = useRouter();
 
     // signIn mutation
     const [signUpMutation, { data, loading, error }] = useMutation(USER_SIGN_UP_MUTATION);
@@ -66,7 +74,13 @@ const SignUpForm = () => {
         };
     }, [data]);
 
-
+    // authentication
+    useEffect(() => {
+        if (isAuthenticate) {
+            // redirect to login
+            router.push('/')
+        }
+    }, [isAuthenticate])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">

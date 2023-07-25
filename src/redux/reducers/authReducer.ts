@@ -6,6 +6,7 @@ export interface AuthReducerUserType {
     phone?: string;
     email: string;
     gender?: string;
+    role?: string;
 };
 
 export interface AuthReducerStateType {
@@ -29,6 +30,7 @@ const initialState = {
         email: '',
         phone: '',
         gender: '',
+        role: ''
     },
 } as AuthReducerStateType;
 
@@ -67,9 +69,14 @@ const authReducer = createReducer(initialState, (builder) => {
         state.userInfo.phone = action.payload.phone;
         state.userInfo.email = action.payload.email;
         state.userInfo.gender = action.payload.gender;
+        state.userInfo.role = action.payload.role;
     });
 
     builder.addCase(logOutUser, (state, action) => {
+        // clear local storage
+        localStorage.clear();
+
+        // make redux store as initial state
         state.isAuthenticate = false;
         state.isAdmin = false;
         state.role = "";
@@ -81,6 +88,7 @@ const authReducer = createReducer(initialState, (builder) => {
             phone: '',
             email: '',
             gender: '',
+            role: '',
         };
     });
 
