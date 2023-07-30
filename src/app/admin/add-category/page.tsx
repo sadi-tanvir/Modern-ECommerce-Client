@@ -34,12 +34,12 @@ const AddNewCategory: React.FC = () => {
 
 
 
-    // handle submit to create a new product
+    // handle submit to create a new category
     const handleCategoryCreate = (event: FormEvent) => {
         event.preventDefault();
         const { name, description } = categoryData;
 
-        // creating product
+        // creating category
         warningAlert('Yes, Create it!', () => (
             createCategoryMutation({
                 variables: {
@@ -63,10 +63,10 @@ const AddNewCategory: React.FC = () => {
 
 
     useEffect(() => {
-        // if product not created
+        // if category not created
         if (error) errorAlert(error.message)
 
-        // if product successfully created
+        // if category successfully created
         if (data) successAlert(data?.createCategory?.message)
     }, [data, error]);
 
