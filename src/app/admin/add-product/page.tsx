@@ -10,11 +10,10 @@ import { GET_CATEGORIES } from '@/gql/queries/category.queries';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import Swal from 'sweetalert2';
 
 
 
-const NewProductForm: React.FC = () => {
+const AddNewProduct: React.FC = () => {
     // state
     const [productData, setProductData] = useState({
         name: '',
@@ -63,7 +62,6 @@ const NewProductForm: React.FC = () => {
     const handleMultiCategoryInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setProductData({ ...productData, [e.target.name]: JSON.parse(e.target.value) })
     }
-
 
 
 
@@ -190,4 +188,4 @@ const NewProductForm: React.FC = () => {
     );
 };
 
-export default NewProductForm;
+export default AddNewProduct;
