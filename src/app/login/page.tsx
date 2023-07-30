@@ -17,6 +17,7 @@ const LoginForm = () => {
     // redux
     const dispatch = useAppDispatch()
     const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
+    const { successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
 
     // router
     const router = useRouter();
@@ -55,23 +56,14 @@ const LoginForm = () => {
     };
 
     useEffect(() => {
-        console.warn(data);
-        // error notification
+        // if error
         if (error) {
-            Toast.fire({
-                icon: 'error',
-                title: 'Failed to Sign In'
-            })
+            errorAlert(error.message)
         }
 
+        // if login success
         if (data?.loginUser?.status) {
             const { user, token } = data?.loginUser;
-            // success notification
-            Toast.fire({
-                icon: 'success',
-                title: data?.loginUser.message
-            })
-
             const userInfo = {
                 _id: user._id,
                 name: user.name,
@@ -80,6 +72,9 @@ const LoginForm = () => {
                 gender: user.gender,
                 role: user.role
             }
+
+            //  success alert
+            successAlert(data?.loginUser.message)
 
             // store data into localStorage
             localStorage.setItem("userInfo", JSON.stringify(userInfo))
@@ -93,16 +88,10 @@ const LoginForm = () => {
             if (user.role === 'admin') dispatch({ type: 'accessAdmin' })
             if (user.role === 'user') dispatch({ type: 'accessUser' })
 
-            // success toast notification
-            Toast.fire({
-                icon: 'success',
-                title: 'Successfully Logged In.'
-            })
-
             // redirect to home page
             router.push('/')
         };
-    }, [data]);
+    }, [data, error]);
 
 
     // authentication
@@ -139,7 +128,7 @@ const LoginForm = () => {
                         isRequired={true}
                     />
 
-                    <Button buttonType='submit'>Login</Button>
+                    <Button color='red' buttonType='submit'>Login</Button>
                 </form>
             </div>
         </div>

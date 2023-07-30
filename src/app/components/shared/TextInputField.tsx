@@ -1,15 +1,7 @@
 'use client'
-import React, { ChangeEvent } from 'react'
+import { TextInputFieldTypes } from '@/types/shared.types'
+import React from 'react'
 
-type TextInputFieldTypes = {
-    name?: string;
-    labelName?: string;
-    inputType?: string;
-    placeholder?: string;
-    value?: string;
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-    isRequired?: boolean;
-}
 
 const TextInputField = ({ name, labelName, inputType = "text", placeholder, value, isRequired = false, onChange }: TextInputFieldTypes) => {
     return (

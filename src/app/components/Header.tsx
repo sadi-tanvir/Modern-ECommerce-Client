@@ -36,7 +36,7 @@ const Navbar = () => {
     }, [])
 
     return (
-        <nav className="bg-blue-500 text-white py-4">
+        <nav className="bg-primary text-white py-4">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     <Link href="/">
@@ -71,21 +71,17 @@ const Navbar = () => {
                     </button>
 
                     <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
-                        {
-                            isAuthenticate ?
-                                <>
-                                    <NavItem path='/'>Home</NavItem>
-                                    <NavItem path='/products'>Products</NavItem>
-                                    <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500">Logout</Button>
-                                </>
-                                :
-                                <>
-                                    <NavItem path='/login'>Login</NavItem>
-                                    <NavItem path='/signup'>Sign Up</NavItem>
-                                </>
+                        <NavItem path='/'>Home</NavItem>
+                        {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
+                        <NavItem path='/products'>Products</NavItem>
+                        {isAuthenticate && <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500">Logout</Button>}
+
+                        {isAuthenticate ||
+                            <>
+                                <NavItem path='/login'>Login</NavItem>
+                                <NavItem path='/signup'>Sign Up</NavItem>
+                            </>
                         }
-
-
                     </ul>
                 </div>
             </div>
@@ -94,53 +90,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
-
-/* import Image from 'next/image'
-import Link from 'next/link'
-
-export default function Header() {
-    return (
-        <div className="navbar bg-base-100 h-[0px]">
-            <div className="flex-1">
-                <Link href={{ pathname: '/' }}>
-                    <Image
-                        src="/logo.png"
-                        alt="logo"
-                        width={100}
-                        height={100}
-                    />
-                </Link>
-            </div>
-            <div className="flex-none">
-                <div>
-                    <input type="text" placeholder="search here" className="input input-bordered input-sm w-full max-w-xs border border-1 border-gray-500" />
-                </div>
-                <ul className="menu menu-horizontal px-1">
-                    <li>
-                        <Link href={{ pathname: '/signup' }}>Sign Up</Link>
-                    </li>
-                    <li>
-                        <Link href={{ pathname: '/login' }}>Login</Link>
-                    </li>
-                    <li>
-                        <Link href={{ pathname: '/posts' }}>Posts</Link>
-                    </li>
-                    <li>
-                        <details>
-                            <summary>
-                                Parent
-                            </summary>
-                            <ul className="p-2 bg-base-100">
-                                <li><a>Link 1</a></li>
-                                <li><a>Link 2</a></li>
-                            </ul>
-                        </details>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    )
-}
- */

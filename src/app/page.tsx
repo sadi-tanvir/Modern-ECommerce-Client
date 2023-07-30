@@ -23,7 +23,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <div className="py-10 bg-blue-500 text-white text-center">
+      <div className="py-10 bg-primary text-white text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Our E-Commerce Store</h1>
         <p className="text-lg">Discover amazing products and great deals!</p>
       </div>
@@ -45,24 +45,6 @@ export default function Home() {
       <footer className="bg-gray-800 text-white text-center py-4">
         {/* Add your footer content here */}
       </footer>
-
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqUJYwKPX9RQCO9peGl-bbFVIixKa0xkq1Ux8QQ2QP&s"
-          alt="Product"
-          className="h-48 w-full object-cover object-center"
-        />
-        <div className="p-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">Product Name</h2>
-          <p className="text-gray-600 mb-4">Product Description</p>
-          <div className="flex items-center justify-between">
-            <p className="text-blue-500 font-semibold">$99.99</p>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
