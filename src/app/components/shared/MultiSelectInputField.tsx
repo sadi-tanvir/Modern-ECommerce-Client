@@ -14,8 +14,8 @@ const MultiSelectInputField: React.FC<MultiSelectInputFieldProps> = ({ options, 
                 className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             >
                 {currentValue || <option disabled selected>Pick one</option>}
-                {options?.map((option) => (
-                    <option key={option.value.id} value={JSON.stringify({ id: option.value.id, name: option.value.name })}>
+                {options?.map((option, index) => (
+                    <option key={index} value={JSON.stringify(option.value)}>
                         {option.label}
                     </option>
                 ))}

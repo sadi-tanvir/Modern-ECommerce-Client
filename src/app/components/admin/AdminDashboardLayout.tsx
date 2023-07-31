@@ -20,6 +20,9 @@ const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     <Link href="/admin">
                         <li className={`${pathname == '/admin' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}><a>Dashboard</a></li>
                     </Link>
+                    <Link href="/admin/add-stock">
+                        <li className={`${pathname == '/admin/add-stock' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}><a>Add Stock</a></li>
+                    </Link>
                     <Link href="/admin/add-product">
                         <li className={`${pathname == '/admin/add-product' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}><a>Add Product</a></li>
                     </Link>

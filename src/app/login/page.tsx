@@ -7,6 +7,7 @@ import { useMutation } from '@apollo/client';
 import { USER_LOGIN_MUTATION } from '@/gql/mutations/userAuthMutations';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { useRouter } from "next/navigation";
+import Link from 'next/link';
 
 const LoginForm = () => {
     const [userInput, setUserInput] = useState({
@@ -107,7 +108,7 @@ const LoginForm = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-3xl font-semibold text-center mb-4">Login</h2>
+                <h2 className="text-3xl font-bold text-center mb-4 text-secondary">Login</h2>
                 <form onSubmit={handleUserLogin}>
                     <TextInputField
                         name="email"
@@ -130,6 +131,11 @@ const LoginForm = () => {
 
                     <Button color='red' buttonType='submit'>Login</Button>
                 </form>
+                <h1 className='text-center mt-4'>Don&apos;t have an account?
+                    <Link href={'/signup'}>
+                        <span className='ml-1 text-red-500'>Sing Up</span>
+                    </Link>
+                </h1>
             </div>
         </div>
     );

@@ -25,14 +25,12 @@ export type SingleSelectInputProps = {
     name: string;
     onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     currentValue?: string;
+    labelName?: string;
 };
 
 type MultiSelectOption = {
     label: string;
-    value: {
-        id: string;
-        name: string;
-    };
+    value: any;
 };
 
 export type MultiSelectInputFieldProps = {

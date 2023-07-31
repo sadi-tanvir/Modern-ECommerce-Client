@@ -155,7 +155,8 @@ const AddNewProduct: React.FC = () => {
                             // value={productData.unit}
                             onChange={handleSelectInputChange}
                             name="unit"
-                        // currentValue="pcs"
+                            // currentValue="pcs"
+                            labelName="Unit Type"
                         />
 
                         <MultiSelectInputField

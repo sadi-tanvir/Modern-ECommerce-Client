@@ -3,10 +3,10 @@ import React from 'react';
 
 
 
-const SelectInput: React.FC<SingleSelectInputProps> = ({ options, name, value, currentValue, onChange }) => {
+const SelectInput: React.FC<SingleSelectInputProps> = ({ options, name, value, currentValue, onChange, labelName }) => {
     return (
         <div className="relative pb-5">
-            <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Unit Type</label>
+            {labelName && <label htmlFor="name" className="block text-gray-700 font-medium mb-2">{labelName}</label>}
             <select
                 value={value}
                 onChange={onChange}
@@ -14,7 +14,7 @@ const SelectInput: React.FC<SingleSelectInputProps> = ({ options, name, value, c
                 className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             >
                 {currentValue || <option disabled selected>Pick one</option>}
-                {options.map((option) => (
+                {options?.map((option) => (
                     <option key={option.value} value={option.value} selected={option.value == currentValue} >
                         {option.label}
                     </option>
