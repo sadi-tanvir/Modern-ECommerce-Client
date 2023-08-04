@@ -26,11 +26,23 @@ const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
                             </a>
                         </li>
                     </Link>
-                    <Link href="/admin/stock-display">
-                        <li className={`${pathname == '/admin/stock-display' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                    <Link href="/admin/manage-stocks">
+                        <li className={`${pathname == '/admin/manage-stocks' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
                             <a>
-                                <DashboardIcon />
-                                Stock Display
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="w-6 h-6"
+                                >
+                                    <rect x="4" y="7" width="16" height="10" rx="2" ry="2"></rect>
+                                    <line x1="12" y1="11" x2="12" y2="15"></line>
+                                </svg>
+                                Manage Stocks
                             </a>
                         </li>
                     </Link>

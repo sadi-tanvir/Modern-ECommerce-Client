@@ -1,14 +1,24 @@
-export interface FormData {
+export type AdminStockDetailsType = {
+    _id: string;
     name: string;
     description: string;
-    unit: string,
+    unit: string;
+    status: string;
     imageUrl: string;
+    price: number;
+    discount: number;
+    quantity: number;
+    sellCount: number;
     category: {
-        id: string;
-        name: string;
+        id: {
+            _id: string;
+            name: string;
+        };
     };
     brand: {
-        id: string;
-        name: string;
+        id: {
+            _id: string;
+            name: string;
+        }
     };
-}
+};
