@@ -107,7 +107,8 @@ const StockTable = () => {
                                                     aria-orientation="vertical"
                                                     aria-labelledby="options-menu"
                                                 >
-                                                    <MenuItem onClick={() => console.warn('editing...')}>Edit</MenuItem>
+                                                    <MenuItem onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
+                                                    ._id}`)}>Edit</MenuItem>
                                                     <MenuItem onClick={() => console.warn('deleting...')}>Delete</MenuItem>
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</MenuItem>
                                                 </div>

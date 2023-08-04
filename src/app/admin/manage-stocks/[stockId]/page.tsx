@@ -62,7 +62,7 @@ const ProductDetails = ({ params }: any) => {
                                     <p className="mb-2">Category: {data.stockWithDetailsById.category.id.name}</p>
                                     <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
                                     <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                                        <Button color='red'  >
+                                        <Button onClick={() => router.push(`/admin/manage-stocks/update-stock`)} color='red'  >
                                             Edit
                                         </Button>
                                         <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='bg-primary'>
