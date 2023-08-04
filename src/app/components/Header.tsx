@@ -73,7 +73,7 @@ const Navbar = () => {
                     <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
                         <NavItem path='/'>Home</NavItem>
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
-                        <NavItem path='/products'>Products</NavItem>
+                        <NavItem path='/stock'>Products</NavItem>
                         {isAuthenticate && <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500">Logout</Button>}
 
                         {isAuthenticate ||

@@ -3,21 +3,21 @@ import AdminDashboardLayout from '@/app/components/admin/AdminDashboardLayout';
 import Button from '@/app/components/shared/Button';
 import TextInputField from '@/app/components/shared/TextInputField';
 import { CREATE_CATEGORY_MUTATION } from '@/gql/mutations/category.mutations';
-import { useAppSelector } from '@/redux/hooks/hooks';
 import { useMutation } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-
+import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert"
 
 
 const AddNewCategory: React.FC = () => {
-    // state
-    const [categoryData, setCategoryData] = useState({
+    const categoryStateValues = {
         name: '',
         description: ''
-    });
+    }
+    // state
+    const [categoryData, setCategoryData] = useState(categoryStateValues);
 
-    // redux
-    const { warningAlert, successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
+
+
 
     // gql
     const [createCategoryMutation, { data, loading, error }] = useMutation(CREATE_CATEGORY_MUTATION, {
@@ -26,11 +26,13 @@ const AddNewCategory: React.FC = () => {
 
 
 
+
     // getting the value of the input fields
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setCategoryData({ ...categoryData, [name]: value });
     };
+
 
 
 
@@ -50,14 +52,7 @@ const AddNewCategory: React.FC = () => {
                 }
             }))
         );
-
-        // Reset the input fields
-        setCategoryData({
-            name: '',
-            description: '',
-        });
     };
-
 
 
 
@@ -67,7 +62,12 @@ const AddNewCategory: React.FC = () => {
         if (error) errorAlert(error.message)
 
         // if category successfully created
-        if (data) successAlert(data?.createCategory?.message)
+        if (data) {
+            // success alert
+            successAlert(data?.createCategory?.message);
+            // Reset the input fields
+            setCategoryData(categoryStateValues);
+        }
     }, [data, error]);
 
 

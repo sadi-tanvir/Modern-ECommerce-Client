@@ -7,15 +7,14 @@ import TextInputField from '@/app/components/shared/TextInputField';
 import { CREATE_PRODUCT_MUTATION } from '@/gql/mutations/product.mutations';
 import { GET_BRANDS } from '@/gql/queries/brand.queries';
 import { GET_CATEGORIES } from '@/gql/queries/category.queries';
-import { useAppSelector } from '@/redux/hooks/hooks';
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert";
 
 
 
 const AddNewProduct: React.FC = () => {
-    // state
-    const [productData, setProductData] = useState({
+    const productStateValues = {
         name: '',
         description: '',
         unit: '',
@@ -28,10 +27,10 @@ const AddNewProduct: React.FC = () => {
             id: '',
             name: '',
         }
-    });
+    }
+    // state
+    const [productData, setProductData] = useState(productStateValues);
 
-    // redux
-    const { warningAlert, successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
 
     // gql
     const getCategories = useQuery(GET_CATEGORIES);
@@ -83,24 +82,7 @@ const AddNewProduct: React.FC = () => {
                 }
             }))
         );
-        // Reset the input fields
-        setProductData({
-            name: '',
-            description: '',
-            unit: '',
-            imageUrl: '',
-            category: {
-                id: '',
-                name: '',
-            },
-            brand: {
-                id: '',
-                name: '',
-            }
-        });
     };
-
-
 
 
 
@@ -109,7 +91,13 @@ const AddNewProduct: React.FC = () => {
         if (error) errorAlert(error.message)
 
         // if product successfully created
-        if (data) successAlert(data?.createProduct?.message)
+        if (data) {
+            // success alert
+            successAlert(data?.createProduct?.message);
+
+            // Reset the input fields
+            setProductData(productStateValues);
+        }
     }, [data, error]);
 
 

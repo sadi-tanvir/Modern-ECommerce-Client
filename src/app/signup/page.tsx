@@ -8,6 +8,7 @@ import { USER_SIGN_UP_MUTATION } from '@/gql/mutations/userAuthMutations';
 import { useAppSelector } from '@/redux/hooks/hooks';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import { successAlert, errorAlert } from "../components/alert-functions/alert";
 
 const SignUpForm = () => {
     const [userInput, setUserInput] = useState({
@@ -32,19 +33,6 @@ const SignUpForm = () => {
         setUserInput({ ...userInput, [name]: value });
     };
 
-    // notification toast
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    });
-
     // handle user signUp
     const handleUserSignUp = (e: FormEvent) => {
         e.preventDefault();
@@ -56,25 +44,18 @@ const SignUpForm = () => {
         });
     };
 
-    useEffect(() => {
-        console.warn(data);
-        // error notification
-        if (error) {
-            Toast.fire({
-                icon: 'error',
-                title: 'Failed to Sign Up'
-            })
-        }
 
-        if (data?.signUpUser?.status) {
-            // success notification
-            Toast.fire({
-                icon: 'success',
-                title: data?.signUpUser.message
-            })
-        };
+
+    useEffect(() => {
+        // if error
+        if (error) errorAlert(error.message)
+
+        //  success alert
+        if (data?.signUpUser?.status) successAlert(data?.signUpUser.message);
     }, [data]);
 
+
+    
     // authentication
     useEffect(() => {
         if (isAuthenticate) {

@@ -3,34 +3,32 @@ import AdminDashboardLayout from '@/app/components/admin/AdminDashboardLayout';
 import Button from '@/app/components/shared/Button';
 import TextInputField from '@/app/components/shared/TextInputField';
 import { CREATE_BRAND_MUTATION } from '@/gql/mutations/brand.mutations';
-import { GET_BRANDS } from '@/gql/queries/brand.queries';
-import { GET_CATEGORIES } from '@/gql/queries/category.queries';
-import { useAppSelector } from '@/redux/hooks/hooks';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-
+import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert"
 
 
 const AddNewBrand: React.FC = () => {
-    // state
-    const [brandData, setBrandData] = useState({
+    const brandStateValues = {
         name: '',
         description: '',
         email: '',
         phone: '',
         website: '',
         location: ''
-    });
+    }
+    // state
+    const [brandData, setBrandData] = useState(brandStateValues);
 
-    // redux
-    const { warningAlert, successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
+
+
 
     // gql
-    const getCategories = useQuery(GET_CATEGORIES);
-    const getBrands = useQuery(GET_BRANDS);
     const [createBrandMutation, { data, loading, error }] = useMutation(CREATE_BRAND_MUTATION, {
         // refetchQueries: [GET_PRODUCTS_WITH_DETAILS],
     });
+
+
 
 
 
@@ -56,17 +54,7 @@ const AddNewBrand: React.FC = () => {
                 }
             }))
         );
-        // Reset the input fields
-        setBrandData({
-            name: '',
-            description: '',
-            email: '',
-            phone: '',
-            website: '',
-            location: ''
-        });
     };
-
 
 
 
@@ -76,9 +64,14 @@ const AddNewBrand: React.FC = () => {
         if (error) errorAlert(error.message)
 
         // if brand successfully created
-        if (data) successAlert(data?.createBrand?.message)
-    }, [data, error]);
+        if (data) {
+            // success alert
+            successAlert(data?.createBrand?.message);
 
+            // Reset the input fields
+            setBrandData(brandStateValues);
+        }
+    }, [data, error]);
 
 
     return (

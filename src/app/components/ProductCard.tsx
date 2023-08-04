@@ -3,7 +3,6 @@ import { BdtIcon } from './shared/Icon';
 
 type ProductCardTypes = {
     imageSrc: string;
-    brandName: string;
     productName: string;
     productDescription: string;
     productPrice: number;
@@ -14,7 +13,6 @@ type ProductCardTypes = {
 
 const ProductCard = ({
     imageSrc,
-    brandName,
     productName,
     productDescription,
     productPrice,

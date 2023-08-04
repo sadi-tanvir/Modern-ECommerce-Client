@@ -8,6 +8,7 @@ import { USER_LOGIN_MUTATION } from '@/gql/mutations/userAuthMutations';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import { successAlert, errorAlert } from "../components/alert-functions/alert"
 
 const LoginForm = () => {
     const [userInput, setUserInput] = useState({
@@ -18,7 +19,6 @@ const LoginForm = () => {
     // redux
     const dispatch = useAppDispatch()
     const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
-    const { successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
 
     // router
     const router = useRouter();
@@ -58,9 +58,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         // if error
-        if (error) {
-            errorAlert(error.message)
-        }
+        if (error) errorAlert(error.message)
 
         // if login success
         if (data?.loginUser?.status) {

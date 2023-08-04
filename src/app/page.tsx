@@ -2,18 +2,8 @@
 import { gql, useQuery } from '@apollo/client';
 import Image from 'next/image'
 
-const GET_USERS_QUERY = gql`
-query getBooks {
-  books {
-   author
-   title
-  }
-  }`;
-
 export default function Home() {
 
-  const { loading, error, data } = useQuery(GET_USERS_QUERY);
-  console.warn('data', data?.books)
 
   return (
     <div className="bg-gray-100">

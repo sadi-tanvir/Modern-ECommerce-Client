@@ -4,14 +4,11 @@ import Button from '@/app/components/shared/Button';
 import MultiSelectInputField from '@/app/components/shared/MultiSelectInputField';
 import SelectInputField from '@/app/components/shared/SelectInputField';
 import TextInputField from '@/app/components/shared/TextInputField';
-import { CREATE_PRODUCT_MUTATION } from '@/gql/mutations/product.mutations';
 import { CREATE_STOCK_MUTATION } from '@/gql/mutations/stock.mutations';
-import { GET_BRANDS } from '@/gql/queries/brand.queries';
-import { GET_CATEGORIES } from '@/gql/queries/category.queries';
 import { GET_PRODUCTS_NAME_AND_ID } from '@/gql/queries/product.queries';
-import { useAppSelector } from '@/redux/hooks/hooks';
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert";
 
 export type ProductInfo = {
     _id: string;
@@ -23,20 +20,19 @@ export type ProductInfo = {
         {
             _id: string;
             name: string;
-        }
+        };
     };
     brand: {
         id:
         {
             _id: string;
             name: string;
-        }
-    }
-}
+        };
+    };
+};
 
-const AddNewProduct: React.FC = () => {
-    // state
-    const [stockData, setStockData] = useState({
+const AddNewStock: React.FC = () => {
+    const stockStateValues = {
         productInfo: {
             productId: '',
             name: '',
@@ -51,37 +47,24 @@ const AddNewProduct: React.FC = () => {
                 name: '',
             }
         },
-        // productId: '',
-        // name: '',
         description: '',
-        // unit: '',
         status: '',
-        // imageUrl: '',
         price: '',
         discount: '',
         quantity: '',
-        // category: {
-        //     id: '',
-        //     name: '',
-        // },
-        // brand: {
-        //     id: '',
-        //     name: '',
-        // }
-    });
+    };
+    // states
+    const [stockData, setStockData] = useState(stockStateValues);
 
-    // redux
-    const { warningAlert, successAlert, errorAlert } = useAppSelector(state => state.globalReducer);
+
 
     // gql
     const getProductsNameAndId = useQuery(GET_PRODUCTS_NAME_AND_ID);
-    const getCategories = useQuery(GET_CATEGORIES);
-    const getBrands = useQuery(GET_BRANDS);
     const [createStockMutation, { data, loading, error }] = useMutation(CREATE_STOCK_MUTATION, {
         // refetchQueries: [GET_PRODUCTS_WITH_DETAILS],
     });
 
-    // console.warn('getProductsNameAndId - si',getProductsNameAndId?.data?.products);
+
 
 
     // getting the value of the input fields
@@ -89,6 +72,7 @@ const AddNewProduct: React.FC = () => {
         const { name, value } = event.target;
         setStockData({ ...stockData, [name]: value });
     };
+
 
 
 
@@ -100,16 +84,17 @@ const AddNewProduct: React.FC = () => {
 
 
 
+
     // getting the value of the multi select input field
     const handleMultiCategoryInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setStockData({ ...stockData, [e.target.name]: JSON.parse(e.target.value) })
-    }
+    };
 
 
 
 
-    // handle submit to create a new product
-    const handleProductCreate = (event: FormEvent) => {
+    // handle submit to create a new stock
+    const handleCreateStock = (event: FormEvent) => {
         event.preventDefault();
         const { productInfo, description, discount, price, quantity, status } = stockData;
 
@@ -134,70 +119,33 @@ const AddNewProduct: React.FC = () => {
                         brand: {
                             id: productInfo.brand.id,
                             name: productInfo.brand.name,
-                        }
-                    }
-
-                }
+                        },
+                    },
+                },
             }))
         );
 
         // Reset the input fields
-        setStockData({
-            productInfo: {
-                productId: '',
-                name: '',
-                imageUrl: '',
-                unit: '',
-                category: {
-                    id: '',
-                    name: '',
-                },
-                brand: {
-                    id: '',
-                    name: '',
-                }
-            },
-            // productId: '',
-            // name: '',
-            description: '',
-            // unit: '',
-            status: '',
-            // imageUrl: '',
-            price: '',
-            discount: '',
-            quantity: '',
-            // category: {
-            //     id: '',
-            //     name: '',
-            // },
-            // brand: {
-            //     id: '',
-            //     name: '',
-            // }
-        });
+        setStockData(stockStateValues);
     };
 
 
-
-
-
+    // for notification
     useEffect(() => {
-        // if product not created
-        if (error) errorAlert(error.message)
+        // if stock not created
+        if (error) errorAlert(error.message);
 
-        // if product successfully created
-        if (data) successAlert(data?.createStock?.message)
+        // if stock successfully created
+        if (data) successAlert(data?.createStock?.message);
     }, [data, error]);
-
-    console.warn('stockData', stockData);
 
 
     return (
         <AdminDashboardLayout>
             <div className="w-full flex justify-center items-start mt-20  md:min-h-screen">
                 <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-md">
-                    <h2 className="text-2xl font-bold mb-4 text-secondary">Create New Product</h2>
-                    <form onSubmit={handleProductCreate}>
+                    <h2 className="text-2xl font-bold mb-4 text-secondary">Create New Stock</h2>
+                    <form onSubmit={handleCreateStock}>
                         <MultiSelectInputField
                             options={getProductsNameAndId?.data?.products.map((product: ProductInfo) => ({
                                 label: product.name,
@@ -216,29 +164,10 @@ const AddNewProduct: React.FC = () => {
                                     }
                                 }
                             }))}
-                            // value={categoryInput}
                             onChange={handleMultiCategoryInputChange}
                             name="productInfo"
                             labelName="Product Information"
                         />
-
-                        {/* <SelectInputField
-                            options={getProductsNameAndId?.data?.products.map((product: { _id: string; name: string; }) => ({ label: product.name, value: product._id }))}
-                            // value={stockData.unit}
-                            onChange={handleSelectInputChange}
-                            name="productId"
-                            // currentValue="pcs"
-                            labelName="Product ID"
-                        /> */}
-
-                        {/* <SelectInputField
-                            options={getProductsNameAndId?.data?.products.map((product: { _id: string; name: string; }) => ({ label: product.name, value: product.name }))}
-                            // value={stockData.unit}
-                            onChange={handleSelectInputChange}
-                            name="name"
-                            // currentValue="pcs"
-                            labelName="Product Name"
-                        /> */}
 
                         <TextInputField
                             name="description"
@@ -247,20 +176,6 @@ const AddNewProduct: React.FC = () => {
                             value={stockData.description}
                             onChange={handleInputChange}
                         />
-
-                        {/* <SelectInputField
-                            options={[
-                                { label: 'kg', value: 'kg' },
-                                { label: 'litre', value: 'litre' },
-                                { label: 'pcs', value: 'pcs' },
-                                { label: 'bag', value: 'bag' },
-                            ]}
-                            // value={stockData.unit}
-                            onChange={handleSelectInputChange}
-                            name="unit"
-                            // currentValue="pcs"
-                            labelName="Unit Type"
-                        /> */}
 
                         <SelectInputField
                             options={[
@@ -274,15 +189,6 @@ const AddNewProduct: React.FC = () => {
                             // currentValue="pcs"
                             labelName="Stock Status"
                         />
-
-                        {/* <SelectInputField
-                            options={getProductsNameAndId?.data?.products.map((product: { _id: string; name: string; imageUrl: string; }) => ({ label: product.name, value: product.imageUrl }))}
-                            // value={stockData.unit}
-                            onChange={handleSelectInputChange}
-                            name="imageUrl"
-                            // currentValue="pcs"
-                            labelName="Product Image"
-                        /> */}
 
                         <TextInputField
                             name="price"
@@ -311,29 +217,7 @@ const AddNewProduct: React.FC = () => {
                             isRequired={true}
                         />
 
-                        {/* <MultiSelectInputField
-                            options={getCategories?.data?.categories?.map((queries: { _id: string; name: string; }) => ({
-                                label: queries.name,
-                                value: { id: queries._id, name: queries.name }
-                            }))}
-                            // value={categoryInput}
-                            onChange={handleMultiCategoryInputChange}
-                            name="category"
-                            labelName="Category"
-                        /> */}
-
-                        {/* <MultiSelectInputField
-                            options={getBrands?.data?.brands?.map((queries: { _id: string; name: string; }) => ({
-                                label: queries.name,
-                                value: { id: queries._id, name: queries.name }
-                            }))}
-                            // value={categoryInput}
-                            onChange={handleMultiCategoryInputChange}
-                            name="brand"
-                            labelName="Brand"
-                        /> */}
-
-                        <Button color='red' buttonType='submit'>Add Product</Button>
+                        <Button color='red' buttonType='submit'>Add Stock</Button>
                     </form>
                 </div>
             </div>
@@ -341,4 +225,4 @@ const AddNewProduct: React.FC = () => {
     );
 };
 
-export default AddNewProduct;
+export default AddNewStock;
