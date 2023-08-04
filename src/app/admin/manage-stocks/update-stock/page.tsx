@@ -4,22 +4,16 @@ import Button from '@/app/components/shared/Button';
 import MultiSelectInputField from '@/app/components/shared/MultiSelectInputField';
 import SelectInputField from '@/app/components/shared/SelectInputField';
 import TextInputField from '@/app/components/shared/TextInputField';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { warningAlert, successAlert, errorAlert } from "../../../components/alert-functions/alert";
 import { GET_CATEGORIES } from '@/gql/queries/category.queries';
 import { GET_BRANDS } from '@/gql/queries/brand.queries';
 import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
 import { useSearchParams } from "next/navigation"
+import { UPDATE_STOCK_MUTATION } from '@/gql/mutations/stock.mutations';
 
-export const UPDATE_STOCK_MUTATION = gql`
-     mutation updateStockById($id:ID!, $info:StockUpdateInputData!) {
-        updateStockById(id:$id, data:$info){
-            status
-            message
-        }
-    }
-`;
+
 
 const UpdateStock: React.FC = () => {
     const stockStateValues = {
@@ -284,7 +278,7 @@ const UpdateStock: React.FC = () => {
                             labelName="Brand"
                         />
 
-                        <Button color='red' buttonType='submit'>Add Stock</Button>
+                        <Button color='red' buttonType='submit'>Update Stock</Button>
                     </form>
                 </div>
             </div>

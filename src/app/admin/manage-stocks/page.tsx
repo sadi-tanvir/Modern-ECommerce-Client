@@ -1,16 +1,24 @@
 'use client'
 import AdminDashboardLayout from "@/app/components/admin/AdminDashboardLayout";
+import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-functions/alert";
 import { ActionIcon } from "@/app/components/shared/Icon";
 import Loader from "@/app/components/shared/Loader";
 import { GET_STOCKS_FOR_ADMINISTRATOR } from "@/gql/queries/stock.queries";
 import { AdminStockDetailsType } from "@/types/admin.types";
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
-
+export const DELETE_STOCK_MUTATION = gql`
+    mutation deleteStockById($id:ID!) {
+        deleteStockById(id:$id){
+            status
+            message
+        }
+    }
+`;
 
 const StockTable = () => {
     // state
@@ -20,7 +28,9 @@ const StockTable = () => {
 
     // gql
     const stocks = useQuery(GET_STOCKS_FOR_ADMINISTRATOR);
-
+    const [deleteStockMutation, { data, loading, error }] = useMutation(DELETE_STOCK_MUTATION, {
+        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR],
+    });
 
 
     // router
@@ -33,6 +43,26 @@ const StockTable = () => {
         setOpenActionMenu(!openActionMenu)
         setIdForMenuAction(id)
     }
+
+
+    // handle delete stock
+    const handleDeleteOrder = (id: string) => {
+        warningAlert('Yes, Create it!', () => (
+            deleteStockMutation({
+                variables: {
+                    id
+                }
+            })
+        ))
+    }
+
+    useEffect(() => {
+        // if stock not deleted
+        if (error) errorAlert(error.message)
+
+        // if stock deleted
+        if (data) successAlert(data?.deleteStockById?.message);
+    }, [data, error]);
 
     return (
         <AdminDashboardLayout>
@@ -108,8 +138,8 @@ const StockTable = () => {
                                                     aria-labelledby="options-menu"
                                                 >
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
-                                                    ._id}`)}>Edit</MenuItem>
-                                                    <MenuItem onClick={() => console.warn('deleting...')}>Delete</MenuItem>
+                                                        ._id}`)}>Edit</MenuItem>
+                                                    <MenuItem onClick={() => handleDeleteOrder(stock._id)}>Delete</MenuItem>
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</MenuItem>
                                                 </div>
                                             </div>
@@ -130,8 +160,8 @@ const MenuItem = ({ children, rest, onClick }: { children: string, rest?: any, o
         <a onClick={onClick} href="#" className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 ${rest}`} role="menuitem" >
             {children}
         </a>
-    )
-}
+    );
+};
 
 export default StockTable;
 
