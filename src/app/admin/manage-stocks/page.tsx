@@ -3,6 +3,7 @@ import AdminDashboardLayout from "@/app/components/admin/AdminDashboardLayout";
 import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-functions/alert";
 import { ActionIcon } from "@/app/components/shared/Icon";
 import Loader from "@/app/components/shared/Loader";
+import { DELETE_STOCK_MUTATION } from "@/gql/mutations/stock.mutations";
 import { GET_STOCKS_FOR_ADMINISTRATOR } from "@/gql/queries/stock.queries";
 import { AdminStockDetailsType } from "@/types/admin.types";
 import { gql, useMutation, useQuery } from "@apollo/client";
@@ -11,14 +12,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
-export const DELETE_STOCK_MUTATION = gql`
-    mutation deleteStockById($id:ID!) {
-        deleteStockById(id:$id){
-            status
-            message
-        }
-    }
-`;
 
 const StockTable = () => {
     // state

@@ -24,3 +24,12 @@ export const UPDATE_STOCK_MUTATION = gql`
         }
     }
 `;
+
+export const DELETE_STOCK_MUTATION = gql`
+    mutation deleteStockById($id:ID!) {
+        deleteStockById(id:$id){
+            status
+            message
+        }
+    }
+`;
