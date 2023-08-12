@@ -132,7 +132,7 @@ const StockTable = () => {
                                                 >
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
                                                         ._id}`)}>Edit</MenuItem>
-                                                    <MenuItem onClick={() => handleDeleteOrder(stock._id)}>Delete</MenuItem>
+                                                    <MenuItem rest="text-red-500" onClick={() => handleDeleteOrder(stock._id)}>Delete</MenuItem>
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</MenuItem>
                                                 </div>
                                             </div>

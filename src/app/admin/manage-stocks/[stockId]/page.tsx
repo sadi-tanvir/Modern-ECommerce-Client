@@ -59,10 +59,10 @@ const ProductDetails = ({ params }: any) => {
                                     <p className="mb-2">Product ID: {data.stockWithDetailsById._id}</p>
                                     <p className="mb-2">Available Quantity: {data.stockWithDetailsById.quantity}{data.stockWithDetailsById.unit}</p>
                                     <p className="mb-2">Total Sold: {data.stockWithDetailsById.sellCount}{data.stockWithDetailsById.unit}</p>
-                                    <p className="mb-2">Category: {data.stockWithDetailsById.category.id.name}</p>
+                                    <p className="mb-2">Category: {data.stockWithDetailsById.category?.id?.name}</p>
                                     <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
                                     <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                                        <Button onClick={() => router.push(`/admin/manage-stocks/update-stock`)} color='red'  >
+                                        <Button onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)} color='red'>
                                             Edit
                                         </Button>
                                         <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='bg-primary'>

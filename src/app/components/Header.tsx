@@ -5,20 +5,30 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import NavItem from './shared/NavItem';
 import Button from './shared/Button';
+import CartNav from './CartNav';
 
 const Navbar = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
 
+    // navbar toggle
     const toggleNavbar = () => {
         setIsOpenNav(!isOpenNav);
     };
 
+
     // navigation
     const pathname = usePathname();
+
+
+
 
     // redux
     const dispatch = useAppDispatch()
     const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
+
+
+
+
 
     // refill redux store from localStorage
     useEffect(() => {
@@ -30,9 +40,9 @@ const Navbar = () => {
             if (JSON.parse(localStorage.getItem('userInfo') as any).role === 'user') dispatch({ type: 'accessUser' })
             dispatch({ type: 'loginUser' })
         }
-        // if (localStorage.getItem('cart')) {
-        //     dispatch({ type: 'reloadCart', payload: JSON.parse(localStorage.getItem('cart') as any) })
-        // }
+        if (localStorage.getItem('cart')) {
+            dispatch({ type: 'reloadCart', payload: JSON.parse(localStorage.getItem('cart') as any) })
+        }
     }, [])
 
     return (
@@ -74,7 +84,8 @@ const Navbar = () => {
                         <NavItem path='/'>Home</NavItem>
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
                         <NavItem path='/stock'>Products</NavItem>
-                        {isAuthenticate && <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500">Logout</Button>}
+                        <CartNav />
+                        {isAuthenticate && <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500 ml-7">Logout</Button>}
 
                         {isAuthenticate ||
                             <>

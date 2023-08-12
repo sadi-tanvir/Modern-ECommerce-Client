@@ -1,25 +1,38 @@
+import { useAppDispatch } from '@/redux/hooks/hooks';
 import React from 'react';
-import { BdtIcon } from './shared/Icon';
 
 type ProductCardTypes = {
+    productId: string;
     imageSrc: string;
     productName: string;
     productDescription: string;
     productPrice: number;
     discountOffer: number;
     isTopSale: boolean;
-    isInStock: boolean; // New prop for in stock status
+    isInStock: boolean;
 };
 
 const ProductCard = ({
+    productId,
     imageSrc,
     productName,
     productDescription,
     productPrice,
     discountOffer,
     isTopSale,
-    isInStock, // Include isInStock prop
+    isInStock,
 }: ProductCardTypes) => {
+
+    // redux
+    const dispatch = useAppDispatch()
+
+    const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
+    }
+
+    // calculating product price
+    const currentProductPrice = productPrice - ((productPrice * discountOffer) / 100)
+
     return (
         <div className="bg-white shadow-lg rounded-lg p-4">
             <div className="relative">
@@ -39,39 +52,35 @@ const ProductCard = ({
                 </div>
                 <p className="text-gray-600 mb-4">{productDescription}</p>
                 <div className="flex items-center justify-between">
-                    {
-                        isInStock && discountOffer > 0 ?
-                            <>
-                                <div className='flex flex-col justify-center items-start'>
-                                    <div className='flex'>
-                                        <span className="text-md text-slate-400 line-through flex justify-center items-center">
-                                            ৳ {productPrice}
-                                        </span>
-                                        {discountOffer > 0 && (
-                                            <span className="text-red-500 font-bold ml-1">{discountOffer}% off</span>
-                                        )}
-                                    </div>
-                                    <span className="text-lg font-semibold flex justify-center items-center">
-                                        ৳ {productPrice - ((productPrice * discountOffer) / 100)}
+
+                    <div className='flex flex-col justify-center items-start'>
+                        <div className='flex'>
+                            {discountOffer > 0 && (
+                                <>
+                                    <span className="text-md text-slate-400 line-through flex justify-center items-center">
+                                        ৳ {productPrice}
                                     </span>
-                                </div>
-                            </>
-                            :
-                            <>
-                                <div className='flex flex-col justify-center items-start'>
-                                    <div className='flex'>
-                                        <span className="text-md font-bold flex justify-center items-center">
-                                            ৳ {productPrice}
-                                        </span>
-                                    </div>
-                                </div>
-                            </>
-                    }
+                                    <span className="text-red-500 font-bold ml-1">{discountOffer}% off</span>
+                                </>
+                            )}
+                        </div>
+                        <span className="text-lg font-semibold flex justify-center items-center">
+                            ৳ {currentProductPrice}
+                        </span>
+                    </div>
                     <div>
                         <button className="bg-primary text-white px-4 py-2 rounded-lg mr-2">
                             Details
                         </button>
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+                        <button
+                            className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                            onClick={() => handleAddToCart({
+                                productImage: imageSrc,
+                                productId: productId,
+                                name: productName,
+                                price: currentProductPrice
+                            })}
+                        >
                             Add to Cart
                         </button>
                     </div>
