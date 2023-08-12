@@ -12,12 +12,8 @@ type CartItem = {
   qty: number;
 };
 
-type CartPageProps = {
-  cartItems: CartItem[];
-};
 
-
-const CartPage: React.FC<CartPageProps> = () => {
+const CartPage: React.FC= () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
 

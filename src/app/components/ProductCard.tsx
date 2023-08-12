@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/redux/hooks/hooks';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 type ProductCardTypes = {
@@ -26,6 +27,10 @@ const ProductCard = ({
     // redux
     const dispatch = useAppDispatch()
 
+    // router
+    const router = useRouter();
+
+    // add product into the cart
     const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
         dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
     }
@@ -69,11 +74,12 @@ const ProductCard = ({
                         </span>
                     </div>
                     <div>
-                        <button className="bg-primary text-white px-4 py-2 rounded-lg mr-2">
+                        <button onClick={() => router.push(`/stock/${productId}`)} className="bg-primary text-white px-4 py-2 rounded-lg mr-2">
                             Details
                         </button>
                         <button
-                            className="bg-green-500 text-white px-4 py-2 rounded-lg"
+                            className="bg-green-500 text-white px-4 py-2 rounded-lg disabled:cursor-not-allowed disabled:bg-slate-400"
+                            disabled={!isInStock}
                             onClick={() => handleAddToCart({
                                 productImage: imageSrc,
                                 productId: productId,
