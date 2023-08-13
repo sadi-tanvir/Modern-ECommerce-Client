@@ -4,9 +4,19 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import WelcomeMessage from './components/home/WelcomeMessage';
 import BannerSlider from './components/home/BannerSlider';
+import { GET_CATEGORIES_WITH_IMAGE } from '@/gql/queries/category.queries';
+import CategoryList from './components/home/CategoryList';
 
 export default function Home() {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
+
+
+
+  // gql
+  const getCategories = useQuery(GET_CATEGORIES_WITH_IMAGE);
+
+  console.warn("getCategories", getCategories?.data?.categories);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,22 +38,16 @@ export default function Home() {
       {/* Banner Slider */}
       <BannerSlider />
 
-      {/* Product Showcase */}
-      <div className="container mx-auto my-8">
-        <div className="grid grid-cols-2 gap-4">
-          {/* Add product cards here */}
-          <div className="bg-white p-4 shadow rounded">
-            <img src="product-image-url" alt="Product" className="w-full h-40 object-contain mb-4" />
-            <h2 className="text-lg font-semibold">Product Name</h2>
-            <p className="text-gray-600">Product Description</p>
-            <p className="text-blue-500 font-semibold mt-2">$99.99</p>
-          </div>
-        </div>
-      </div>
+
+      {/* category lists  */}
+      <CategoryList
+        categories={getCategories?.data?.categories}
+      />
+
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
-        {/* Add your footer content here */}
+        all rights reserved
       </footer>
     </div>
   )

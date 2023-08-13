@@ -35,7 +35,6 @@ const StockDisplay = () => {
                                 isTopSale={true}
                                 productPrice={stock.price}
                                 discountOffer={stock.discount}
-                                productDescription={stock.description}
                                 productName={stock.name}
                                 key={stock._id}
                                 isInStock={stock.status === 'in-stock' ? true : false}

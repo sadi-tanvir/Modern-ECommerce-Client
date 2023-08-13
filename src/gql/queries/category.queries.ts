@@ -9,3 +9,15 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+
+
+export const GET_CATEGORIES_WITH_IMAGE = gql`
+  query categories {
+    categories {
+      _id
+      name
+      imageUrl
+    }
+  }
+`;

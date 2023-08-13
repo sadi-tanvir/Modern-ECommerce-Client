@@ -9,6 +9,7 @@ import { GET_PRODUCTS_NAME_AND_ID } from '@/gql/queries/product.queries';
 import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert";
+import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES } from '@/gql/queries/stock.queries';
 
 export type ProductInfo = {
     _id: string;
@@ -16,15 +17,13 @@ export type ProductInfo = {
     imageUrl: string;
     unit: string;
     category: {
-        id:
-        {
+        id: {
             _id: string;
             name: string;
         };
     };
     brand: {
-        id:
-        {
+        id: {
             _id: string;
             name: string;
         };
@@ -55,14 +54,17 @@ const AddNewStock: React.FC = () => {
     };
     // states
     const [stockData, setStockData] = useState(stockStateValues);
+    const [restProducts, setRestProducts] = useState<ProductInfo[]>([])
 
 
 
     // gql
+    const stocks = useQuery(GET_STOCKS_NAMES);
     const getProductsNameAndId = useQuery(GET_PRODUCTS_NAME_AND_ID);
     const [createStockMutation, { data, loading, error }] = useMutation(CREATE_STOCK_MUTATION, {
-        // refetchQueries: [GET_PRODUCTS_WITH_DETAILS],
+        refetchQueries: [GET_STOCKS_NAMES, GET_STOCKS_FOR_ADMINISTRATOR],
     });
+
 
 
 
@@ -130,6 +132,37 @@ const AddNewStock: React.FC = () => {
     };
 
 
+
+
+    // filtering the products which are not added into the stock list yet.
+    useEffect(() => {
+        if ((getProductsNameAndId?.data?.products.length > 0) && (stocks?.data?.stocks.length > 0)) {
+            let tempProductsList = [];
+            for (let i = 0; i < getProductsNameAndId.data.products.length; i++) {
+                let temp = false;
+
+                for (let j = 0; j < stocks.data.stocks.length; j++) {
+                    if (getProductsNameAndId.data.products[i].name.toLowerCase() == stocks.data.stocks[j].name.toLowerCase()) {
+                        temp = true;
+                        break;
+                    };
+                };
+
+                if (!temp) {
+                    tempProductsList.push(getProductsNameAndId?.data?.products[i])
+                };
+            };
+
+            // push products into the state
+            setRestProducts(tempProductsList);
+        };
+
+    }, [stocks?.data?.stocks, getProductsNameAndId?.data?.products]);
+
+
+
+
+
     // for notification
     useEffect(() => {
         // if stock not created
@@ -147,7 +180,7 @@ const AddNewStock: React.FC = () => {
                     <h2 className="text-2xl font-bold mb-4 text-secondary">Create New Stock</h2>
                     <form onSubmit={handleCreateStock}>
                         <MultiSelectInputField
-                            options={getProductsNameAndId?.data?.products.map((product: ProductInfo) => ({
+                            options={restProducts.map((product: ProductInfo) => ({
                                 label: product.name,
                                 value: {
                                     productId: product._id,

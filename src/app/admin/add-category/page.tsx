@@ -11,7 +11,8 @@ import { warningAlert, successAlert, errorAlert } from "../../components/alert-f
 const AddNewCategory: React.FC = () => {
     const categoryStateValues = {
         name: '',
-        description: ''
+        imageUrl: '',
+        description: '',
     }
     // state
     const [categoryData, setCategoryData] = useState(categoryStateValues);
@@ -39,7 +40,7 @@ const AddNewCategory: React.FC = () => {
     // handle submit to create a new category
     const handleCategoryCreate = (event: FormEvent) => {
         event.preventDefault();
-        const { name, description } = categoryData;
+        const { name, imageUrl, description } = categoryData;
 
         // creating category
         warningAlert('Yes, Create it!', () => (
@@ -47,7 +48,8 @@ const AddNewCategory: React.FC = () => {
                 variables: {
                     info: {
                         name,
-                        description
+                        imageUrl,
+                        description,
                     }
                 }
             }))
@@ -91,6 +93,15 @@ const AddNewCategory: React.FC = () => {
                             labelName="description"
                             placeholder="description"
                             value={categoryData.description}
+                            onChange={handleInputChange}
+                            isRequired={true}
+                        />
+
+                        <TextInputField
+                            name="imageUrl"
+                            labelName="Image Url"
+                            placeholder="Image Url"
+                            value={categoryData.imageUrl}
                             onChange={handleInputChange}
                             isRequired={true}
                         />

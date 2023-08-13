@@ -1,12 +1,11 @@
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 type ProductCardTypes = {
     productId: string;
     imageSrc: string;
     productName: string;
-    productDescription: string;
     productPrice: number;
     discountOffer: number;
     isTopSale: boolean;
@@ -17,12 +16,12 @@ const ProductCard = ({
     productId,
     imageSrc,
     productName,
-    productDescription,
     productPrice,
     discountOffer,
     isTopSale,
     isInStock,
 }: ProductCardTypes) => {
+    const [fullName, setFullName] = useState(false)
 
     // redux
     const dispatch = useAppDispatch()
@@ -50,12 +49,22 @@ const ProductCard = ({
             </div>
             <div className="p-4">
                 <div className='flex flex-row justify-between'>
-                    <h3 className="text-xl font-semibold mb-2">{productName}</h3>
+                    {
+                        productName.length > 30 ?
+                            <>
+                                <h3 className="text-xl font-semibold mb-2">{productName.slice(0, fullName ? productName.length : 30)}...
+                                    <span onClick={() => setFullName(!fullName)} className='text-sm text-primary cursor-pointer'>
+                                        {fullName ? 'less' : 'more'}
+                                    </span>
+                                </h3>
+                            </>
+                            :
+                            <h3 className="text-xl font-semibold mb-2">{productName}</h3>
+                    }
                     {isInStock ||
                         <span className="text-red-600 font-semibold">Out of Stock</span>
                     }
                 </div>
-                <p className="text-gray-600 mb-4">{productDescription}</p>
                 <div className="flex items-center justify-between">
 
                     <div className='flex flex-col justify-center items-start'>

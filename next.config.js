@@ -7,6 +7,7 @@ const nextConfig = {
             'www.shutterstock.com',
             'meatfolks.com',
             'cdn1.arogga.com',
+            'static-01.daraz.com.bd',
         ],
     },
 };

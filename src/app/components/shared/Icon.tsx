@@ -8,7 +8,7 @@ const BdtIcon = ({ color }: { color: string }) => {
             fill={color}
             className="line-through"
         >
-            <text x="30" y="80" font-size="80">৳</text>
+            <text x="30" y="80" fontSize="80">৳</text>
         </svg>
     )
 }
@@ -30,16 +30,16 @@ const AddStockIcon = ({ pathname }: { pathname: string }) => {
             <rect x="12" y="26" width="16" height="6" rx="2" ry="2" ></rect>
 
             {/* <!-- Plus Sign --> */}
-            <line x1="24" y1="22" x2="24" y2="30" stroke={`${pathname == '/admin/add-stock' ? '#000' : 'currentColor'}`} stroke-width="2" stroke-linecap="round"></line>
-            <line x1="22" y1="26" x2="26" y2="26" stroke={`${pathname == '/admin/add-stock' ? '#000' : 'currentColor'}`} stroke-width="2" stroke-linecap="round"></line>
+            <line x1="24" y1="22" x2="24" y2="30" stroke={`${pathname == '/admin/add-stock' ? '#000' : 'currentColor'}`} strokeWidth="2" strokeLinecap="round"></line>
+            <line x1="22" y1="26" x2="26" y2="26" stroke={`${pathname == '/admin/add-stock' ? '#000' : 'currentColor'}`} strokeWidth="2" strokeLinecap="round"></line>
 
             {/* <!-- Product Details --> */}
             <text
                 x="24"
                 y="42"
-                text-anchor="middle"
-                font-size="12"
-                font-weight="bold"
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight="bold"
                 fill="currentColor"
             >
                 stock
@@ -70,8 +70,8 @@ const AddProductIcon = () => {
             <circle cx="24" cy="33" r="2" fill="black"></circle>
 
             {/* <!-- Plus Sign --> */}
-            <line x1="24" y1="25" x2="24" y2="29" stroke="white" stroke-width="2" stroke-linecap="round"></line>
-            <line x1="22" y1="27" x2="26" y2="27" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="24" y1="25" x2="24" y2="29" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
+            <line x1="22" y1="27" x2="26" y2="27" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
         </svg>
 
     )
@@ -95,8 +95,8 @@ const AddCategoryIcon = () => {
             <rect x="20" y="20" width="8" height="8" rx="1" ry="1" fill="#9E9E9E"></rect>
 
             {/* <!-- Plus Sign --> */}
-            <line x1="24" y1="28" x2="24" y2="32" stroke="white" stroke-width="2" stroke-linecap="round"></line>
-            <line x1="22" y1="30" x2="26" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="24" y1="28" x2="24" y2="32" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
+            <line x1="22" y1="30" x2="26" y2="30" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
         </svg>
 
     )
@@ -118,8 +118,8 @@ const AddBrandIcon = () => {
             <circle cx="24" cy="26" r="10" fill="#9E9E9E"></circle>
 
             {/* <!-- Plus Sign --> */}
-            <line x1="24" y1="28" x2="24" y2="32" stroke="white" stroke-width="2" stroke-linecap="round"></line>
-            <line x1="22" y1="30" x2="26" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="24" y1="28" x2="24" y2="32" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
+            <line x1="22" y1="30" x2="26" y2="30" stroke="white" strokeWidth="2" strokeLinecap="round"></line>
         </svg>
     )
 }

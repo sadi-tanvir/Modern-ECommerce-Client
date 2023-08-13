@@ -4,7 +4,7 @@ import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-f
 import { ActionIcon } from "@/app/components/shared/Icon";
 import Loader from "@/app/components/shared/Loader";
 import { DELETE_STOCK_MUTATION } from "@/gql/mutations/stock.mutations";
-import { GET_STOCKS_FOR_ADMINISTRATOR } from "@/gql/queries/stock.queries";
+import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES } from "@/gql/queries/stock.queries";
 import { AdminStockDetailsType } from "@/types/admin.types";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const StockTable = () => {
     // gql
     const stocks = useQuery(GET_STOCKS_FOR_ADMINISTRATOR);
     const [deleteStockMutation, { data, loading, error }] = useMutation(DELETE_STOCK_MUTATION, {
-        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR],
+        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES],
     });
 
 

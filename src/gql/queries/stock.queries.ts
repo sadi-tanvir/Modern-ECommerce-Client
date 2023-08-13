@@ -97,3 +97,12 @@ query getStockById($id: ID!) {
         }
     }
 `;
+
+
+export const GET_STOCKS_NAMES = gql`
+    query getStocks {
+        stocks {
+            name
+        }
+    }
+`;
