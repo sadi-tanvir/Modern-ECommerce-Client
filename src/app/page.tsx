@@ -2,6 +2,8 @@
 import { gql, useQuery } from '@apollo/client';
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
+import WelcomeMessage from './components/home/WelcomeMessage';
+import BannerSlider from './components/home/BannerSlider';
 
 export default function Home() {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
@@ -18,16 +20,13 @@ export default function Home() {
 
   return (
     <div className="bg-gray-100">
-      {/* Navbar */}
-      
-
       {/* Welcome Message */}
       {showWelcomeMessage &&
-        <div className="py-10 bg-primary text-white text-center">
-          <h1 className="text-4xl font-bold mb-4">Welcome to Our E-Commerce Store</h1>
-          <p className="text-lg">Discover amazing products and great deals!</p>
-        </div>
+        <WelcomeMessage />
       }
+
+      {/* Banner Slider */}
+      <BannerSlider />
 
       {/* Product Showcase */}
       <div className="container mx-auto my-8">
