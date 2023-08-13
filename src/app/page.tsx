@@ -1,22 +1,33 @@
 "use client"
 import { gql, useQuery } from '@apollo/client';
 import Image from 'next/image'
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowWelcomeMessage(false)
+    }, 5000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <div className="bg-gray-100">
       {/* Navbar */}
-      <nav className="bg-white py-4 shadow">
-        {/* Add your navbar content here */}
-      </nav>
+      
 
-      {/* Hero Section */}
-      <div className="py-10 bg-primary text-white text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Our E-Commerce Store</h1>
-        <p className="text-lg">Discover amazing products and great deals!</p>
-      </div>
+      {/* Welcome Message */}
+      {showWelcomeMessage &&
+        <div className="py-10 bg-primary text-white text-center">
+          <h1 className="text-4xl font-bold mb-4">Welcome to Our E-Commerce Store</h1>
+          <p className="text-lg">Discover amazing products and great deals!</p>
+        </div>
+      }
 
       {/* Product Showcase */}
       <div className="container mx-auto my-8">
