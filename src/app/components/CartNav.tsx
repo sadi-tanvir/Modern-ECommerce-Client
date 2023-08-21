@@ -29,7 +29,7 @@ const CartNav = () => {
                 <circle cx="18" cy="7" r="2"></circle>
             </svg>
             {5 > 0 && (
-                <div className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                <div className="absolute top-0 left-5 lg:right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                     {cartItems.length}
                 </div>
             )}

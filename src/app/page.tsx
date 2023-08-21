@@ -6,16 +6,12 @@ import WelcomeMessage from './components/home/WelcomeMessage';
 import BannerSlider from './components/home/BannerSlider';
 import { GET_CATEGORIES_WITH_IMAGE } from '@/gql/queries/category.queries';
 import CategoryList from './components/home/CategoryList';
+import FeaturedProducts from './components/home/FeaturedProducts';
 
 export default function Home() {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
 
 
-
-  // gql
-  const getCategories = useQuery(GET_CATEGORIES_WITH_IMAGE);
-
-  console.warn("getCategories", getCategories?.data?.categories);
 
 
   useEffect(() => {
@@ -40,14 +36,14 @@ export default function Home() {
 
 
       {/* category lists  */}
-      <CategoryList
-        categories={getCategories?.data?.categories}
-      />
+      <CategoryList />
 
+      {/* Featured Products */}
+      <FeaturedProducts />
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white text-center py-4">
-        all rights reserved
+        all rights reserved @2023
       </footer>
     </div>
   )

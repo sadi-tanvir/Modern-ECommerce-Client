@@ -2,6 +2,7 @@
 import Button from '@/app/components/shared/Button';
 import Loader from '@/app/components/shared/Loader';
 import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
+import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +17,10 @@ const ProductDetails = ({ params }: any) => {
     const router = useRouter()
 
 
+    // redux
+    const dispatch = useAppDispatch()
+
+
     // gql
     const { loading, error, data, refetch } = useQuery(GET_STOCK_WITH_DETAILS_BY_ID, {
         variables: {
@@ -23,6 +28,19 @@ const ProductDetails = ({ params }: any) => {
         }
     });
     // const { _id, name, description, unit, status, imageUrl, price, discount, quantity, sellCount, category, brand } = data?.stockWithDetailsById
+
+
+
+
+    // add product into the cart
+    const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
+    }
+
+
+
+    // calculating product price
+    const currentProductPrice = data?.stockWithDetailsById?.price - ((data?.stockWithDetailsById?.price * data?.stockWithDetailsById?.discount) / 100)
 
     return (
         <>
@@ -41,7 +59,7 @@ const ProductDetails = ({ params }: any) => {
                                         {data.stockWithDetailsById.discount > 0 ? (
                                             <>
                                                 <span className="text-red-500 line-through mr-2">৳{data.stockWithDetailsById.price}</span>
-                                                <span className="text-green-600 font-semibold">৳{data.stockWithDetailsById.price - ((data.stockWithDetailsById.price * data.stockWithDetailsById.discount) / 100)}</span>
+                                                <span className="text-green-600 font-semibold">৳{currentProductPrice}</span>
                                                 <span className="text-red-500 font-bold ml-2">({data.stockWithDetailsById.discount}% off)</span>
                                             </>
                                         ) : (
@@ -62,8 +80,10 @@ const ProductDetails = ({ params }: any) => {
                                     <p className="mb-2">Category: {data.stockWithDetailsById.category?.id?.name}</p>
                                     <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
                                     <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                                        <Button onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)} color='red'>
-                                            Edit
+                                        <Button
+                                            onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)}
+                                            color='red'>
+                                            edit
                                         </Button>
                                         <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='bg-primary'>
                                             Back to Stock List

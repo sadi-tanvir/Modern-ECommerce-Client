@@ -8,7 +8,7 @@ type ProductCardTypes = {
     productName: string;
     productPrice: number;
     discountOffer: number;
-    isTopSale: boolean;
+    isTopSale?: boolean;
     isInStock: boolean;
 };
 
@@ -38,7 +38,7 @@ const ProductCard = ({
     const currentProductPrice = productPrice - ((productPrice * discountOffer) / 100)
 
     return (
-        <div className="bg-white shadow-lg rounded-lg p-4">
+        <div className="bg-white shadow-lg rounded-lg p-4 relative">
             <div className="relative">
                 {isTopSale && (
                     <span className="absolute top-0 left-0 bg-red-500 text-white font-bold px-2 py-1 rounded-md">
@@ -65,29 +65,29 @@ const ProductCard = ({
                         <span className="text-red-600 font-semibold">Out of Stock</span>
                     }
                 </div>
-                <div className="flex items-center justify-between">
-
-                    <div className='flex flex-col justify-center items-start'>
-                        <div className='flex'>
-                            {discountOffer > 0 && (
-                                <>
-                                    <span className="text-md text-slate-400 line-through flex justify-center items-center">
-                                        ৳ {productPrice}
-                                    </span>
-                                    <span className="text-red-500 font-bold ml-1">{discountOffer}% off</span>
-                                </>
-                            )}
-                        </div>
-                        <span className="text-lg font-semibold flex justify-center items-center">
-                            ৳ {currentProductPrice}
-                        </span>
+                {/* <div className="flex items-center justify-between"> */}
+                <div className='flex flex-col justify-center items-start'>
+                    <div className='flex'>
+                        {discountOffer > 0 && (
+                            <>
+                                <span className="text-md text-slate-400 line-through flex justify-center items-center">
+                                    ৳ {productPrice}
+                                </span>
+                                <span className="text-red-500 font-bold ml-1">{discountOffer}% off</span>
+                            </>
+                        )}
                     </div>
-                    <div>
-                        <button onClick={() => router.push(`/stock/${productId}`)} className="bg-primary text-white px-4 py-2 rounded-lg mr-2">
+                    <span className="text-lg font-semibold flex justify-center items-center">
+                        ৳ {currentProductPrice}
+                    </span>
+                </div>
+                <div className='mt-10'>
+                    <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>
+                        <button onClick={() => router.push(`/stock/${productId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
                             Details
                         </button>
                         <button
-                            className="bg-green-500 text-white px-4 py-2 rounded-lg disabled:cursor-not-allowed disabled:bg-slate-400"
+                            className="w-full bg-green-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg disabled:cursor-not-allowed disabled:bg-slate-400"
                             disabled={!isInStock}
                             onClick={() => handleAddToCart({
                                 productImage: imageSrc,
