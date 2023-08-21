@@ -164,9 +164,34 @@ const MinusIcon = () => {
 
 const DelIcon = () => {
     return (
-        <svg className="text-red-500" fill="currentColor"  xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" /></svg>
+        <svg className="text-red-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" /></svg>
+    )
+}
+
+const DownArrowIcon = () => {
+    return (
+        <svg
+            className="fill-current h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+        >
+            <path
+                fillRule="evenodd"
+                d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                clipRule="evenodd"
+            />
+        </svg>
+    )
+}
+
+const SearchIcon = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l5 5" />
+        </svg>
     )
 }
 
 
-export { BdtIcon, AddStockIcon, AddProductIcon, AddCategoryIcon, AddBrandIcon, DashboardIcon, ActionIcon, PlusIcon, MinusIcon, DelIcon }
+export { BdtIcon, AddStockIcon, AddProductIcon, AddCategoryIcon, AddBrandIcon, DashboardIcon, ActionIcon, PlusIcon, MinusIcon, DelIcon, DownArrowIcon, SearchIcon }

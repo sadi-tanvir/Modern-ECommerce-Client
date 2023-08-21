@@ -8,8 +8,9 @@ type ProductCardTypes = {
     productName: string;
     productPrice: number;
     discountOffer: number;
-    isTopSale?: boolean;
     isInStock: boolean;
+    isTopSale: boolean;
+    rating: number;
 };
 
 const ProductCard = ({
@@ -20,6 +21,7 @@ const ProductCard = ({
     discountOffer,
     isTopSale,
     isInStock,
+    rating,
 }: ProductCardTypes) => {
     const [fullName, setFullName] = useState(false)
 
@@ -36,6 +38,8 @@ const ProductCard = ({
 
     // calculating product price
     const currentProductPrice = productPrice - ((productPrice * discountOffer) / 100)
+
+    let val = 2;
 
     return (
         <div className="bg-white shadow-lg rounded-lg p-4 relative">
@@ -80,6 +84,13 @@ const ProductCard = ({
                     <span className="text-lg font-semibold flex justify-center items-center">
                         ৳ {currentProductPrice}
                     </span>
+                </div>
+                <div className="rating">
+                    <input className={`${rating >= 1 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
+                    <input className={`${rating >= 2 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
+                    <input className={`${rating >= 3 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
+                    <input className={`${rating >= 4 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
+                    <input className={`${rating >= 5 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
                 </div>
                 <div className='mt-10'>
                     <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>

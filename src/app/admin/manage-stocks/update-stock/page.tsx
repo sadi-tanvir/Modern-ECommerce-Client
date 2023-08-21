@@ -26,6 +26,8 @@ const UpdateStock: React.FC = () => {
         discount: '',
         quantity: '',
         sellCount: '',
+        rating: '',
+        isTopSale: '',
         status: '',
         category: {
             id: '',
@@ -107,6 +109,8 @@ const UpdateStock: React.FC = () => {
                         quantity: Number(quantity),
                         sellCount: Number(stockData.sellCount),
                         status: status,
+                        rating: Number(stockData.rating),
+                        isTopSale: JSON.parse(stockData.isTopSale),
                         category: {
                             id: category.id,
                             name: category.name,
@@ -128,7 +132,7 @@ const UpdateStock: React.FC = () => {
     // set the input fields value
     useEffect(() => {
         if (getStockWithDetail?.data?.stockWithDetailsById) {
-            const { _id, name, description, unit, imageUrl, price, discount, quantity, sellCount, status, category, brand } = getStockWithDetail?.data?.stockWithDetailsById;
+            const { _id, name, description, unit, imageUrl, price, discount, quantity, isTopSale, rating, sellCount, status, category, brand } = getStockWithDetail?.data?.stockWithDetailsById;
             setStockData({
                 _id: _id,
                 name: name,
@@ -140,6 +144,8 @@ const UpdateStock: React.FC = () => {
                 quantity: quantity,
                 sellCount: sellCount,
                 status: status,
+                rating: rating,
+                isTopSale: isTopSale,
                 category: {
                     id: category.id._id,
                     name: category.id.name,
@@ -232,6 +238,33 @@ const UpdateStock: React.FC = () => {
                             inputType='number'
                             value={stockData.quantity}
                             onChange={handleInputChange}
+                        />
+
+                        <SelectInputField
+                            options={[
+                                { label: '1', value: '1' },
+                                { label: '2', value: '2' },
+                                { label: '3', value: '3' },
+                                { label: '4', value: '4' },
+                                { label: '5', value: '5' },
+                            ]}
+                            // value={stockData.unit}
+                            onChange={handleSelectInputChange}
+                            name="rating"
+                            currentValue={stockData.rating}
+                            labelName="Rating"
+                        />
+
+                        <SelectInputField
+                            options={[
+                                { label: 'yes', value: 'true' },
+                                { label: 'no', value: 'false' },
+                            ]}
+                            // value={stockData.unit}
+                            onChange={handleSelectInputChange}
+                            name="isTopSale"
+                            currentValue={stockData.isTopSale}
+                            labelName="Top Sale"
                         />
 
                         <TextInputField

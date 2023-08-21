@@ -10,6 +10,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { warningAlert, successAlert, errorAlert } from "../../components/alert-functions/alert";
 import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES } from '@/gql/queries/stock.queries';
+import { GET_CATEGORIES } from '@/gql/queries/category.queries';
+import { GET_BRANDS } from '@/gql/queries/brand.queries';
 
 export type ProductInfo = {
     _id: string;
@@ -32,19 +34,16 @@ export type ProductInfo = {
 
 const AddNewStock: React.FC = () => {
     const stockStateValues = {
-        productInfo: {
-            productId: '',
+        name: '',
+        imageUrl: '',
+        unit: '',
+        category: {
+            id: '',
             name: '',
-            imageUrl: '',
-            unit: '',
-            category: {
-                id: '',
-                name: '',
-            },
-            brand: {
-                id: '',
-                name: '',
-            }
+        },
+        brand: {
+            id: '',
+            name: '',
         },
         description: '',
         status: '',
@@ -60,6 +59,8 @@ const AddNewStock: React.FC = () => {
 
     // gql
     const stocks = useQuery(GET_STOCKS_NAMES);
+    const getCategories = useQuery(GET_CATEGORIES);
+    const getBrands = useQuery(GET_BRANDS);
     const getProductsNameAndId = useQuery(GET_PRODUCTS_NAME_AND_ID);
     const [createStockMutation, { data, loading, error }] = useMutation(CREATE_STOCK_MUTATION, {
         refetchQueries: [GET_STOCKS_NAMES, GET_STOCKS_FOR_ADMINISTRATOR],
@@ -98,29 +99,28 @@ const AddNewStock: React.FC = () => {
     // handle submit to create a new stock
     const handleCreateStock = (event: FormEvent) => {
         event.preventDefault();
-        const { productInfo, description, discount, price, quantity, status } = stockData;
+        const { description, discount, price, quantity, status } = stockData;
 
         // creating stock
         warningAlert('Yes, Create it!', () => (
             createStockMutation({
                 variables: {
                     info: {
-                        productId: productInfo.productId,
-                        name: productInfo.name,
+                        name: stockData.name,
                         description: description,
-                        unit: productInfo.unit,
-                        imageUrl: productInfo.imageUrl,
+                        unit: stockData.unit,
+                        imageUrl: stockData.imageUrl,
                         price: Number(price),
                         discount: Number(discount),
                         quantity: Number(quantity),
                         status: status,
                         category: {
-                            id: productInfo.category.id,
-                            name: productInfo.category.name,
+                            id: stockData.category.id,
+                            name: stockData.category.name,
                         },
                         brand: {
-                            id: productInfo.brand.id,
-                            name: productInfo.brand.name,
+                            id: stockData.brand.id,
+                            name: stockData.brand.name,
                         },
                     },
                 },
@@ -179,27 +179,57 @@ const AddNewStock: React.FC = () => {
                 <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-md">
                     <h2 className="text-2xl font-bold mb-4 text-secondary">Create New Stock</h2>
                     <form onSubmit={handleCreateStock}>
+                        <TextInputField
+                            name="name"
+                            labelName="Product Name"
+                            placeholder="Product Name"
+                            value={stockData.name}
+                            onChange={handleInputChange}
+                            isRequired={true}
+                        />
+
+                        <TextInputField
+                            name="imageUrl"
+                            labelName="Image URL"
+                            placeholder="Image URL"
+                            value={stockData.imageUrl}
+                            onChange={handleInputChange}
+                        />
+
+                        <SelectInputField
+                            options={[
+                                { label: 'kg', value: 'kg' },
+                                { label: 'litre', value: 'litre' },
+                                { label: 'pcs', value: 'pcs' },
+                                { label: 'bag', value: 'bag' },
+                            ]}
+                            // value={productData.unit}
+                            onChange={handleSelectInputChange}
+                            name="unit"
+                            // currentValue="pcs"
+                            labelName="Unit Type"
+                        />
+
                         <MultiSelectInputField
-                            options={restProducts.map((product: ProductInfo) => ({
-                                label: product.name,
-                                value: {
-                                    productId: product._id,
-                                    name: product.name,
-                                    imageUrl: product.imageUrl,
-                                    unit: product.unit,
-                                    category: {
-                                        id: product.category.id._id,
-                                        name: product.category.id.name,
-                                    },
-                                    brand: {
-                                        id: product.brand.id._id,
-                                        name: product.brand.id.name,
-                                    }
-                                }
+                            options={getCategories?.data?.categories?.map((queries: { _id: string; name: string; }) => ({
+                                label: queries.name,
+                                value: { id: queries._id, name: queries.name }
                             }))}
+                            // value={categoryInput}
                             onChange={handleMultiCategoryInputChange}
-                            name="productInfo"
-                            labelName="Product Information"
+                            name="category"
+                            labelName="Category"
+                        />
+
+                        <MultiSelectInputField
+                            options={getBrands?.data?.brands?.map((queries: { _id: string; name: string; }) => ({
+                                label: queries.name,
+                                value: { id: queries._id, name: queries.name }
+                            }))}
+                            // value={categoryInput}
+                            onChange={handleMultiCategoryInputChange}
+                            name="brand"
+                            labelName="Brand"
                         />
 
                         <TextInputField

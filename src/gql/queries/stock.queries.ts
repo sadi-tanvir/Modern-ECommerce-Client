@@ -29,6 +29,8 @@ export const GET_STOCKS_FOR_DETAILS_DISPLAY = gql`
             imageUrl
             status
             unit
+            rating
+            isTopSale
             quantity
             category {
                 name
