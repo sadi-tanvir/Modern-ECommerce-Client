@@ -1,15 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import ProductCard from '../components/product-card/ProductCard';
 import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
-import Loader from '../components/shared/Loader';
-import { GET_BRANDS } from '@/gql/queries/brand.queries';
-import { GET_CATEGORIES } from '@/gql/queries/category.queries';
-import SortingSelectInputField from '../components/shared/SortingSelectInputField';
 import ProductFilters from '../components/stock/ProductFilter';
-import { SearchIcon } from '../components/shared/Icon';
 import SearchArea from '../components/stock/SearchArea';
+import Button from '../components/shared/Button';
+
+
 
 type StockCardTypes = {
     _id: string;
@@ -30,43 +28,89 @@ type StockCardTypes = {
         name: string;
     };
 };
-// Import necessary components and libraries
+
 
 const StockDisplay = () => {
     // states
+    const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([])
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedPriceRange, setSelectedPriceRange] = useState<number>(0);
     const [selectedRating, setSelectedRating] = useState<number>(0);
+    const [searchProduct, setSearchProduct] = useState("")
+    const [isFilterTrue, setIsFilterTrue] = useState(false)
+
+
 
     // gql
     const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
 
 
 
+    // handle clear filter
+    const handleClearFilter = () => {
+        setSelectedBrand("")
+        setSelectedCategory("")
+        setSelectedPriceRange(0)
+        setSelectedRating(0)
+    }
+
+    
+
+    // search filter
+    useEffect(() => {
+        const searchResults = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
+            if (searchProduct == "") {
+                return stock;
+            } else if (stock.name.toLowerCase().includes(searchProduct.toLowerCase())) {
+                return stock;
+            }
+        })
+        setFilteredStocks(searchResults)
+    }, [searchProduct, stocks?.data?.stocks])
+
+
+
     // Filter stocks based on selected filters
-    const filteredStocks = stocks?.data?.stocks.filter((stock: StockCardTypes) => {
-        if (selectedBrand && stock.brand.name !== selectedBrand) {
-            return false;
+    useEffect(() => {
+        if (selectedBrand || selectedCategory || selectedPriceRange || selectedRating) {
+            setIsFilterTrue(true)
+        } else {
+            setIsFilterTrue(false)
         }
-        if (selectedCategory && stock.category.name !== selectedCategory) {
-            return false;
-        }
-        if (selectedPriceRange && stock.price > selectedPriceRange) {
-            return false;
-        }
-        if (selectedRating && stock.rating != selectedRating) {
-            return false;
-        }
-        return true;
-    });
+
+        const resultFilteredStocks = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
+            if (selectedBrand && stock.brand.name !== selectedBrand) {
+                return false;
+            }
+            if (selectedCategory && stock.category.name !== selectedCategory) {
+                return false;
+            }
+            if (selectedPriceRange && stock.price > selectedPriceRange) {
+                return false;
+            }
+            if (selectedRating && stock.rating != selectedRating) {
+                return false;
+            }
+            return true;
+        });
+        setFilteredStocks(resultFilteredStocks)
+    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks])
+
 
     return (
         <div className="bg-gray-100">
             <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4  bg-slate-300 gap-10">
-                <div className='flex justify-between items-center gap-5'>
-                    <SearchArea />
+                <div className={`flex ${isFilterTrue ? 'flex-wrap justify-around sm:justify-between' : 'justify-between'}  items-center gap-5`}>
+                    <SearchArea
+                        isFilterTrue={isFilterTrue}
+                        setSearchProduct={setSearchProduct}
+                    />
                     <p className="text-gray-600 col-span-2">{filteredStocks?.length} products found</p>
+                    {isFilterTrue ?
+                        <Button onClick={handleClearFilter} buttonClass='hover:bg-red-600 w-52' color='red'>Clear Filters</Button>
+                        : null
+                    }
                 </div>
 
                 {/* filters */}
@@ -75,8 +119,10 @@ const StockDisplay = () => {
                     setSelectedCategory={setSelectedCategory}
                     setSelectedPriceRange={setSelectedPriceRange}
                     setSelectedRating={setSelectedRating}
+                    selectedBrand={selectedBrand}
                 />
             </div>
+
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10">
                 {filteredStocks?.map((stock: StockCardTypes) => (

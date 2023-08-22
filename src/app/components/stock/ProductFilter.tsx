@@ -10,9 +10,10 @@ type ProductFilterProps = {
     setSelectedCategory: (category: string) => void;
     setSelectedPriceRange: (priceRange: number) => void;
     setSelectedRating: (rating: number) => void;
+    selectedBrand: string;
 };
 
-const ProductFilter = ({ setSelectedBrand, setSelectedCategory, setSelectedPriceRange, setSelectedRating }: ProductFilterProps) => {
+const ProductFilter = ({ setSelectedBrand, setSelectedCategory, setSelectedPriceRange, setSelectedRating, selectedBrand }: ProductFilterProps) => {
     // gql
     const getBrands = useQuery(GET_BRANDS);
     const getCategories = useQuery(GET_CATEGORIES);
@@ -31,6 +32,7 @@ const ProductFilter = ({ setSelectedBrand, setSelectedCategory, setSelectedPrice
                     onChange={(e) => setSelectedBrand(e.target.value)}
                     labelName="All Brands"
                     inputClassName='w-48'
+                    value={selectedBrand}
                 />
 
                 {/* Category Filter */}

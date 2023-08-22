@@ -4,6 +4,7 @@ import { ChangeEvent, MouseEvent } from "react";
 export type NavItemTypes = {
     path: string;
     children: string;
+    navClassName?: string;
 }
 
 export type ButtonTypes = {

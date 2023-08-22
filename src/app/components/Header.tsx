@@ -10,15 +10,12 @@ import CartNav from './CartNav';
 const Navbar = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
 
+    
+
     // navbar toggle
     const toggleNavbar = () => {
         setIsOpenNav(!isOpenNav);
     };
-
-
-    // navigation
-    const pathname = usePathname();
-
 
 
 
@@ -84,8 +81,13 @@ const Navbar = () => {
                         <NavItem path='/'>Home</NavItem>
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
                         <NavItem path='/stock'>Products</NavItem>
-                        <CartNav />
-                        {isAuthenticate && <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500 ml-7">Logout</Button>}
+
+                        {isAuthenticate &&
+                            <>
+                                <CartNav />
+                                <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500 lg:ml-7">Logout</Button>
+                            </>
+                        }
 
                         {isAuthenticate ||
                             <>

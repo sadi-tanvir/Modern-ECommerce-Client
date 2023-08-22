@@ -11,7 +11,7 @@ const CartNav = () => {
 
 
     return (
-        <div onClick={() => router.push('/cart')} className="relative cursor-pointer">
+        <div onClick={() => router.push('/cart')} className="relative cursor-pointer mb-5 lg:mb-0">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

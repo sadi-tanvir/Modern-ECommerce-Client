@@ -5,7 +5,7 @@ const Button = ({ buttonType = "button", color = "blue", children, onClick, butt
     return (
         <button
             type={buttonType}
-            className={`w-full bg-${color}-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-slate-400 focus:outline-none ${buttonClass}`}
+            className={`bg-${color}-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-slate-400 focus:outline-none ${buttonClass}`}
             onClick={onClick}
         >
             {children}
