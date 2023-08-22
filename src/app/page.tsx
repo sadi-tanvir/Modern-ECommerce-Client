@@ -7,6 +7,7 @@ import BannerSlider from './components/home/BannerSlider';
 import { GET_CATEGORIES_WITH_IMAGE } from '@/gql/queries/category.queries';
 import CategoryList from './components/home/CategoryList';
 import FeaturedProducts from './components/home/FeaturedProducts';
+import Footer from './components/Footer';
 
 export default function Home() {
   const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
@@ -42,9 +43,7 @@ export default function Home() {
       <FeaturedProducts />
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4">
-        all rights reserved @2023
-      </footer>
+      <Footer />
     </div>
   )
 }

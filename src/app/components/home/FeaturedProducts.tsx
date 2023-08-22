@@ -2,6 +2,7 @@ import React from 'react';
 import ProductCard from '../product-card/ProductCard';
 import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
 import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/navigation';
 
 
 type StockCardTypes = {
@@ -25,8 +26,11 @@ type StockCardTypes = {
 };
 
 const FeaturedProducts = () => {
-
+    // gql
     const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
+
+    // navigation
+    const router = useRouter();
 
     return (
         <>
@@ -36,7 +40,7 @@ const FeaturedProducts = () => {
                         <h2 className="sm:text-2xl font-semibold mb-4 text-secondary">Featured Products - Just for you</h2>
                         <button
                             className="ml-auto w-32 h-10 md:w-52 bg-red-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg"
-                        // onClick=}
+                            onClick={() => router.push('/stock')}
                         >
                             view all
                         </button>
