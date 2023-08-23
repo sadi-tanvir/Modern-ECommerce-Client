@@ -3,14 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
-import NavItem from './shared/NavItem';
-import Button from './shared/Button';
+import NavItem from '../shared/NavItem';
+import Button from '../shared/Button';
 import CartNav from './CartNav';
+import ProfileMenu from './ProfileMenu';
 
 const Navbar = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
 
-    
+
 
     // navbar toggle
     const toggleNavbar = () => {
@@ -85,7 +86,10 @@ const Navbar = () => {
                         {isAuthenticate &&
                             <>
                                 <CartNav />
-                                <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass="px-8 py-1 hover:bg-gray-500 lg:ml-7">Logout</Button>
+                                <ProfileMenu />
+                                <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass=" hover:bg-gray-500 lg:ml-7 w-40">
+                                    Logout
+                                </Button>
                             </>
                         }
 

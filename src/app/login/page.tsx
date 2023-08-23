@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import { successAlert, errorAlert } from "../components/alert-functions/alert"
+import { setCookie } from 'cookies-next';
+
 
 const LoginForm = () => {
     const [userInput, setUserInput] = useState({
@@ -75,6 +77,9 @@ const LoginForm = () => {
             //  success alert
             successAlert(data?.loginUser.message)
 
+            // set cookies
+            setCookie('logged', 'true');
+
             // store data into localStorage
             localStorage.setItem("userInfo", JSON.stringify(userInfo))
             localStorage.setItem("accessToken", JSON.stringify(token))
@@ -94,12 +99,12 @@ const LoginForm = () => {
 
 
     // authentication
-    useEffect(() => {
-        if (isAuthenticate) {
-            // redirect to login
-            router.push('/')
-        }
-    }, [isAuthenticate])
+    // useEffect(() => {
+    //     if (isAuthenticate) {
+    //         // redirect to login
+    //         router.push('/')
+    //     }
+    // }, [isAuthenticate])
 
 
 
@@ -127,7 +132,7 @@ const LoginForm = () => {
                         isRequired={true}
                     />
 
-                    <Button color='red' buttonType='submit'>Login</Button>
+                    <Button color='red' buttonType='submit' buttonClass='w-full'>Login</Button>
                 </form>
                 <h1 className='text-center mt-4'>Don&apos;t have an account?
                     <Link href={'/signup'}>

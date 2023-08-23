@@ -57,12 +57,12 @@ const SignUpForm = () => {
 
     
     // authentication
-    useEffect(() => {
-        if (isAuthenticate) {
-            // redirect to login
-            router.push('/')
-        }
-    }, [isAuthenticate])
+    // useEffect(() => {
+    //     if (isAuthenticate) {
+    //         // redirect to login
+    //         router.push('/')
+    //     }
+    // }, [isAuthenticate])
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -104,7 +104,7 @@ const SignUpForm = () => {
                         isRequired={true}
                     />
 
-                    <Button color='red' buttonType='submit'>Sign Up</Button>
+                    <Button color='red' buttonType='submit' buttonClass='w-full'>Sign Up</Button>
                 </form>
                 <h1 className='text-center mt-4'>Already have an account?
                     <Link href={'/login'}>

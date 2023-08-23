@@ -1,4 +1,5 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
+import { deleteCookie } from 'cookies-next';
 
 export interface AuthReducerUserType {
     _id: string;
@@ -75,6 +76,9 @@ const authReducer = createReducer(initialState, (builder) => {
     builder.addCase(logOutUser, (state, action) => {
         // clear local storage
         localStorage.clear();
+
+        // delete cookies
+        deleteCookie("logged");
 
         // make redux store as initial state
         state.isAuthenticate = false;
