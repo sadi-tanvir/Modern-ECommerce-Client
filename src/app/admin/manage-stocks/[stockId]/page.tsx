@@ -1,4 +1,5 @@
 'use client'
+import ProductDetailsViewShimmerEffect from '@/app/components/Shimmer-Effect/ProductDetailsViewShimmerEffect';
 import Button from '@/app/components/shared/Button';
 import Loader from '@/app/components/shared/Loader';
 import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
@@ -47,7 +48,7 @@ const ProductDetails = ({ params }: any) => {
             {
                 data?.stockWithDetailsById ?
                     <>
-                        <div className="container mx-auto my-4">
+                        <div className="container mx-auto mb-4 mt-10">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-64 object-cover rounded-lg" />
@@ -82,7 +83,9 @@ const ProductDetails = ({ params }: any) => {
                                     <div className="mt-4 flex flex-col sm:flex-row gap-2">
                                         <Button
                                             onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)}
-                                            color='red'>
+                                            color='red'
+                                            buttonClass='w-52'
+                                        >
                                             edit
                                         </Button>
                                         <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='bg-primary'>
@@ -95,7 +98,7 @@ const ProductDetails = ({ params }: any) => {
                     </>
                     :
                     <>
-                        <Loader />
+                        <ProductDetailsViewShimmerEffect />
                     </>
             }
         </>

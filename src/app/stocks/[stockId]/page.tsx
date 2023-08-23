@@ -1,4 +1,5 @@
 'use client'
+import ProductDetailsViewShimmerEffect from '@/app/components/Shimmer-Effect/ProductDetailsViewShimmerEffect';
 import Button from '@/app/components/shared/Button';
 import Loader from '@/app/components/shared/Loader';
 import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
@@ -80,6 +81,9 @@ const ProductDetails = ({ params }: any) => {
                                     <p className="mb-2">Category: {data.stockWithDetailsById.category?.id?.name}</p>
                                     <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
                                     <div className="mt-4 flex flex-col sm:flex-row gap-2">
+                                        <Button onClick={() => router.push("/stocks")} color='red'>
+                                            Back to products List
+                                        </Button>
                                         <Button
                                             onClick={() => handleAddToCart({
                                                 productImage: data.stockWithDetailsById.imageUrl,
@@ -87,11 +91,9 @@ const ProductDetails = ({ params }: any) => {
                                                 name: data.stockWithDetailsById.name,
                                                 price: currentProductPrice
                                             })}
-                                            color='red'>
+                                            buttonClass='w-48 bg-primary'
+                                        >
                                             Add To Cart
-                                        </Button>
-                                        <Button onClick={() => router.push("/stock")} buttonClass='bg-primary'>
-                                            Back to Stock List
                                         </Button>
                                     </div>
                                 </div>
@@ -100,7 +102,7 @@ const ProductDetails = ({ params }: any) => {
                     </>
                     :
                     <>
-                        <Loader />
+                        <ProductDetailsViewShimmerEffect />
                     </>
             }
         </>

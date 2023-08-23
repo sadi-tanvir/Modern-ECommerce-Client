@@ -41,7 +41,7 @@ const FeaturedProducts = () => {
                         <h2 className="sm:text-2xl font-semibold mb-4 text-secondary">Featured Products - Just for you</h2>
                         <button
                             className="ml-auto w-32 h-10 md:w-52 bg-red-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg"
-                            onClick={() => router.push('/stock')}
+                            onClick={() => router.push('/stocks')}
                         >
                             view all
                         </button>
