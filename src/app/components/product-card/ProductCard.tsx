@@ -94,7 +94,7 @@ const ProductCard = ({
                 </div>
                 <div className='mt-10'>
                     <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>
-                        <button onClick={() => router.push(`/stock/${productId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
+                        <button onClick={() => router.push(`/stocks/${productId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
                             Details
                         </button>
                         <button

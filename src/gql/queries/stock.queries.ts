@@ -108,3 +108,28 @@ export const GET_STOCKS_NAMES = gql`
         }
     }
 `;
+
+
+export const GET_STOCK_WITH_DETAILS_BY_CATEGORY = gql`
+query getStocksByCategory($category: String!) {
+    getStocksByCategory(category: $category) {
+        _id
+        name
+        description
+        price
+        discount
+        imageUrl
+        status
+        unit
+        rating
+        isTopSale
+        quantity
+        category {
+            name
+        }
+        brand {
+            name
+        }
+    }
+}
+`;

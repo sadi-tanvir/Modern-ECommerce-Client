@@ -1,11 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import ProductCard from '../components/product-card/ProductCard';
 import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
-import ProductFilters from '../components/stock/ProductFilter';
-import SearchArea from '../components/stock/SearchArea';
-import Button from '../components/shared/Button';
+import SearchArea from './SearchArea';
+import Button from '../shared/Button';
+import ProductFilters from './ProductFilter';
+import ProductCard from '../product-card/ProductCard';
+import ProductCardShimmerEffect from '../Shimmer-Effect/ProductCardShimmerEffect';
 
 
 
@@ -30,7 +31,7 @@ type StockCardTypes = {
 };
 
 
-const StockDisplay = () => {
+const StockList = () => {
     // states
     const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([])
     const [selectedBrand, setSelectedBrand] = useState('');
@@ -55,7 +56,7 @@ const StockDisplay = () => {
         setSelectedRating(0)
     }
 
-    
+
 
     // search filter
     useEffect(() => {
@@ -99,7 +100,7 @@ const StockDisplay = () => {
 
 
     return (
-        <div className="bg-gray-100">
+        <>
             <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4  bg-slate-300 gap-10">
                 <div className={`flex ${isFilterTrue ? 'flex-wrap justify-around sm:justify-between' : 'justify-between'}  items-center gap-5`}>
                     <SearchArea
@@ -125,22 +126,30 @@ const StockDisplay = () => {
 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10">
-                {filteredStocks?.map((stock: StockCardTypes) => (
-                    <ProductCard
-                        productId={stock._id}
-                        imageSrc={stock.imageUrl}
-                        isTopSale={stock.isTopSale}
-                        rating={stock.rating}
-                        productPrice={stock.price}
-                        discountOffer={stock.discount}
-                        productName={stock.name}
-                        key={stock._id}
-                        isInStock={stock.status === 'in-stock' ? true : false}
-                    />
-                ))}
+                {filteredStocks?.length > 0 ?
+
+                    filteredStocks?.map((stock: StockCardTypes) => (
+                        <ProductCard
+                            key={stock._id}
+                            productId={stock._id}
+                            imageSrc={stock.imageUrl}
+                            isTopSale={stock.isTopSale}
+                            rating={stock.rating}
+                            productPrice={stock.price}
+                            discountOffer={stock.discount}
+                            productName={stock.name}
+                            isInStock={stock.status === 'in-stock' ? true : false}
+                        />
+                    ))
+                    :
+                    [...Array(10)].map((elem, index) => (
+                        <ProductCardShimmerEffect key={index} />
+                    ))
+                }
             </div>
-        </div>
+        </>
     );
 };
 
-export default StockDisplay;
+export default StockList;
+

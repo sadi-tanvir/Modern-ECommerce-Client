@@ -3,6 +3,7 @@ import ProductCard from '../product-card/ProductCard';
 import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
+import ProductCardShimmerEffect from '../Shimmer-Effect/ProductCardShimmerEffect';
 
 
 type StockCardTypes = {
@@ -46,19 +47,25 @@ const FeaturedProducts = () => {
                         </button>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {stocks?.data?.stocks.slice(0, 12).map((stock: StockCardTypes) => (
-                            <ProductCard
-                                productId={stock._id}
-                                imageSrc={stock.imageUrl}
-                                isTopSale={stock.isTopSale}
-                                rating={stock.rating}
-                                productPrice={stock.price}
-                                discountOffer={stock.discount}
-                                productName={stock.name}
-                                key={stock._id}
-                                isInStock={stock.status === 'in-stock' ? true : false}
-                            />
-                        ))}
+                        {stocks?.data?.stocks?.length > 0 ?
+                            stocks?.data?.stocks.slice(0, 12).map((stock: StockCardTypes) => (
+                                <ProductCard
+                                    productId={stock._id}
+                                    imageSrc={stock.imageUrl}
+                                    isTopSale={stock.isTopSale}
+                                    rating={stock.rating}
+                                    productPrice={stock.price}
+                                    discountOffer={stock.discount}
+                                    productName={stock.name}
+                                    key={stock._id}
+                                    isInStock={stock.status === 'in-stock' ? true : false}
+                                />
+                            ))
+                            :
+                            [...Array(8)].map((elem, index) => (
+                                <ProductCardShimmerEffect key={index} />
+                            ))
+                        }
                     </div>
                 </div>
             </section>

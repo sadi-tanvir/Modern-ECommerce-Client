@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import ProductCard from '../../components/product-card/ProductCard';
-import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
+import { GET_STOCK_WITH_DETAILS_BY_CATEGORY } from '@/gql/queries/stock.queries';
 import ProductFilters from '../../components/stock/ProductFilter';
 import SearchArea from '../../components/stock/SearchArea';
 import Button from '../../components/shared/Button';
+import ProductCardShimmerEffect from '@/app/components/Shimmer-Effect/ProductCardShimmerEffect';
 
 
 
@@ -30,21 +31,24 @@ type StockCardTypes = {
 };
 
 
-const StockDisplay = () => {
+const StockDisplay = ({ params }: any) => {
+
     // states
     const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([])
     const [selectedBrand, setSelectedBrand] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState(params.category);
     const [selectedPriceRange, setSelectedPriceRange] = useState<number>(0);
     const [selectedRating, setSelectedRating] = useState<number>(0);
     const [searchProduct, setSearchProduct] = useState("")
     const [isFilterTrue, setIsFilterTrue] = useState(false)
 
 
-
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
-
+    const { loading, error, data, refetch } = useQuery(GET_STOCK_WITH_DETAILS_BY_CATEGORY, {
+        variables: {
+            category: selectedCategory
+        }
+    });
 
 
     // handle clear filter
@@ -59,7 +63,7 @@ const StockDisplay = () => {
 
     // search filter
     useEffect(() => {
-        const searchResults = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
+        const searchResults = data?.getStocksByCategory?.filter((stock: StockCardTypes) => {
             if (searchProduct == "") {
                 return stock;
             } else if (stock.name.toLowerCase().includes(searchProduct.toLowerCase())) {
@@ -67,7 +71,7 @@ const StockDisplay = () => {
             }
         })
         setFilteredStocks(searchResults)
-    }, [searchProduct, stocks?.data?.stocks])
+    }, [searchProduct, data])
 
 
 
@@ -79,7 +83,7 @@ const StockDisplay = () => {
             setIsFilterTrue(false)
         }
 
-        const resultFilteredStocks = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
+        const resultFilteredStocks = data?.getStocksByCategory?.filter((stock: StockCardTypes) => {
             if (selectedBrand && stock.brand.name !== selectedBrand) {
                 return false;
             }
@@ -95,7 +99,7 @@ const StockDisplay = () => {
             return true;
         });
         setFilteredStocks(resultFilteredStocks)
-    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks])
+    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, data?.stocks])
 
 
     return (
@@ -119,25 +123,29 @@ const StockDisplay = () => {
                     setSelectedCategory={setSelectedCategory}
                     setSelectedPriceRange={setSelectedPriceRange}
                     setSelectedRating={setSelectedRating}
-                    selectedBrand={selectedBrand}
+                    selectedCategory={selectedCategory}
                 />
             </div>
 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10">
-                {filteredStocks?.map((stock: StockCardTypes) => (
-                    <ProductCard
-                        productId={stock._id}
-                        imageSrc={stock.imageUrl}
-                        isTopSale={stock.isTopSale}
-                        rating={stock.rating}
-                        productPrice={stock.price}
-                        discountOffer={stock.discount}
-                        productName={stock.name}
-                        key={stock._id}
-                        isInStock={stock.status === 'in-stock' ? true : false}
-                    />
-                ))}
+                {filteredStocks?.length > 0 ?
+                    filteredStocks?.map((stock: StockCardTypes) => (
+                        <ProductCard
+                            productId={stock._id}
+                            imageSrc={stock.imageUrl}
+                            isTopSale={stock.isTopSale}
+                            rating={stock.rating}
+                            productPrice={stock.price}
+                            discountOffer={stock.discount}
+                            productName={stock.name}
+                            key={stock._id}
+                            isInStock={stock.status === 'in-stock' ? true : false}
+                        />
+                    ))
+                    :
+                    [...Array(10)].map((elem, index) => (<ProductCardShimmerEffect key={index} />))
+                }
             </div>
         </div>
     );

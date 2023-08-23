@@ -81,7 +81,7 @@ const Navbar = () => {
                     <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
                         <NavItem path='/'>Home</NavItem>
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
-                        <NavItem path='/stock'>Products</NavItem>
+                        <NavItem path='/stocks'>Products</NavItem>
 
                         {isAuthenticate &&
                             <>

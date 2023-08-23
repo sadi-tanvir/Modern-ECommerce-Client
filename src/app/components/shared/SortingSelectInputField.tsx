@@ -25,9 +25,9 @@ const SortingSelectInputField: React.FC<SingleSelectInputProps> = ({ options, na
                 name={name}
                 className="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             >
-                <option value="" selected>{labelName}</option>
+                <option value="" selected={value == ''}>{labelName}</option>
                 {options?.map((option) => (
-                    <option key={option.value} value={option.value} >
+                    <option selected={value == option.value} key={option.value} value={option.value} >
                         {option.label}
                     </option>
                 ))}
