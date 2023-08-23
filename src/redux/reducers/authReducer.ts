@@ -4,10 +4,16 @@ import { deleteCookie } from 'cookies-next';
 export interface AuthReducerUserType {
     _id: string;
     name: string;
-    phone?: string;
     email: string;
-    gender?: string;
-    role?: string;
+    password: string;
+    phone: string;
+    image: string;
+    role: string;
+    gender: string;
+    currentAddress: string;
+    permanentAddress: string;
+    dateOfBirth: string;
+    accountStatus: string;
 };
 
 export interface AuthReducerStateType {
@@ -29,9 +35,15 @@ const initialState = {
         _id: "",
         name: '',
         email: '',
+        password: '',
         phone: '',
+        image: '',
+        role: '',
         gender: '',
-        role: ''
+        currentAddress: '',
+        permanentAddress: '',
+        dateOfBirth: '',
+        accountStatus: '',
     },
 } as AuthReducerStateType;
 
@@ -66,11 +78,17 @@ const authReducer = createReducer(initialState, (builder) => {
 
     builder.addCase(setUserInfo, (state, action: any) => {
         state.userInfo._id = action.payload._id;
-        state.userInfo.name = action.payload.name;
-        state.userInfo.phone = action.payload.phone;
-        state.userInfo.email = action.payload.email;
-        state.userInfo.gender = action.payload.gender;
-        state.userInfo.role = action.payload.role;
+        state.userInfo.name = action.payload.name
+        state.userInfo.email = action.payload.email
+        state.userInfo.password = action.payload.password
+        state.userInfo.phone = action.payload.phone
+        state.userInfo.image = action.payload.image
+        state.userInfo.role = action.payload.role
+        state.userInfo.gender = action.payload.gender
+        state.userInfo.currentAddress = action.payload.currentAddress
+        state.userInfo.permanentAddress = action.payload.permanentAddress
+        state.userInfo.dateOfBirth = action.payload.dateOfBirth
+        state.userInfo.accountStatus = action.payload.accountStatus
     });
 
     builder.addCase(logOutUser, (state, action) => {
@@ -89,10 +107,16 @@ const authReducer = createReducer(initialState, (builder) => {
         state.userInfo = {
             _id: "",
             name: '',
-            phone: '',
             email: '',
-            gender: '',
+            password: '',
+            phone: '',
+            image: '',
             role: '',
+            gender: '',
+            currentAddress: '',
+            permanentAddress: '',
+            dateOfBirth: '',
+            accountStatus: '',
         };
     });
 

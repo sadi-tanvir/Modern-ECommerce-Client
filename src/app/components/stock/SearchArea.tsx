@@ -2,7 +2,7 @@ import React from 'react'
 import { SearchIcon } from '../shared/Icon'
 
 type SearchAreaTypes = {
-    isFilterTrue: boolean;
+    isFilterTrue?: boolean;
     setSearchProduct: (e: string) => void;
 }
 

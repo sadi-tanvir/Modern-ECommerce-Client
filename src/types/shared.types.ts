@@ -22,7 +22,6 @@ type SingleSelectOptions = {
 
 export type SingleSelectInputProps = {
     options: SingleSelectOptions[];
-    value?: string;
     name: string;
     onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
     currentValue?: string;
@@ -42,7 +41,7 @@ export type MultiSelectInputFieldProps = {
     };
     name: string;
     onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
-    currentValue?: string;
+    currentValue?: any;
     labelName?: string;
 };
 

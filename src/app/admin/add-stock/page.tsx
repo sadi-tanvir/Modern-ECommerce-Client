@@ -203,10 +203,9 @@ const AddNewStock: React.FC = () => {
                                 { label: 'pcs', value: 'pcs' },
                                 { label: 'bag', value: 'bag' },
                             ]}
-                            // value={productData.unit}
                             onChange={handleSelectInputChange}
                             name="unit"
-                            // currentValue="pcs"
+                            currentValue={stockData.unit}
                             labelName="Unit Type"
                         />
 
@@ -215,7 +214,7 @@ const AddNewStock: React.FC = () => {
                                 label: queries.name,
                                 value: { id: queries._id, name: queries.name }
                             }))}
-                            // value={categoryInput}
+                            currentValue={stockData.category}
                             onChange={handleMultiCategoryInputChange}
                             name="category"
                             labelName="Category"
@@ -226,7 +225,7 @@ const AddNewStock: React.FC = () => {
                                 label: queries.name,
                                 value: { id: queries._id, name: queries.name }
                             }))}
-                            // value={categoryInput}
+                            currentValue={stockData.brand}
                             onChange={handleMultiCategoryInputChange}
                             name="brand"
                             labelName="Brand"
@@ -246,10 +245,9 @@ const AddNewStock: React.FC = () => {
                                 { label: 'out-of-stock', value: 'out-of-stock' },
                                 { label: 'discontinued', value: 'discontinued' },
                             ]}
-                            // value={stockData.unit}
                             onChange={handleSelectInputChange}
                             name="status"
-                            // currentValue="pcs"
+                            currentValue={stockData.status}
                             labelName="Stock Status"
                         />
 
@@ -280,7 +278,7 @@ const AddNewStock: React.FC = () => {
                             isRequired={true}
                         />
 
-                        <Button color='red' buttonType='submit'>Add Stock</Button>
+                        <Button color='red' buttonType='submit' buttonClass='w-full'>Add Stock</Button>
                     </form>
                 </div>
             </div>

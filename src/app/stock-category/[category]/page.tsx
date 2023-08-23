@@ -40,24 +40,14 @@ const StockDisplay = ({ params }: any) => {
     const [selectedPriceRange, setSelectedPriceRange] = useState<number>(0);
     const [selectedRating, setSelectedRating] = useState<number>(0);
     const [searchProduct, setSearchProduct] = useState("")
-    const [isFilterTrue, setIsFilterTrue] = useState(false)
 
 
     // gql
     const { loading, error, data, refetch } = useQuery(GET_STOCK_WITH_DETAILS_BY_CATEGORY, {
         variables: {
-            category: selectedCategory
+            category: selectedCategory || params.category
         }
     });
-
-
-    // handle clear filter
-    const handleClearFilter = () => {
-        setSelectedBrand("")
-        setSelectedCategory("")
-        setSelectedPriceRange(0)
-        setSelectedRating(0)
-    }
 
 
 
@@ -77,12 +67,6 @@ const StockDisplay = ({ params }: any) => {
 
     // Filter stocks based on selected filters
     useEffect(() => {
-        if (selectedBrand || selectedCategory || selectedPriceRange || selectedRating) {
-            setIsFilterTrue(true)
-        } else {
-            setIsFilterTrue(false)
-        }
-
         const resultFilteredStocks = data?.getStocksByCategory?.filter((stock: StockCardTypes) => {
             if (selectedBrand && stock.brand.name !== selectedBrand) {
                 return false;
@@ -105,16 +89,12 @@ const StockDisplay = ({ params }: any) => {
     return (
         <div className="bg-gray-100">
             <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4  bg-slate-300 gap-10">
-                <div className={`flex ${isFilterTrue ? 'flex-wrap justify-around sm:justify-between' : 'justify-between'}  items-center gap-5`}>
+                <div className={`flex justify-between items-center gap-5`}>
                     <SearchArea
-                        isFilterTrue={isFilterTrue}
+                        // isFilterTrue={false}
                         setSearchProduct={setSearchProduct}
                     />
                     <p className="text-gray-600 col-span-2">{filteredStocks?.length} products found</p>
-                    {isFilterTrue ?
-                        <Button onClick={handleClearFilter} buttonClass='hover:bg-red-600 w-52' color='red'>Clear Filters</Button>
-                        : null
-                    }
                 </div>
 
                 {/* filters */}

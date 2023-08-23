@@ -69,9 +69,15 @@ const LoginForm = () => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                password: user.password,
                 phone: user.phone,
+                image: user.image,
+                role: user.role,
                 gender: user.gender,
-                role: user.role
+                currentAddress: user.currentAddress,
+                permanentAddress: user.permanentAddress,
+                dateOfBirth: user.dateOfBirth,
+                accountStatus: user.accountStatus,
             }
 
             //  success alert

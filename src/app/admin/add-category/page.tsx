@@ -106,7 +106,7 @@ const AddNewCategory: React.FC = () => {
                             isRequired={true}
                         />
 
-                        <Button color='red' buttonType='submit'>Add Category</Button>
+                        <Button color='red' buttonType='submit'  buttonClass='w-full'>Add Category</Button>
                     </form>
                 </div>
             </div>

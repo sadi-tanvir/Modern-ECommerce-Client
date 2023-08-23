@@ -169,7 +169,7 @@ const AddNewProduct: React.FC = () => {
                             labelName="Brand"
                         />
 
-                        <Button color='red' buttonType='submit'>Add Product</Button>
+                        <Button color='red' buttonType='submit'  buttonClass='w-full'>Add Product</Button>
                     </form>
                 </div>
             </div>

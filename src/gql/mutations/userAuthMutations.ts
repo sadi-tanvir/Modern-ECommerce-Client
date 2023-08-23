@@ -19,11 +19,18 @@ export const USER_LOGIN_MUTATION = gql`
                 _id
                 name
                 email
+                password
                 phone
-                gender
+                image
                 role
+                gender
+                currentAddress
+                permanentAddress
+                dateOfBirth
+                accountStatus
                 darkMode
             }
         }
     }
 `;
+
