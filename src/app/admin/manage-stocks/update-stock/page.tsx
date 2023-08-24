@@ -58,7 +58,7 @@ const UpdateStock: React.FC = () => {
     const getCategories = useQuery(GET_CATEGORIES);
     const getBrands = useQuery(GET_BRANDS);
     const [updateStockMutation, { data, loading, error }] = useMutation(UPDATE_STOCK_MUTATION, {
-        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR],
+        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCK_WITH_DETAILS_BY_ID],
     });
 
 

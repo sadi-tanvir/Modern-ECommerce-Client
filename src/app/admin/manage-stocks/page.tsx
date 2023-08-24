@@ -1,5 +1,5 @@
 'use client'
-import TableRowShimmerEffects from "@/app/components/Shimmer-Effect/TableRowShimmerEffects";
+import StockTableRowShimmerEffects from "@/app/components/Shimmer-Effect/StockTableRowShimmerEffects";
 import AdminDashboardLayout from "@/app/components/admin/AdminDashboardLayout";
 import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-functions/alert";
 import { ActionIcon } from "@/app/components/shared/Icon";
@@ -141,7 +141,7 @@ const StockTable = () => {
                                 </tr>
                             ))
                             :
-                            [...Array(9)].map((elem, index) => (<TableRowShimmerEffects key={index} />))
+                            [...Array(9)].map((elem, index) => (<StockTableRowShimmerEffects key={index} />))
                         }
                     </tbody>
                 </table>
