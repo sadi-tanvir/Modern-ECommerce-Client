@@ -1,23 +1,25 @@
 'use client'
-import CategoryTableRowShimmerEffects from "@/app/components/Shimmer-Effect/CategoryTableRowShimmerEffects";
+import BrandTableRowShimmerEffects from "@/app/components/Shimmer-Effect/BrandTableRowShimmerEffects";
 import AdminDashboardLayout from "@/app/components/admin/AdminDashboardLayout";
 import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-functions/alert";
 import { ActionIcon } from "@/app/components/shared/Icon";
-import { DELETE_CATEGORY_BY_ID_MUTATION } from "@/gql/mutations/category.mutations";
-import { GET_CATEGORIES_FOR_ADMIN } from "@/gql/queries/category.queries";
+import { DELETE_BRAND_BY_ID_MUTATION } from "@/gql/mutations/brand.mutations";
+import { GET_BRANDS_FOR_ADMIN } from "@/gql/queries/brand.queries";
 import { useMutation, useQuery } from "@apollo/client";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 
-type CategoryType = {
+type BrandTypes = {
     _id: string;
     name: string;
     description: string;
-    imageUrl: string;
-};
-
+    email: string;
+    phone: string;
+    website: string;
+    status: string;
+    location: string;
+}
 
 const StockTable = () => {
     // state
@@ -25,15 +27,18 @@ const StockTable = () => {
     const [idForMenuAction, setIdForMenuAction] = useState("")
 
 
-    // navigation
+    // gql
+    const brands = useQuery(GET_BRANDS_FOR_ADMIN);
+    const [deleteBrandMutation, { data, loading, error }] = useMutation(DELETE_BRAND_BY_ID_MUTATION, {
+        refetchQueries: [GET_BRANDS_FOR_ADMIN],
+    });
+
+
+    // router
     const router = useRouter();
 
+    console.warn(brands?.data?.brands);
 
-    // gql
-    const categories = useQuery(GET_CATEGORIES_FOR_ADMIN);
-    const [deleteCategoryMutation, { data, loading, error }] = useMutation(DELETE_CATEGORY_BY_ID_MUTATION, {
-        refetchQueries: [GET_CATEGORIES_FOR_ADMIN],
-    });
 
 
 
@@ -44,11 +49,10 @@ const StockTable = () => {
     }
 
 
-
-    // handle delete category
-    const handleDeleteCategory = (id: string) => {
+    // handle delete brand
+    const handleDeleteBrand = (id: string) => {
         warningAlert('Yes, Create it!', () => (
-            deleteCategoryMutation({
+            deleteBrandMutation({
                 variables: {
                     id
                 }
@@ -57,10 +61,10 @@ const StockTable = () => {
     }
 
     useEffect(() => {
-        // if category not deleted
+        // if brand not deleted
         if (error) errorAlert(error.message)
 
-        // if category deleted
+        // if brand deleted
         if (data) successAlert(data?.deleteStockById?.message);
     }, [data, error]);
 
@@ -70,51 +74,48 @@ const StockTable = () => {
                 <table className="w-full table-auto border-collapse border border-gray-300 shadow-lg">
                     <thead>
                         <tr className="bg-gray-200">
-                            <th className="p-4 border border-gray-300">Image</th>
                             <th className="p-4 border border-gray-300">Name</th>
-                            <th className="p-4 border border-gray-300">Description</th>
+                            <th className="p-4 border border-gray-300">
+                                <div className="font-semibold">Email & Phone</div>
+                            </th>
+                            <th className="p-4 border border-gray-300">status</th>
                             <th className="p-4 border border-gray-300">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {categories?.data?.categories?.length > 0 ?
-                            categories?.data?.categories?.map((category: CategoryType) => (
-                                <tr key={category._id}>
+                        {brands?.data?.brands?.length > 0 ?
+                            brands?.data?.brands?.map((brand: BrandTypes) => (
+                                <tr key={brand._id}>
+                                    <td className="p-4 border border-gray-300">{brand.name}</td>
                                     <td className="p-4 border border-gray-300">
-                                        <div className="flex justify-center">
-                                            <Image
-                                                src={category.imageUrl}
-                                                alt={category.name}
-                                                width={64}
-                                                height={64}
-                                            />
-                                        </div>
+                                        <div className="font-semibold text-secondary pb-1">{brand.email}</div>
+                                        <div className="text-sm text-gray-600">{brand.phone}</div>
                                     </td>
-                                    <td className="p-4 border border-gray-300">
-                                        {category.name}
-                                    </td>
-                                    <td className="p-4 border border-gray-300">
-                                        {category.description}
+                                    <td className="p-4 border border-gray-300  text-center">
+                                        <span className={`${brand.status == 'active' ? 'bg-green-300 text-green-700' : 'bg-red-300 text-red-700'} px-4 py-1 rounded-md font-semibold`}>
+                                            {brand.status}
+                                        </span>
                                     </td>
                                     <td className="p-4 border border-gray-300">
                                         <div className="relative text-left  flex justify-center">
                                             <button
-                                                onClick={() => handleActionMenu(category._id)}
+                                                onClick={() => handleActionMenu(brand._id)}
                                                 type="button"
                                                 className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 focus:outline-none"
                                             >
                                                 <ActionIcon />
                                             </button>
-                                            <div className={`${openActionMenu && (idForMenuAction == category._id) ? "visible" : "hidden"} origin-top-right absolute right-0 z-50 -mt-36 sm:mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}>
+                                            <div className={`${openActionMenu && (idForMenuAction == brand._id) ? "visible" : "hidden"} origin-top-right absolute right-0 z-50 -mt-36 sm:mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}>
                                                 <div
                                                     className="py-1"
                                                     role="menu"
                                                     aria-orientation="vertical"
                                                     aria-labelledby="options-menu"
                                                 >
-                                                    <MenuItem onClick={() => router.push(`/admin/manage-categories/update-category?categoryId=${category
+                                                    <MenuItem onClick={() => router.push(`/admin/manage-brands/update-brand?brandId=${brand
                                                         ._id}`)}>Edit</MenuItem>
-                                                    <MenuItem rest="text-red-500" onClick={() => handleDeleteCategory(category._id)}>Delete</MenuItem>
+                                                    <MenuItem rest="text-red-500" onClick={() => handleDeleteBrand(brand._id)}>Delete</MenuItem>
+                                                    <MenuItem onClick={() => router.push(`/admin/manage-brands/${brand._id}`)}>Details</MenuItem>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,12 +123,13 @@ const StockTable = () => {
                                 </tr>
                             ))
                             :
-                            [...Array(9)].map((elem, index) => (<CategoryTableRowShimmerEffects key={index} />))
+                            [...Array(9)].map((elem, index) => (<BrandTableRowShimmerEffects key={index} />))
                         }
                     </tbody>
                 </table>
             </div>
-        </AdminDashboardLayout>
+            {/* // } */}
+        </AdminDashboardLayout >
     );
 };
 

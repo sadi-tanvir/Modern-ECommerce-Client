@@ -3,11 +3,10 @@ import StockTableRowShimmerEffects from "@/app/components/Shimmer-Effect/StockTa
 import AdminDashboardLayout from "@/app/components/admin/AdminDashboardLayout";
 import { errorAlert, successAlert, warningAlert } from "@/app/components/alert-functions/alert";
 import { ActionIcon } from "@/app/components/shared/Icon";
-import Loader from "@/app/components/shared/Loader";
 import { DELETE_STOCK_MUTATION } from "@/gql/mutations/stock.mutations";
 import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES } from "@/gql/queries/stock.queries";
 import { AdminStockDetailsType } from "@/types/admin.types";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -40,7 +39,7 @@ const StockTable = () => {
 
 
     // handle delete stock
-    const handleDeleteOrder = (id: string) => {
+    const handleDeleteStock = (id: string) => {
         warningAlert('Yes, Create it!', () => (
             deleteStockMutation({
                 variables: {
@@ -60,8 +59,6 @@ const StockTable = () => {
 
     return (
         <AdminDashboardLayout>
-            {/* {!stocks?.data?.getStocksWithDetails ? */}
-
             <div onClick={() => openActionMenu ? setOpenActionMenu(false) : null} className="w-screen sm:w-full overflow-x-auto sm:overflow-x-visible">
                 <table className="w-full table-auto border-collapse border border-gray-300 shadow-lg">
                     <thead>
@@ -115,7 +112,7 @@ const StockTable = () => {
                                         <div className="font-semibold">sold / {stock.sellCount} pcs</div>
                                     </td>
                                     <td className="p-4 border border-gray-300">
-                                        <div className="relative inline-block text-left  flex justify-center">
+                                        <div className="relative text-left  flex justify-center">
                                             <button
                                                 onClick={() => handleActionMenu(stock._id)}
                                                 type="button"
@@ -132,7 +129,7 @@ const StockTable = () => {
                                                 >
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
                                                         ._id}`)}>Edit</MenuItem>
-                                                    <MenuItem rest="text-red-500" onClick={() => handleDeleteOrder(stock._id)}>Delete</MenuItem>
+                                                    <MenuItem rest="text-red-500" onClick={() => handleDeleteStock(stock._id)}>Delete</MenuItem>
                                                     <MenuItem onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</MenuItem>
                                                 </div>
                                             </div>
@@ -146,7 +143,6 @@ const StockTable = () => {
                     </tbody>
                 </table>
             </div>
-            {/* // } */}
         </AdminDashboardLayout>
     );
 };

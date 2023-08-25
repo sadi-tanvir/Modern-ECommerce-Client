@@ -34,7 +34,7 @@ const UpdateStock: React.FC = () => {
     // states
     const [categoryData, setCategoryData] = useState(categoryStateValue);
 
-
+    
 
     // navigation
     const searchParams = useSearchParams();
