@@ -8,13 +8,12 @@ const ProfileMenu = () => {
     const pathname = usePathname();
 
     // redux
-    const { name } = useAppSelector(state => state.authReducer.userInfo);
+    const { name } = useAppSelector(state => state.authReducer.ownerInfo);
 
-    // pathname == path
     return (
         <Link href="/profile">
             <div className='mb-3 lg:mb-0'>
-                <div className="dropdown dropdown-end lg:ml-10">
+                <div className="dropdown dropdown-end ml-1 lg:ml-10">
                     <label tabIndex={0} className='cursor-pointer flex justify-between items-center'>
                         <div className="avatar">
                             <div className="w-9 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">

@@ -1,7 +1,7 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
 import { deleteCookie } from 'cookies-next';
 
-export interface AuthReducerUserType {
+export interface AuthReducerOwnerType {
     _id: string;
     name: string;
     email: string;
@@ -22,7 +22,7 @@ export interface AuthReducerStateType {
     isAdmin?: boolean;
     isUser?: boolean;
     accessToken?: string;
-    userInfo: AuthReducerUserType;
+    ownerInfo: AuthReducerOwnerType;
 };
 
 const initialState = {
@@ -31,7 +31,7 @@ const initialState = {
     isAdmin: false,
     isUser: false,
     accessToken: "",
-    userInfo: {
+    ownerInfo: {
         _id: "",
         name: '',
         email: '',
@@ -47,12 +47,13 @@ const initialState = {
     },
 } as AuthReducerStateType;
 
+
 const loginUser = createAction('loginUser');
 const accessAdmin = createAction('accessAdmin');
 const accessUser = createAction('accessUser');
-const userRole = createAction('userRole');
+const ownerRole = createAction('ownerRole');
 const accessToken = createAction('accessToken');
-const setUserInfo = createAction('setUserInfo');
+const setOwnerInfo = createAction('setOwnerInfo');
 const logOutUser = createAction('logOutUser');
 
 const authReducer = createReducer(initialState, (builder) => {
@@ -68,7 +69,7 @@ const authReducer = createReducer(initialState, (builder) => {
         state.isUser = true;
     });
 
-    builder.addCase(userRole, (state, action) => {
+    builder.addCase(ownerRole, (state, action) => {
         state.role = action.payload;
     });
 
@@ -76,19 +77,19 @@ const authReducer = createReducer(initialState, (builder) => {
         state.accessToken = action.payload;
     });
 
-    builder.addCase(setUserInfo, (state, action: any) => {
-        state.userInfo._id = action.payload._id;
-        state.userInfo.name = action.payload.name
-        state.userInfo.email = action.payload.email
-        state.userInfo.password = action.payload.password
-        state.userInfo.phone = action.payload.phone
-        state.userInfo.image = action.payload.image
-        state.userInfo.role = action.payload.role
-        state.userInfo.gender = action.payload.gender
-        state.userInfo.currentAddress = action.payload.currentAddress
-        state.userInfo.permanentAddress = action.payload.permanentAddress
-        state.userInfo.dateOfBirth = action.payload.dateOfBirth
-        state.userInfo.accountStatus = action.payload.accountStatus
+    builder.addCase(setOwnerInfo, (state, action: any) => {
+        state.ownerInfo._id = action.payload._id;
+        state.ownerInfo.name = action.payload.name
+        state.ownerInfo.email = action.payload.email
+        state.ownerInfo.password = action.payload.password
+        state.ownerInfo.phone = action.payload.phone
+        state.ownerInfo.image = action.payload.image
+        state.ownerInfo.role = action.payload.role
+        state.ownerInfo.gender = action.payload.gender
+        state.ownerInfo.currentAddress = action.payload.currentAddress
+        state.ownerInfo.permanentAddress = action.payload.permanentAddress
+        state.ownerInfo.dateOfBirth = action.payload.dateOfBirth
+        state.ownerInfo.accountStatus = action.payload.accountStatus
     });
 
     builder.addCase(logOutUser, (state, action) => {
@@ -104,7 +105,7 @@ const authReducer = createReducer(initialState, (builder) => {
         state.role = "";
         state.isUser = false;
         state.accessToken = "";
-        state.userInfo = {
+        state.ownerInfo = {
             _id: "",
             name: '',
             email: '',

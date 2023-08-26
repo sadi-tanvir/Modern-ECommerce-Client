@@ -65,7 +65,7 @@ const LoginForm = () => {
         // if login success
         if (data?.loginUser?.status) {
             const { user, token } = data?.loginUser;
-            const userInfo = {
+            const ownerInfo = {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -87,13 +87,13 @@ const LoginForm = () => {
             setCookie('logged', 'true');
 
             // store data into localStorage
-            localStorage.setItem("userInfo", JSON.stringify(userInfo))
+            localStorage.setItem("ownerInfo", JSON.stringify(ownerInfo))
             localStorage.setItem("accessToken", JSON.stringify(token))
 
             // dispatch data into redux store
-            dispatch({ type: 'setUserInfo', payload: userInfo })
+            dispatch({ type: 'setOwnerInfo', payload: ownerInfo })
             dispatch({ type: 'accessToken', payload: token })
-            dispatch({ type: 'userRole', payload: user.role })
+            dispatch({ type: 'ownerRole', payload: user.role })
             dispatch({ type: 'loginUser' })
             if (user.role === 'admin') dispatch({ type: 'accessAdmin' })
             if (user.role === 'user') dispatch({ type: 'accessUser' })

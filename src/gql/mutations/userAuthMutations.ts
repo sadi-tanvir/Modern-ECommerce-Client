@@ -34,3 +34,27 @@ export const USER_LOGIN_MUTATION = gql`
     }
 `;
 
+export const UPDATE_OWNER_INFO_MUTATION = gql`
+    mutation updateOwnerInfo($email: String!, $info: UpdateOwnerInput!) {
+        updateOwnerInfo(email: $email, data: $info) {
+            status
+            message
+            owner {
+                _id
+                name
+                email
+                password
+                phone
+                image
+                role
+                gender
+                currentAddress
+                permanentAddress
+                dateOfBirth
+                accountStatus
+                darkMode
+            }
+        }
+    }
+`;
+

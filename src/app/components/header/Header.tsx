@@ -30,12 +30,12 @@ const Navbar = () => {
 
     // refill redux store from localStorage
     useEffect(() => {
-        if (localStorage.getItem('userInfo') && localStorage.getItem('accessToken')) {
-            dispatch({ type: 'setUserInfo', payload: JSON.parse(localStorage.getItem('userInfo') as any) })
+        if (localStorage.getItem('ownerInfo') && localStorage.getItem('accessToken')) {
+            dispatch({ type: 'setOwnerInfo', payload: JSON.parse(localStorage.getItem('ownerInfo') as any) })
             dispatch({ type: 'accessToken', payload: JSON.parse(localStorage.getItem('accessToken') as string) })
-            dispatch({ type: 'userRole', payload: JSON.parse(localStorage.getItem('userInfo') as any).role })
-            if (JSON.parse(localStorage.getItem('userInfo') as any).role === 'admin') dispatch({ type: 'accessAdmin' })
-            if (JSON.parse(localStorage.getItem('userInfo') as any).role === 'user') dispatch({ type: 'accessUser' })
+            dispatch({ type: 'ownerRole', payload: JSON.parse(localStorage.getItem('ownerInfo') as any).role })
+            if (JSON.parse(localStorage.getItem('ownerInfo') as any).role === 'admin') dispatch({ type: 'accessAdmin' })
+            if (JSON.parse(localStorage.getItem('ownerInfo') as any).role === 'user') dispatch({ type: 'accessUser' })
             dispatch({ type: 'loginUser' })
         }
         if (localStorage.getItem('cart')) {
@@ -80,7 +80,9 @@ const Navbar = () => {
 
                     <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
                         <NavItem path='/'>Home</NavItem>
-                        {(isAuthenticate && isAdmin) && <NavItem path='/admin'>Admin</NavItem>}
+                        
+                        {(isAuthenticate && isAdmin) && <NavItem path='/admin/manage-stocks'>Admin</NavItem>}
+                        
                         <NavItem path='/stocks'>Products</NavItem>
 
                         {isAuthenticate &&
