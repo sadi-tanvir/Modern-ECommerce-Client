@@ -76,7 +76,7 @@ const UserProfile = () => {
               <p className="text-gray-600">Password:</p>
               <p className={`text-secondary font-semibold uppercase mt-2`}>******</p>
             </div>
-            <span className='text-primary cursor-pointer hover:underline'>change</span>
+            <span onClick={() => router.push('/profile/update-password')} className='text-primary cursor-pointer hover:underline'>change</span>
           </div>
 
           <div className='flex justify-between items-center'>

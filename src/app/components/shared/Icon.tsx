@@ -187,8 +187,8 @@ const DownArrowIcon = () => {
 const SearchIcon = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l5 5" />
+            <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 018-8 8 8 0 110 16 8 8 0 01-8-8z" />
+            <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l5 5" />
         </svg>
     )
 }
