@@ -1,7 +1,7 @@
 'use client'
 import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
 import { useQuery } from '@apollo/client';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '../../product-card/ProductCard';
 import ProductCardShimmerEffect from '../../Shimmer-Effect/ProductCardShimmerEffect';
 
@@ -26,13 +26,60 @@ type StockCardTypes = {
 };
 
 const ProductView = () => {
+    // states
+    const [products, setProducts] = useState<StockCardTypes[] | []>([])
+    const [randomProducts, setRandomProducts] = useState<StockCardTypes[] | []>([])
+
     // gql
     const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
 
+
+    // fill data into category state
+    useEffect(() => {
+        if (stocks?.data?.stocks) {
+            setProducts(stocks?.data?.stocks)
+        }
+    }, [stocks?.data?.stocks])
+
+    // making circular queue operation for picking random categories
+    useEffect(() => {
+        if (products.length > 0) {
+            let queue = new Array(12);
+            let start = -1;
+            let end = -1;
+            let currentSize = 0;
+
+            const enqueue = (elem: any) => {
+                if (currentSize < queue.length) {
+                    if (start == -1 && end == -1) {
+                        start = 0;
+                        end = 0;
+                    };
+
+                    if (end == 12) {
+                        end = 0;
+                        queue[end] = elem;
+                    } else {
+                        queue[end] = elem;
+                    };
+                    end++;
+                    currentSize++;
+                };
+            };
+
+            let randomIndex = Math.floor((Math.random() * (products.length - 12)));
+            for (let i = randomIndex; i < randomIndex + 12; i++) {
+                enqueue(products[i]);
+            };
+
+            setRandomProducts(queue);
+        };
+    }, [products])
+
     return (
         <>
-            {stocks?.data?.stocks?.length > 0 ?
-                stocks?.data?.stocks.slice(0, 12).map((stock: StockCardTypes) => (
+            {randomProducts.length > 0 ?
+                randomProducts.map((stock: StockCardTypes) => (
                     <ProductCard
                         productId={stock._id}
                         imageSrc={stock.imageUrl}
@@ -51,7 +98,7 @@ const ProductView = () => {
                 ))
             }
         </>
-    )
-}
+    );
+};
 
-export default ProductView
+export default ProductView;

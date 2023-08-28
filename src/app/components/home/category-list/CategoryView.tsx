@@ -27,7 +27,7 @@ const CategoryView = () => {
     }, [getCategories?.data?.categories])
 
 
-    // doing circular queue operation
+    // making circular queue operation for picking random categories
     useEffect(() => {
         if (categories.length > 0) {
             let queue = new Array(6);
@@ -50,8 +50,6 @@ const CategoryView = () => {
                     }
                     end++
                     currentSize++;
-                } else {
-                    console.warn(`queue is already full`);
                 }
             }
 
@@ -78,47 +76,3 @@ const CategoryView = () => {
 }
 
 export default CategoryView;
-
-
-/* let queue = new Array(5);
-        let arrr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-        let start = -1;
-        let end = -1;
-        let currentSize = 0;
-
-        function enqueue(elem) {
-            if (currentSize < queue.length) {
-                if (start == -1 && end == -1) {
-                    start = 0;
-                    end = 0;
-                }
-
-                if (end == 5) {
-                    end = 0;
-                    queue[end] = elem;
-                } else {
-                    queue[end] = elem;
-                }
-                end++
-                currentSize++;
-            } else {
-                console.warn(`queue is already full`);
-            }
-        }
-
-        function dequeue() {
-            if (currentSize > 0) {
-                queue[start] = null;
-                start++
-                currentSize--;
-            } else {
-                start = -1;
-                end = -1
-                console.warn(`queue is empty`);
-            }
-        }
-
-        let random = Math.floor((Math.random() * (arrr.length - 5)) + 1);
-        for (let i = random; i < random + 5; i++) {
-            console.warn(arrr[i],i);
-        } */
