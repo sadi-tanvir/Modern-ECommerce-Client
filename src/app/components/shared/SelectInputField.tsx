@@ -4,7 +4,7 @@ import { DownArrowIcon } from './Icon';
 
 
 
-const SelectInput: React.FC<SingleSelectInputProps> = ({ options, name, currentValue, onChange, labelName }) => {
+const SelectInputField: React.FC<SingleSelectInputProps> = ({ options, name, currentValue, onChange, labelName }) => {
     return (
         <div className="relative pb-5">
             {labelName && <label htmlFor="name" className="block text-gray-700 font-medium mb-2">{labelName}</label>}
@@ -27,4 +27,4 @@ const SelectInput: React.FC<SingleSelectInputProps> = ({ options, name, currentV
     );
 };
 
-export default SelectInput;
+export default SelectInputField;

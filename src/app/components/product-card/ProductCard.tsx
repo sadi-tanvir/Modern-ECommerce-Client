@@ -1,3 +1,4 @@
+'use client'
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';

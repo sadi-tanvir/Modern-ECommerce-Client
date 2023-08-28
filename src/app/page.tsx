@@ -1,43 +1,23 @@
-"use client"
-import { gql, useQuery } from '@apollo/client';
-import Image from 'next/image'
-import { useEffect, useState } from 'react';
-import WelcomeMessage from './components/home/WelcomeMessage';
 import BannerSlider from './components/home/BannerSlider';
-import CategoryList from './components/home/CategoryList';
-import FeaturedProducts from './components/home/FeaturedProducts';
+import FeaturedProductsLayout from './components/home/featured-product/FeaturedProductsLayout';
 import Footer from './components/Footer';
+import WelcomeMessageLayout from './components/home/welcome-message/WelcomeMessageLayout';
+import CategoryListLayout from './components/home/category-list/CategoryListLayout';
 
 export default function Home() {
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState<boolean>(true);
-
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowWelcomeMessage(false)
-    }, 5000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
 
   return (
     <div className="bg-gray-100">
-      {/* Welcome Message */}
-      {showWelcomeMessage &&
-        <WelcomeMessage />
-      }
+      <WelcomeMessageLayout />
 
       {/* Banner Slider */}
       <BannerSlider />
 
-
       {/* category lists  */}
-      <CategoryList />
+      <CategoryListLayout />
 
       {/* Featured Products */}
-      <FeaturedProducts />
+      <FeaturedProductsLayout />
 
       {/* Footer */}
       <Footer />

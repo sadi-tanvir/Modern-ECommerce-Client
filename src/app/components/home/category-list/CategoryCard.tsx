@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { CategoryPropsType } from './CategoryList'
 import { useRouter } from 'next/navigation'
+import { CategoryPropsType } from './CategoryView'
 
 const CategoryCard = ({ category }: { category: CategoryPropsType }) => {
     // states
@@ -8,7 +8,7 @@ const CategoryCard = ({ category }: { category: CategoryPropsType }) => {
 
     // navigation
     const router = useRouter()
-    
+
     return (
         <div key={category._id} className="bg-white shadow-lg rounded-md px-2 py-1 cursor-pointer" onClick={() => router.push(`/stock-category/${category.name}`)}>
             <img src={category.imageUrl} alt={category.name} className="w-full h-20 object-cover mb-4" />

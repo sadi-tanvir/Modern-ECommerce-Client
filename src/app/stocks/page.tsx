@@ -1,4 +1,3 @@
-import ProductCard from '../components/Shimmer-Effect/ProductCardShimmerEffect';
 import StockList from '../components/stock/StockList';
 
 
