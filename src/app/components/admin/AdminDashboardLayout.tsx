@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 import { usePathname } from 'next/navigation';
-import { AddBrandIcon, AddCategoryIcon, AddProductIcon, AddStockIcon, DashboardIcon } from '../shared/Icon';
 
 const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();

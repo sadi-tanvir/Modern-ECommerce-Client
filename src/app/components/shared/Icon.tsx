@@ -211,5 +211,24 @@ const FacebookIcon = () => {
     )
 }
 
+const VerifyIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-4 h-4 text-green-500"
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+            />
+        </svg>
+    )
+}
 
-export { BdtIcon, AddStockIcon, AddProductIcon, AddCategoryIcon, AddBrandIcon, DashboardIcon, ActionIcon, PlusIcon, MinusIcon, DelIcon, DownArrowIcon, SearchIcon,TwitterIcon,YouTubeIcon,FacebookIcon }
+
+export { BdtIcon, AddStockIcon, AddProductIcon, AddCategoryIcon, AddBrandIcon, DashboardIcon, ActionIcon, PlusIcon, MinusIcon, DelIcon, DownArrowIcon, SearchIcon, TwitterIcon, YouTubeIcon, FacebookIcon, VerifyIcon }
