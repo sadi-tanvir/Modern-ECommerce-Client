@@ -41,15 +41,16 @@ const ProductView = () => {
         }
     }, [stocks?.data?.stocks])
 
-    // making circular queue operation for picking random categories
+    // making circular queue operation for picking random products
     useEffect(() => {
         if (products.length > 0) {
             let queue = new Array(12);
             let start = -1;
             let end = -1;
             let currentSize = 0;
+            let n = products.length;
 
-            const enqueue = (elem: any) => {
+            const addProduct = (elem: any) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
@@ -67,9 +68,17 @@ const ProductView = () => {
                 };
             };
 
-            let randomIndex = Math.floor((Math.random() * (products.length - 12)));
-            for (let i = randomIndex; i < randomIndex + 12; i++) {
-                enqueue(products[i]);
+            let randomIndex = Math.floor(Math.random() * n);
+            for (let i = randomIndex; i < n; i++) {
+                if (currentSize < queue.length) {
+                    addProduct(products[i]);
+
+                    if (i == n - 1) {
+                        i = -1;
+                    }
+                } else {
+                    break;
+                }
             };
 
             setRandomProducts(queue);

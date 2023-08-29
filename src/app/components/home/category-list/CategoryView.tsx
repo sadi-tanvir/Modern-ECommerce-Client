@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import CategoryCard from './CategoryCard';
 import CategoryCardShimmerEffect from '../../Shimmer-Effect/CategoryCardShimmerEffect';
 
+
 export type CategoryPropsType = {
     _id: string;
     name: string;
@@ -34,33 +35,43 @@ const CategoryView = () => {
             let start = -1;
             let end = -1;
             let currentSize = 0;
+            let n = categories.length;
 
             const enqueue = (elem: any) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
                         end = 0;
-                    }
+                    };
 
                     if (end == 6) {
                         end = 0;
                         queue[end] = elem;
                     } else {
                         queue[end] = elem;
-                    }
-                    end++
+                    };
+                    end++;
                     currentSize++;
-                }
-            }
+                };
+            };
 
-            let randomIndex = Math.floor((Math.random() * (categories.length - 6)));
-            for (let i = randomIndex; i < randomIndex + 6; i++) {
-                enqueue(categories[i])
-            }
+            let randomIndex = Math.floor(Math.random() * n);
+            for (let i = randomIndex; i < n; i++) {
+                if (currentSize < queue.length) {
+                    enqueue(categories[i]);
+
+                    if (i == n - 1) {
+
+                        i = -1;
+                    };
+                } else {
+                    break;
+                };
+            };
 
             setRandomCategories(queue);
-        }
-    }, [categories])
+        };
+    }, [categories]);
 
     return (
         <>

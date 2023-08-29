@@ -33,6 +33,7 @@ type StockCardTypes = {
 
 const StockList = () => {
     // states
+    const [randomStocks, setRandomStocks] = useState<StockCardTypes[] | []>([])
     const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([])
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -40,6 +41,7 @@ const StockList = () => {
     const [selectedRating, setSelectedRating] = useState<number>(0);
     const [searchProduct, setSearchProduct] = useState("")
     const [isFilterTrue, setIsFilterTrue] = useState(false)
+
 
 
 
@@ -72,6 +74,7 @@ const StockList = () => {
 
 
 
+
     // Filter stocks based on selected filters
     useEffect(() => {
         if (selectedBrand || selectedCategory || selectedPriceRange || selectedRating) {
@@ -97,6 +100,54 @@ const StockList = () => {
         });
         setFilteredStocks(resultFilteredStocks)
     }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks])
+
+
+
+
+
+    // making circular queue operation for picking random products
+    useEffect(() => {
+        if (filteredStocks?.length > 0) {
+            let n = filteredStocks.length;
+            let queue = new Array(n);
+            let start = -1;
+            let end = -1;
+            let currentSize = 0;
+
+            const addProduct = (elem: StockCardTypes) => {
+                if (currentSize < queue.length) {
+                    if (start == -1 && end == -1) {
+                        start = 0;
+                        end = 0;
+                    };
+
+                    if (end == n) {
+                        end = 0;
+                        queue[end] = elem;
+                    } else {
+                        queue[end] = elem;
+                    };
+                    end++;
+                    currentSize++;
+                };
+            };
+
+            let randomIndex = Math.floor(Math.random() * n);
+            for (let i = randomIndex; i < n; i++) {
+                if (currentSize < queue.length) {
+                    addProduct(filteredStocks[i]);
+
+                    if (i == n - 1) {
+                        i = -1;
+                    }
+                } else {
+                    break;
+                }
+            };
+
+            setRandomStocks(queue);
+        };
+    }, [filteredStocks])
 
 
     return (
@@ -126,9 +177,8 @@ const StockList = () => {
 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10">
-                {filteredStocks?.length > 0 ?
-
-                    filteredStocks?.map((stock: StockCardTypes) => (
+                {randomStocks?.length > 0 ?
+                    randomStocks?.map((stock: StockCardTypes) => (
                         <ProductCard
                             key={stock._id}
                             productId={stock._id}
