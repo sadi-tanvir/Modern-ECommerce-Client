@@ -8,7 +8,7 @@ const ProfileMenu = () => {
     const pathname = usePathname();
 
     // redux
-    const { name } = useAppSelector(state => state.authReducer.ownerInfo);
+    const { name, image } = useAppSelector(state => state.authReducer.ownerInfo);
 
     return (
         <Link href="/profile">
@@ -17,7 +17,7 @@ const ProfileMenu = () => {
                     <label tabIndex={0} className='cursor-pointer flex justify-between items-center'>
                         <div className="avatar">
                             <div className="w-9 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src="https://img.freepik.com/premium-vector/empty-face-icon-avatar-with-black-hair-vector-illustration_601298-13402.jpg?w=2000" />
+                                <img src={`${process.env.NEXT_PUBLIC_API_URL}/profile-pic/${image}`} />
                             </div>
                         </div>
                         <span className='ml-2 font-bold'>{name.split(" ")[name.split(" ").length - 1]}</span>

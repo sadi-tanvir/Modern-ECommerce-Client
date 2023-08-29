@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CategoryPropsType } from './CategoryView'
+
+type CategoryPropsType = {
+    _id: string;
+    name: string;
+    imageUrl: string;
+}
 
 const CategoryCard = ({ category }: { category: CategoryPropsType }) => {
     // states

@@ -27,30 +27,22 @@ type StockCardTypes = {
 
 const ProductView = () => {
     // states
-    const [products, setProducts] = useState<StockCardTypes[] | []>([])
     const [randomProducts, setRandomProducts] = useState<StockCardTypes[] | []>([])
 
     // gql
     const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
 
 
-    // fill data into category state
-    useEffect(() => {
-        if (stocks?.data?.stocks) {
-            setProducts(stocks?.data?.stocks)
-        }
-    }, [stocks?.data?.stocks])
-
     // making circular queue operation for picking random products
     useEffect(() => {
-        if (products.length > 0) {
+        if (stocks?.data?.stocks?.length > 0) {
             let queue = new Array(12);
             let start = -1;
             let end = -1;
             let currentSize = 0;
-            let n = products.length;
+            let n = stocks.data.stocks.length;
 
-            const addProduct = (elem: any) => {
+            const addProduct = (elem: StockCardTypes) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
@@ -71,7 +63,7 @@ const ProductView = () => {
             let randomIndex = Math.floor(Math.random() * n);
             for (let i = randomIndex; i < n; i++) {
                 if (currentSize < queue.length) {
-                    addProduct(products[i]);
+                    addProduct(stocks.data.stocks[i]);
 
                     if (i == n - 1) {
                         i = -1;
@@ -83,7 +75,7 @@ const ProductView = () => {
 
             setRandomProducts(queue);
         };
-    }, [products])
+    }, [stocks?.data?.stocks])
 
     return (
         <>

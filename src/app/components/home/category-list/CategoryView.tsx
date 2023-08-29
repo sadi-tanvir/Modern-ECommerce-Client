@@ -6,7 +6,7 @@ import CategoryCard from './CategoryCard';
 import CategoryCardShimmerEffect from '../../Shimmer-Effect/CategoryCardShimmerEffect';
 
 
-export type CategoryPropsType = {
+type CategoryType = {
     _id: string;
     name: string;
     imageUrl: string;
@@ -14,30 +14,22 @@ export type CategoryPropsType = {
 
 const CategoryView = () => {
     // state
-    const [categories, setCategories] = useState<CategoryPropsType[] | []>([])
-    const [randomCategories, setRandomCategories] = useState<CategoryPropsType[] | []>([])
+    const [randomCategories, setRandomCategories] = useState<CategoryType[] | []>([])
 
     // gql
     const getCategories = useQuery(GET_CATEGORIES_WITH_IMAGE);
 
-    // fill data into category state
-    useEffect(() => {
-        if (getCategories?.data?.categories) {
-            setCategories(getCategories?.data?.categories)
-        }
-    }, [getCategories?.data?.categories])
-
 
     // making circular queue operation for picking random categories
     useEffect(() => {
-        if (categories.length > 0) {
+        if (getCategories?.data?.categories?.length > 0) {
             let queue = new Array(6);
             let start = -1;
             let end = -1;
             let currentSize = 0;
-            let n = categories.length;
+            let n = getCategories.data.categories.length;
 
-            const enqueue = (elem: any) => {
+            const addCategory = (elem: CategoryType) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
@@ -58,10 +50,9 @@ const CategoryView = () => {
             let randomIndex = Math.floor(Math.random() * n);
             for (let i = randomIndex; i < n; i++) {
                 if (currentSize < queue.length) {
-                    enqueue(categories[i]);
+                    addCategory(getCategories.data.categories[i]);
 
                     if (i == n - 1) {
-
                         i = -1;
                     };
                 } else {
@@ -71,12 +62,12 @@ const CategoryView = () => {
 
             setRandomCategories(queue);
         };
-    }, [categories]);
+    }, [getCategories?.data?.categories]);
 
     return (
         <>
             {randomCategories.length > 0 ?
-                randomCategories.map((category: CategoryPropsType) => (
+                randomCategories.map((category: CategoryType) => (
                     <CategoryCard key={category._id} category={category} />
                 ))
                 :
