@@ -79,11 +79,15 @@ const LoginForm = () => {
             dispatch({ type: 'accessToken', payload: token })
             dispatch({ type: 'ownerRole', payload: user.role })
             dispatch({ type: 'loginUser' })
-            if (user.role === 'admin') dispatch({ type: 'accessAdmin' })
+            if (user.role === 'admin') {
+                // set cookies
+                setCookie('isAdmin', 'true');
+                dispatch({ type: 'accessAdmin' })
+            }
             if (user.role === 'user') dispatch({ type: 'accessUser' })
 
             // redirect to home page
-            router.push('/')
+            router.push('/profile')
         };
     }, [data, error]);
 

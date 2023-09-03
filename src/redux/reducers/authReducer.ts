@@ -98,6 +98,7 @@ const authReducer = createReducer(initialState, (builder) => {
 
         // delete cookies
         deleteCookie("logged");
+        deleteCookie("isAdmin");
 
         // make redux store as initial state
         state.isAuthenticate = false;

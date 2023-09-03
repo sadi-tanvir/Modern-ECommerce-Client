@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import NavItem from '../shared/NavItem';
 import Button from '../shared/Button';
@@ -11,6 +11,9 @@ import ProfileMenu from './ProfileMenu';
 const Navbar = () => {
     const [isOpenNav, setIsOpenNav] = useState(false);
 
+
+    // navigation
+    const router = useRouter();
 
 
     // navbar toggle
@@ -24,6 +27,13 @@ const Navbar = () => {
     const dispatch = useAppDispatch()
     const { isAuthenticate, isAdmin } = useAppSelector(state => state.authReducer);
 
+
+
+
+    const handleLogout = () => {
+        dispatch({ type: 'logOutUser' })
+        router.push('/login')
+    }
 
 
 
@@ -80,16 +90,16 @@ const Navbar = () => {
 
                     <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
                         <NavItem path='/'>Home</NavItem>
-                        
+
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin/manage-stocks'>Admin</NavItem>}
-                        
+
                         <NavItem path='/stocks'>Products</NavItem>
 
                         {isAuthenticate &&
                             <>
                                 <CartNav />
                                 <ProfileMenu />
-                                <Button onClick={() => dispatch({ type: 'logOutUser' })} color='red' buttonClass=" hover:bg-gray-500 lg:ml-7 w-40">
+                                <Button onClick={handleLogout} color='red' buttonClass=" hover:bg-gray-500 lg:ml-7 w-40">
                                     Logout
                                 </Button>
                             </>
