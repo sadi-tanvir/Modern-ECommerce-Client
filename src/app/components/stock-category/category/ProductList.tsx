@@ -9,7 +9,7 @@ const ProductList = ({ filteredStocks }: { filteredStocks: StockCardTypes[] }) =
             {filteredStocks?.length > 0 ?
                 filteredStocks?.map((stock: StockCardTypes) => (
                     <ProductCard
-                        productId={stock._id}
+                        stockId={stock._id}
                         imageSrc={stock.imageUrl}
                         isTopSale={stock.isTopSale}
                         rating={stock.rating}

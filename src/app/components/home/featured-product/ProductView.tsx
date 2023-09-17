@@ -82,7 +82,7 @@ const ProductView = () => {
             {randomProducts.length > 0 ?
                 randomProducts.map((stock: StockCardTypes) => (
                     <ProductCard
-                        productId={stock._id}
+                        stockId={stock._id}
                         imageSrc={stock.imageUrl}
                         isTopSale={stock.isTopSale}
                         rating={stock.rating}

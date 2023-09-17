@@ -3,22 +3,29 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 import { DelIcon, MinusIcon, PlusIcon } from '../shared/Icon';
+import { useRouter } from 'next/navigation';
 
 type CartItem = {
-    productId: string;
-    productImage: string;
+    stockId: string;
+    imageUrl: string;
     name: string;
     price: number;
     qty: number;
 };
 
 const CartLayout = () => {
+    // states
     const [totalPrice, setTotalPrice] = useState(0);
 
 
     // redux
     const dispatch = useAppDispatch()
     const { cart } = useAppSelector(state => state.cartReducer);
+
+
+    // navigation
+    const router = useRouter()
+
 
     const cartItems = Object.keys(cart);
     const deliveryFee = 20;
@@ -34,17 +41,23 @@ const CartLayout = () => {
         setTotalPrice(sub.reduce((pre, curr) => pre + curr, 0))
     }, [cart])
 
-
-    const increaseItem = ({ productId, name, price }: { productId: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { name, price, qty: 1, productId } })
+    
+    
+    // increase product quantity
+    const increaseItem = ({ stockId, name, price }: { stockId: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { name, price: Math.round(price), qty: 1, stockId } })
     };
 
-    const decreaseItem = (productId: string) => {
-        dispatch({ type: 'decreaseQty', payload: { productId } })
+
+    // decrease product quantity
+    const decreaseItem = (stockId: string) => {
+        dispatch({ type: 'decreaseQty', payload: { stockId } })
     };
 
-    const removeItem = (productId: string) => {
-        dispatch({ type: 'removeFromCart', payload: { productId } })
+    
+    // remove product from cart
+    const removeItem = (stockId: string) => {
+        dispatch({ type: 'removeFromCart', payload: { stockId } })
     };
 
     return (
@@ -57,11 +70,11 @@ const CartLayout = () => {
                     {Object.values(cart).map((item: unknown) => {
                         const cartItem = item as CartItem;
                         return (
-                            <div key={cartItem.productId} className="flex items-center justify-between border-b border-gray-300 py-4">
+                            <div key={cartItem.stockId} className="flex items-center justify-between border-b border-gray-300 py-4">
                                 <div className="flex items-center">
                                     <div className="flex-shrink-0 w-16 h-16 rounded-lg flex justify-center items-center">
                                         <Image
-                                            src={cartItem.productImage}
+                                            src={cartItem.imageUrl}
                                             width={64}
                                             height={64}
                                             alt="Picture of the author"
@@ -75,20 +88,20 @@ const CartLayout = () => {
                                 </div>
                                 <div className="flex items-center">
                                     <button
-                                        onClick={() => decreaseItem(cartItem.productId)}
+                                        onClick={() => decreaseItem(cartItem.stockId)}
                                         className="text-2xl text-blue-600 focus:outline-none bg-red-500 px-2 rounded"
                                     >
                                         <MinusIcon />
                                     </button>
                                     <span className="font-semibold text-2xl mx-3">{cartItem.qty}</span>
                                     <button
-                                        onClick={() => increaseItem({ productId: cartItem.productId, name: cartItem.name, price: cartItem.price })}
+                                        onClick={() => increaseItem({ stockId: cartItem.stockId, name: cartItem.name, price: cartItem.price })}
                                         className="text-2xl text-blue-600 focus:outline-none bg-primary px-2 rounded"
                                     >
                                         <PlusIcon />
                                     </button>
                                     <button
-                                        onClick={() => removeItem(cartItem.productId)}
+                                        onClick={() => removeItem(cartItem.stockId)}
                                         className="text-red-600 text-xl ml-6 focus:outline-none"
                                     >
                                         <DelIcon />
@@ -98,11 +111,28 @@ const CartLayout = () => {
                         )
                     })}
                     <div className="border-t border-gray-200 mt-8">
-                        <h3 className="text-2xl font-semibold mb-4">Product Summary</h3>
-                        <p className="text-gray-600 text-lg mb-4">delivery fee: ৳{deliveryFee}</p>
-                        <p className="text-primary text-lg mb-4">discount: ৳{discount}</p>
-                        <p className="text-gray-600 text-lg mb-4">Total: ৳{(totalPrice + deliveryFee) - discount}</p>
-                        <button className="bg-primary text-white px-6 py-3 rounded-lg">
+                        <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+                            <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
+                            {/* Display the items in the order with their prices */}
+                            <div className="flex justify-between mb-2">
+                                <span>Subtotal:</span>
+                                <span>৳{totalPrice}</span>
+                            </div>
+                            <div className="flex justify-between mb-2">
+                                <span>Delivery Fee:</span>
+                                <span>৳{deliveryFee}</span>
+                            </div>
+                            <div className="flex justify-between mb-2">
+                                <span>Discount:</span>
+                                <span className='text-red-500'>-৳{discount}</span>
+                            </div>
+                            <hr className="border-t my-2" />
+                            <div className="flex justify-between">
+                                <span>Total:</span>
+                                <span>৳{(totalPrice + deliveryFee) - discount}</span>
+                            </div>
+                        </div>
+                        <button onClick={() => router.push('/cart/checkout')} className="bg-primary text-white px-6 py-3 rounded-lg">
                             Checkout
                         </button>
                     </div>

@@ -1,12 +1,11 @@
 'use client'
 import ProductDetailsViewShimmerEffect from '@/app/components/Shimmer-Effect/ProductDetailsViewShimmerEffect';
 import Button from '@/app/components/shared/Button';
-import Loader from '@/app/components/shared/Loader';
 import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 
 
@@ -34,8 +33,8 @@ const ProductDetails = ({ params }: any) => {
 
 
     // add product into the cart
-    const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
+    const handleAddToCart = ({ stockId, imageUrl, name, price }: { stockId: string; imageUrl: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { imageUrl, name, price:Math.round(price), qty: 1, stockId } })
     }
 
 
@@ -86,8 +85,8 @@ const ProductDetails = ({ params }: any) => {
                                         </Button>
                                         <Button
                                             onClick={() => handleAddToCart({
-                                                productImage: data.stockWithDetailsById.imageUrl,
-                                                productId: data.stockWithDetailsById._id,
+                                                imageUrl: data.stockWithDetailsById.imageUrl,
+                                                stockId: data.stockWithDetailsById._id,
                                                 name: data.stockWithDetailsById.name,
                                                 price: currentProductPrice
                                             })}

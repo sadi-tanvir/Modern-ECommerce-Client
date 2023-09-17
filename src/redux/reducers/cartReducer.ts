@@ -14,13 +14,13 @@ const reloadCart = createAction('reloadCart');
 const cartReducer = createReducer(initialState, (builder) => {
     // add product to the cart
     builder.addCase(addToCart, (state, action: { payload: any }) => {
-        const { productId } = action.payload;
+        const { stockId } = action.payload;
         let newCart: any = state.cart;
 
-        if (productId in state.cart) {
-            newCart[productId].qty = newCart[productId].qty + 1
+        if (stockId in state.cart) {
+            newCart[stockId].qty = newCart[stockId].qty + 1
         } else {
-            newCart[productId] = { ...action.payload }
+            newCart[stockId] = { ...action.payload }
         }
 
         state.cart = newCart
@@ -32,13 +32,13 @@ const cartReducer = createReducer(initialState, (builder) => {
     // decrement product quantity
     builder.addCase(decreaseQty, (state, action: any) => {
         const newCart: any = state.cart;
-        const { productId } = action.payload;
-        if (productId in newCart) {
-            newCart[productId]["qty"] = newCart[productId]["qty"] - 1
+        const { stockId } = action.payload;
+        if (stockId in newCart) {
+            newCart[stockId]["qty"] = newCart[stockId]["qty"] - 1
         }
 
-        if (newCart[productId]["qty"] <= 0) {
-            delete newCart[productId]
+        if (newCart[stockId]["qty"] <= 0) {
+            delete newCart[stockId]
         }
         state.cart = newCart
         localStorage.setItem('cart', JSON.stringify(state.cart))
@@ -48,9 +48,9 @@ const cartReducer = createReducer(initialState, (builder) => {
     // remove product or decrement product quantity from the cart
     builder.addCase(removeFromCart, (state, action: any) => {
         const newCart: any = state.cart;
-        const { productId } = action.payload;
-        if (productId in newCart) {
-            delete newCart[productId]
+        const { stockId } = action.payload;
+        if (stockId in newCart) {
+            delete newCart[stockId]
         }
 
         state.cart = newCart
@@ -66,7 +66,7 @@ const cartReducer = createReducer(initialState, (builder) => {
         console.log('cart has been cleared')
     });
 
-    
+
 
     // clear cart data
     builder.addCase(reloadCart, (state, action: any) => {

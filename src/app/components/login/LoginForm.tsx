@@ -11,8 +11,8 @@ import { USER_LOGIN_MUTATION } from "@/gql/mutations/userAuthMutations"
 
 const LoginForm = () => {
     const [userInput, setUserInput] = useState({
-        email: '',
-        password: ''
+        email: 'admin@gmail.com',
+        password: '123456'
     })
 
     // redux

@@ -181,7 +181,7 @@ const StockList = () => {
                     randomStocks?.map((stock: StockCardTypes) => (
                         <ProductCard
                             key={stock._id}
-                            productId={stock._id}
+                            stockId={stock._id}
                             imageSrc={stock.imageUrl}
                             isTopSale={stock.isTopSale}
                             rating={stock.rating}

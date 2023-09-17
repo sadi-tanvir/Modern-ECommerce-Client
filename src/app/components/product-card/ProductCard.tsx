@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 type ProductCardTypes = {
-    productId: string;
+    stockId: string;
     imageSrc: string;
     productName: string;
     productPrice: number;
@@ -15,7 +15,7 @@ type ProductCardTypes = {
 };
 
 const ProductCard = ({
-    productId,
+    stockId,
     imageSrc,
     productName,
     productPrice,
@@ -33,8 +33,8 @@ const ProductCard = ({
     const router = useRouter();
 
     // add product into the cart
-    const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
+    const handleAddToCart = ({ stockId, imageUrl, name, price }: { stockId: string; imageUrl: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { imageUrl, name, price:Math.round(price), qty: 1, stockId } })
     }
 
     // calculating product price
@@ -95,15 +95,15 @@ const ProductCard = ({
                 </div>
                 <div className='mt-10'>
                     <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>
-                        <button onClick={() => router.push(`/stocks/${productId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
+                        <button onClick={() => router.push(`/stocks/${stockId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
                             Details
                         </button>
                         <button
                             className="w-full bg-green-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg disabled:cursor-not-allowed disabled:bg-slate-400"
                             disabled={!isInStock}
                             onClick={() => handleAddToCart({
-                                productImage: imageSrc,
-                                productId: productId,
+                                imageUrl: imageSrc,
+                                stockId: stockId,
                                 name: productName,
                                 price: currentProductPrice
                             })}

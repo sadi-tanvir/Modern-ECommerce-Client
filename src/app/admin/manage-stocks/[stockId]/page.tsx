@@ -34,8 +34,8 @@ const ProductDetails = ({ params }: any) => {
 
 
     // add product into the cart
-    const handleAddToCart = ({ productId, productImage, name, price }: { productId: string; productImage: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { productImage, name, price, qty: 1, productId } })
+    const handleAddToCart = ({ stockId, imageUrl, name, price }: { stockId: string; imageUrl: string; name: string; price: number }) => {
+        dispatch({ type: 'addToCart', payload: { imageUrl, name, price:Math.round(price), qty: 1, stockId } })
     }
 
 
