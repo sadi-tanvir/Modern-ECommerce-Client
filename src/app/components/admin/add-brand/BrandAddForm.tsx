@@ -129,7 +129,7 @@ const BrandAddForm: React.FC = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Add Brand</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-danger'>Add Brand</Button>
         </form>
     );
 };

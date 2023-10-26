@@ -303,7 +303,7 @@ const UpdateStockForm = () => {
                 labelName="Brand"
             />
 
-            <Button color='red' buttonType='submit'>Update Stock</Button>
+            <Button buttonType='submit' buttonClass='bg-primary w-full'>Update Stock</Button>
         </form>
     );
 };

@@ -1,16 +1,18 @@
-import { ButtonTypes } from '@/types/shared.types'
-import React from 'react'
+import { ButtonTypes } from '@/types/shared.types';
+import React from 'react';
 
-const Button = ({ buttonType = "button", color = "blue", children, onClick, buttonClass }: ButtonTypes) => {
+
+const Button = ({ buttonType = "button", children, onClick, buttonClass, disabled }: ButtonTypes) => {
     return (
         <button
             type={buttonType}
-            className={`bg-${color}-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-slate-400 focus:outline-none ${buttonClass}`}
+            className={`text-white font-medium py-2 px-4 rounded-lg hover:bg-secondary focus:outline-none ${buttonClass}`}
             onClick={onClick}
+            disabled={disabled}
         >
             {children}
         </button>
-    )
-}
+    );
+};
 
-export default Button
+export default Button;

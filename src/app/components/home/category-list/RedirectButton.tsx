@@ -6,7 +6,7 @@ import Button from '../../shared/Button';
 const RedirectButton = () => {
     const router = useRouter();
     return (
-        <Button buttonClass='ml-auto h-10 md:w-52' color='red' onClick={() => router.push('/stock-category')}>
+        <Button buttonClass='ml-auto h-10 md:w-52 bg-primary' onClick={() => router.push('/stock-category')}>
             view all
         </Button>
     )

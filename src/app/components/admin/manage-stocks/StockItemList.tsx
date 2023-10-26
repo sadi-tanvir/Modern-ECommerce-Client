@@ -48,8 +48,8 @@ const StockItemList = () => {
                     id
                 }
             })
-        ))
-    }
+        ));
+    };
 
 
 
@@ -65,7 +65,7 @@ const StockItemList = () => {
         <>
             {stocks?.data?.getStocksWithDetails?.length > 0 ?
                 stocks?.data?.getStocksWithDetails.map((stock: AdminStockDetailsType) => (
-                    <tr onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={stock._id}>
+                    <tr className="text-secondary" onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={stock._id}>
                         <td className="p-4 border border-gray-300">
                             <div className="flex justify-center">
                                 <Image
@@ -78,15 +78,15 @@ const StockItemList = () => {
                         </td>
                         <td className="p-4 border border-gray-300">
                             <div className="font-semibold">{stock.name}</div>
-                            <div className="text-sm text-gray-600">{stock.description}</div>
+                            <div className="text-sm text-secondary">{stock.description}</div>
                         </td>
                         <td className="p-4 border border-gray-300">
-                            <span className={`${stock.status == 'in-stock' ? 'bg-green-300 text-green-700' : 'bg-red-300 text-red-700'}  px-2 rounded-md font-semibold`}>
+                            <span className={`${stock.status == 'in-stock' ? 'bg-green-200 text-success' : 'bg-red-200 text-danger'}  px-2 rounded-md font-semibold`}>
                                 {stock.status}
                             </span>
                         </td>
                         <td className="p-4 border border-gray-300">
-                            <span className="bg-green-300 text-green-700 px-2 rounded-md font-semibold">
+                            <span className="bg-green-200 text-success px-2 rounded-md font-semibold">
                                 {stock.category.id.name}
                             </span>
                         </td>
@@ -100,7 +100,7 @@ const StockItemList = () => {
                                 <button
                                     onClick={() => handleActionMenu(stock._id)}
                                     type="button"
-                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 focus:outline-none"
+                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-secondary focus:outline-none"
                                 >
                                     <ActionIcon />
                                 </button>
@@ -111,10 +111,10 @@ const StockItemList = () => {
                                         aria-orientation="vertical"
                                         aria-labelledby="options-menu"
                                     >
-                                        <DropdownMenuItem onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
+                                        <DropdownMenuItem  rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
                                             ._id}`)}>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem rest="text-red-500" onClick={() => handleDeleteStock(stock._id)}>Delete</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</DropdownMenuItem>
+                                        <DropdownMenuItem rest="text-danger" onClick={() => handleDeleteStock(stock._id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem  rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</DropdownMenuItem>
                                     </div>
                                 </div>
                             </div>

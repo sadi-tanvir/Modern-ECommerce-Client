@@ -152,15 +152,15 @@ const StockList = () => {
 
     return (
         <>
-            <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4  bg-slate-300 gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4 bg-accent gap-10">
                 <div className={`flex ${isFilterTrue ? 'flex-wrap justify-around sm:justify-between' : 'justify-between'}  items-center gap-5`}>
                     <SearchArea
                         isFilterTrue={isFilterTrue}
                         setSearchProduct={setSearchProduct}
                     />
-                    <p className="text-gray-600 col-span-2">{filteredStocks?.length} products found</p>
+                    <p className="text-secondary col-span-2">{filteredStocks?.length} products found</p>
                     {isFilterTrue ?
-                        <Button onClick={handleClearFilter} buttonClass='hover:bg-red-600 w-52' color='red'>Clear Filters</Button>
+                        <Button onClick={handleClearFilter} buttonClass='w-52 bg-danger'>Clear Filters</Button>
                         : null
                     }
                 </div>

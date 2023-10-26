@@ -24,7 +24,7 @@ const ProductFilters = ({ setSelectedBrand, setSelectedCategory, setSelectedPric
         <>
             <div className="space-x-4 flex flex-row justify-end items-center">
                 {/* Brand Filter */}
-                < SortingSelectInputField
+                <SortingSelectInputField
                     options={
                         getBrands?.data?.brands?.map((brand: { _id: string; name: string; }) => (
                             { label: brand.name, value: brand.name }

@@ -6,7 +6,7 @@ import React from 'react'
 const SidebarMenuItems = () => {
     const pathname = usePathname();
     return (
-        <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
+        <ul className="menu p-4 w-80 h-full bg-accent text-secondary">
             {/* <Link href="/admin"> */}
             {/* <li className={`${pathname == '/admin' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}> */}
             {/* <a> */}
@@ -16,28 +16,28 @@ const SidebarMenuItems = () => {
             {/* </li> */}
             {/* </Link> */}
             <Link href="/admin/manage-stocks">
-                <li className={`${pathname == '/admin/manage-stocks' || pathname == '/admin' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/manage-stocks' || pathname == '/admin' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         Manage Stocks
                     </a>
                 </li>
             </Link>
             <Link href="/admin/manage-brands">
-                <li className={`${pathname == '/admin/manage-brands' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/manage-brands' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         Manage Brands
                     </a>
                 </li>
             </Link>
             <Link href="/admin/manage-categories">
-                <li className={`${pathname == '/admin/manage-categories' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/manage-categories' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         Manage Categories
                     </a>
                 </li>
             </Link>
             <Link href="/admin/add-stock">
-                <li className={`${pathname == '/admin/add-stock' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/add-stock' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         {/* <AddStockIcon pathname='/admin/add-stock' /> */}
                         Create Stock
@@ -45,7 +45,7 @@ const SidebarMenuItems = () => {
                 </li>
             </Link>
             {/* <Link href="/admin/add-product">
-                        <li className={`${pathname == '/admin/add-product' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                        <li className={`${pathname == '/admin/add-product' ? 'bg-primary rounded-md text-white my-2' : ''}`}>
                             <a>
                                 <AddProductIcon />
                                 Add Product
@@ -53,7 +53,7 @@ const SidebarMenuItems = () => {
                         </li>
                     </Link> */}
             <Link href="/admin/add-category">
-                <li className={`${pathname == '/admin/add-category' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/add-category' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         {/* <AddCategoryIcon /> */}
                         Create Category
@@ -61,7 +61,7 @@ const SidebarMenuItems = () => {
                 </li>
             </Link>
             <Link href="/admin/add-brand">
-                <li className={`${pathname == '/admin/add-brand' ? 'bg-red-500 rounded-md text-white my-2' : ''}`}>
+                <li className={`${pathname == '/admin/add-brand' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
                     <a>
                         {/* <AddBrandIcon /> */}
                         Create Brand

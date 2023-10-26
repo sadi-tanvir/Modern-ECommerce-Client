@@ -90,7 +90,7 @@ const SignUpForm = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Sign Up</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-primary'>Sign Up</Button>
         </form>
     )
 }

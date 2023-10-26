@@ -72,14 +72,14 @@ const BrandItemList = () => {
         <>
             {brands?.data?.brands?.length > 0 ?
                 brands?.data?.brands?.map((brand: BrandTypes) => (
-                    <tr onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={brand._id}>
+                    <tr onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={brand._id} className='text-secondary'>
                         <td className="p-4 border border-gray-300">{brand.name}</td>
                         <td className="p-4 border border-gray-300">
-                            <div className="font-semibold text-secondary pb-1">{brand.email}</div>
-                            <div className="text-sm text-gray-600">{brand.phone}</div>
+                            <div className="font-semibold pb-1">{brand.email}</div>
+                            <div className="text-sm">{brand.phone}</div>
                         </td>
                         <td className="p-4 border border-gray-300  text-center">
-                            <span className={`${brand.status == 'active' ? 'bg-green-300 text-green-700' : 'bg-red-300 text-red-700'} px-4 py-1 rounded-md font-semibold`}>
+                            <span className={`${brand.status == 'active' ? 'bg-green-300 text-green-700' : 'bg-red-200 text-danger'} px-4 py-1 rounded-md font-semibold`}>
                                 {brand.status}
                             </span>
                         </td>
@@ -88,7 +88,7 @@ const BrandItemList = () => {
                                 <button
                                     onClick={() => handleActionMenu(brand._id)}
                                     type="button"
-                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 focus:outline-none"
+                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-secondary focus:outline-none"
                                 >
                                     <ActionIcon />
                                 </button>
@@ -99,10 +99,10 @@ const BrandItemList = () => {
                                         aria-orientation="vertical"
                                         aria-labelledby="options-menu"
                                     >
-                                        <DropdownMenuItem onClick={() => router.push(`/admin/manage-brands/update-brand?brandId=${brand
+                                        <DropdownMenuItem rest="text-secondary" onClick={() => router.push(`/admin/manage-brands/update-brand?brandId=${brand
                                             ._id}`)}>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem rest="text-red-500" onClick={() => handleDeleteBrand(brand._id)}>Delete</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => router.push(`/admin/manage-brands/${brand._id}`)}>Details</DropdownMenuItem>
+                                        <DropdownMenuItem rest="text-danger" onClick={() => handleDeleteBrand(brand._id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem rest="text-secondary" onClick={() => router.push(`/admin/manage-brands/${brand._id}`)}>Details</DropdownMenuItem>
                                     </div>
                                 </div>
                             </div>

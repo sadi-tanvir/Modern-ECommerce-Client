@@ -13,6 +13,7 @@ export type ButtonTypes = {
     color?: string;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     buttonClass?: string;
+    disabled?: boolean;
 }
 
 type SingleSelectOptions = {

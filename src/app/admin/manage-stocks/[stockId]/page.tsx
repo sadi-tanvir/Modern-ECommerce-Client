@@ -35,7 +35,7 @@ const ProductDetails = ({ params }: any) => {
 
     // add product into the cart
     const handleAddToCart = ({ stockId, imageUrl, name, price }: { stockId: string; imageUrl: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { imageUrl, name, price:Math.round(price), qty: 1, stockId } })
+        dispatch({ type: 'addToCart', payload: { imageUrl, name, price: Math.round(price), qty: 1, stockId } })
     }
 
 
@@ -48,49 +48,50 @@ const ProductDetails = ({ params }: any) => {
             {
                 data?.stockWithDetailsById ?
                     <>
-                        <div className="container mx-auto mb-4 mt-10">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-64 object-cover rounded-lg" />
-                                </div>
-                                <div className='px-2'>
-                                    <h2 className="text-2xl font-bold mb-4">{data.stockWithDetailsById.name}</h2>
-                                    <div className="mb-4">
-                                        <span className="text-lg font-semibold">Price: </span>
-                                        {data.stockWithDetailsById.discount > 0 ? (
-                                            <>
-                                                <span className="text-red-500 line-through mr-2">৳{data.stockWithDetailsById.price}</span>
-                                                <span className="text-green-600 font-semibold">৳{currentProductPrice}</span>
-                                                <span className="text-red-500 font-bold ml-2">({data.stockWithDetailsById.discount}% off)</span>
-                                            </>
-                                        ) : (
-                                            <span className="text-lg font-semibold">৳{data.stockWithDetailsById.price}</span>
-                                        )}
+                        <div className="w-screen min-h-screen bg-backgroundColor  text-secondary">
+                            <div className=" pt-10 container mx-auto">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-64 object-cover rounded-lg" />
                                     </div>
-                                    <p className="text-gray-600 mb-4">{data.stockWithDetailsById.description}</p>
-                                    <div className="flex items-center mb-4">
-                                        {data.stockWithDetailsById.status === 'in-stock' ? (
-                                            <span className="text-green-600 font-semibold">In Stock</span>
-                                        ) : (
-                                            <span className="text-red-600 font-semibold">Out of Stock</span>
-                                        )}
-                                    </div>
-                                    <p className="mb-2">Product ID: {data.stockWithDetailsById._id}</p>
-                                    <p className="mb-2">Available Quantity: {data.stockWithDetailsById.quantity}{data.stockWithDetailsById.unit}</p>
-                                    <p className="mb-2">Total Sold: {data.stockWithDetailsById.sellCount}{data.stockWithDetailsById.unit}</p>
-                                    <p className="mb-2">Category: {data.stockWithDetailsById.category?.id?.name}</p>
-                                    <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
-                                    <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                                        <Button
-                                            onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)}
-                                            color='red'
-                                            buttonClass='w-52'
-                                        >
-                                            edit
-                                        </Button>
-                                        <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='bg-primary'>
-                                            Back to Stock List
-                                        </Button>
+                                    <div className='px-2'>
+                                        <h2 className="text-2xl font-bold mb-4">{data.stockWithDetailsById.name}</h2>
+                                        <div className="mb-4">
+                                            <span className="text-lg font-semibold">Price: </span>
+                                            {data.stockWithDetailsById.discount > 0 ? (
+                                                <>
+                                                    <span className="text-red line-through mr-2">৳{data.stockWithDetailsById.price}</span>
+                                                    <span className="text-success font-semibold">৳{currentProductPrice}</span>
+                                                    <span className="text-red font-bold ml-2">({data.stockWithDetailsById.discount}% off)</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-lg font-semibold">৳{data.stockWithDetailsById.price}</span>
+                                            )}
+                                        </div>
+                                        <p className="text-gray-600 mb-4">{data.stockWithDetailsById.description}</p>
+                                        <div className="flex items-center mb-4">
+                                            {data.stockWithDetailsById.status === 'in-stock' ? (
+                                                <span className="text-success font-semibold">In Stock</span>
+                                            ) : (
+                                                <span className="text-danger font-semibold">Out of Stock</span>
+                                            )}
+                                        </div>
+                                        <p className="mb-2">Product ID: {data.stockWithDetailsById._id}</p>
+                                        <p className="mb-2">Available Quantity: {data.stockWithDetailsById.quantity}{data.stockWithDetailsById.unit}</p>
+                                        <p className="mb-2">Total Sold: {data.stockWithDetailsById.sellCount}{data.stockWithDetailsById.unit}</p>
+                                        <p className="mb-2">Category: {data.stockWithDetailsById.category?.id?.name}</p>
+                                        <p>Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
+                                        <div className="mt-4 flex flex-col sm:flex-row gap-2">
+                                            <Button
+                                                onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${data.stockWithDetailsById._id}`)}
+                                                buttonClass='w-full lg:w-52 bg-danger'
+                                            >
+                                                edit
+                                            </Button>
+                                            <Button onClick={() => router.push("/admin/manage-stocks")} buttonClass='w-full lg:w-52 bg-primary'>
+                                                Back to Stock List
+                                            </Button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

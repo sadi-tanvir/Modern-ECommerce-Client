@@ -150,7 +150,7 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
                         onChange={this.handleInputChange}
                         isRequired={true}
                     />
-                    <Button color='red' buttonType='submit' buttonClass='w-full'>Place Order</Button>
+                    <Button buttonType='submit' buttonClass='w-full bg-primary'>Place Order</Button>
                 </form>
             </>
         )

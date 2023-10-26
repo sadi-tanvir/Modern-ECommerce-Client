@@ -8,9 +8,9 @@ const SignUp = () => {
             <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
                 <h2 className="text-3xl font-bold text-center text-secondary mb-4">Sign Up</h2>
                 <SignUpForm />
-                <h1 className='text-center mt-4'>Already have an account?
+                <h1 className='text-center text-secondary mt-4'>Already have an account?
                     <Link href={'/login'}>
-                        <span className='ml-1 text-red-500'>Login</span>
+                        <span className='ml-1 text-primary'>Login</span>
                     </Link>
                 </h1>
             </div>

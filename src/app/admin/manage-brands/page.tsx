@@ -7,13 +7,13 @@ const StockTable = () => {
             <div className="w-screen sm:w-full overflow-x-auto sm:overflow-x-visible">
                 <table className="w-full table-auto border-collapse border border-gray-300 shadow-lg">
                     <thead>
-                        <tr className="bg-gray-200">
-                            <th className="p-4 border border-gray-300">Name</th>
-                            <th className="p-4 border border-gray-300">
+                        <tr className="bg-backgroundColor">
+                            <th className="p-4 border border-gray-300 text-secondary">Name</th>
+                            <th className="p-4 border border-gray-300 text-secondary">
                                 <div className="font-semibold">Email & Phone</div>
                             </th>
-                            <th className="p-4 border border-gray-300">status</th>
-                            <th className="p-4 border border-gray-300">Actions</th>
+                            <th className="p-4 border border-gray-300 text-secondary">status</th>
+                            <th className="p-4 border border-gray-300 text-secondary">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

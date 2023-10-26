@@ -67,7 +67,7 @@ const CategoryItemList = () => {
         <>
             {categories?.data?.categories?.length > 0 ?
                 categories?.data?.categories?.map((category: CategoryType) => (
-                    <tr onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={category._id}>
+                    <tr onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={category._id} className='text-secondary'>
                         <td className="p-4 border border-gray-300">
                             <div className="flex justify-center">
                                 <Image
@@ -89,7 +89,7 @@ const CategoryItemList = () => {
                                 <button
                                     onClick={() => handleActionMenu(category._id)}
                                     type="button"
-                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 focus:outline-none"
+                                    className="inline-flex justify-center items-center w-8 h-8 rounded-full bg-gray-200 text-secondary focus:outline-none"
                                 >
                                     <ActionIcon />
                                 </button>
@@ -102,7 +102,7 @@ const CategoryItemList = () => {
                                     >
                                         <DropdownMenuItem onClick={() => router.push(`/admin/manage-categories/update-category?categoryId=${category
                                             ._id}`)}>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem rest="text-red-500" onClick={() => handleDeleteCategory(category._id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem rest="text-danger" onClick={() => handleDeleteCategory(category._id)}>Delete</DropdownMenuItem>
                                     </div>
                                 </div>
                             </div>

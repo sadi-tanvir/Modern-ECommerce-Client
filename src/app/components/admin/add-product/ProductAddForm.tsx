@@ -162,7 +162,7 @@ const ProductAddForm = () => {
                 labelName="Brand"
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Add Product</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-red'>Add Product</Button>
         </form>
     )
 }

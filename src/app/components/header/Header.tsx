@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks';
 import NavItem from '../shared/NavItem';
 import Button from '../shared/Button';
@@ -88,7 +88,7 @@ const Navbar = () => {
                         </svg>
                     </button>
 
-                    <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'}`}>
+                    <ul className={`lg:flex ${isOpenNav ? 'block' : 'hidden'} md:flex `}>
                         <NavItem path='/'>Home</NavItem>
 
                         {(isAuthenticate && isAdmin) && <NavItem path='/admin/manage-stocks'>Admin</NavItem>}
@@ -99,7 +99,7 @@ const Navbar = () => {
                             <>
                                 <CartNav />
                                 <ProfileMenu />
-                                <Button onClick={handleLogout} color='red' buttonClass=" hover:bg-gray-500 lg:ml-7 w-40">
+                                <Button onClick={handleLogout} buttonClass="bg-danger hover:bg-gray-500 lg:ml-7 w-40">
                                     Logout
                                 </Button>
                             </>

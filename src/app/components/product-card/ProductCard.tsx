@@ -2,6 +2,7 @@
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import Button from '../shared/Button';
 
 type ProductCardTypes = {
     stockId: string;
@@ -34,7 +35,7 @@ const ProductCard = ({
 
     // add product into the cart
     const handleAddToCart = ({ stockId, imageUrl, name, price }: { stockId: string; imageUrl: string; name: string; price: number }) => {
-        dispatch({ type: 'addToCart', payload: { imageUrl, name, price:Math.round(price), qty: 1, stockId } })
+        dispatch({ type: 'addToCart', payload: { imageUrl, name, price: Math.round(price), qty: 1, stockId } })
     }
 
     // calculating product price
@@ -57,14 +58,14 @@ const ProductCard = ({
                     {
                         productName.length > 30 ?
                             <>
-                                <h3 className="text-xl font-semibold mb-2">{productName.slice(0, fullName ? productName.length : 30)}...
+                                <h3 className="text-xl font-semibold mb-2 text-secondary">{productName.slice(0, fullName ? productName.length : 30)}...
                                     <span onClick={() => setFullName(!fullName)} className='text-sm text-primary cursor-pointer'>
                                         {fullName ? 'less' : 'more'}
                                     </span>
                                 </h3>
                             </>
                             :
-                            <h3 className="text-xl font-semibold mb-2">{productName}</h3>
+                            <h3 className="text-xl font-semibold mb-2 text-secondary">{productName}</h3>
                     }
                     {isInStock ||
                         <span className="text-red-600 font-semibold">Out of Stock</span>
@@ -78,15 +79,15 @@ const ProductCard = ({
                                 <span className="text-md text-slate-400 line-through flex justify-center items-center">
                                     ৳ {productPrice}
                                 </span>
-                                <span className="text-red-500 font-bold ml-1">{discountOffer}% off</span>
+                                <span className="text-danger font-bold ml-1">{discountOffer}% off</span>
                             </>
                         )}
                     </div>
-                    <span className="text-lg font-semibold flex justify-center items-center">
+                    <span className="text-lg font-semibold flex justify-center items-center text-secondary">
                         ৳ {currentProductPrice}
                     </span>
                 </div>
-                <div className="rating">
+                <div className="rating mb-2">
                     <input className={`${rating >= 1 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
                     <input className={`${rating >= 2 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
                     <input className={`${rating >= 3 ? "mask bg-orange-500" : "bg-slate-300 mask"}  mask-star`} />
@@ -95,11 +96,10 @@ const ProductCard = ({
                 </div>
                 <div className='mt-10'>
                     <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>
-                        <button onClick={() => router.push(`/stocks/${stockId}`)} className="w-full bg-primary text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg mr-2">
+                        <Button onClick={() => router.push(`/stocks/${stockId}`)} buttonClass='bg-primary w-full '>
                             Details
-                        </button>
-                        <button
-                            className="w-full bg-green-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg disabled:cursor-not-allowed disabled:bg-slate-400"
+                        </Button>
+                        <Button
                             disabled={!isInStock}
                             onClick={() => handleAddToCart({
                                 imageUrl: imageSrc,
@@ -107,9 +107,10 @@ const ProductCard = ({
                                 name: productName,
                                 price: currentProductPrice
                             })}
+                            buttonClass='bg-success w-full disabled:cursor-not-allowed disabled:bg-slate-400'
                         >
                             Add to Cart
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

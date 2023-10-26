@@ -127,7 +127,7 @@ const CategoryUpdateForm = () => {
                 onChange={handleInputChange}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Update Stock</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-primary'>Update Stock</Button>
         </form>
     )
 }

@@ -99,7 +99,7 @@ const CategoryAddForm = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Add Category</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-danger'>Add Category</Button>
         </form>
     )
 }

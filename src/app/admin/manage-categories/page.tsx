@@ -8,7 +8,7 @@ const StockTable = () => {
             <div className="w-screen sm:w-full overflow-x-auto sm:overflow-x-visible">
                 <table className="w-full table-auto border-collapse border border-gray-300 shadow-lg">
                     <thead>
-                        <tr className="bg-gray-200">
+                        <tr className="bg-gray-200 text-secondary">
                             <th className="p-4 border border-gray-300">Image</th>
                             <th className="p-4 border border-gray-300">Name</th>
                             <th className="p-4 border border-gray-300">Description</th>

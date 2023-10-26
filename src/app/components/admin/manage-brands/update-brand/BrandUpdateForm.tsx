@@ -189,7 +189,7 @@ const BrandUpdateForm = () => {
                 onChange={handleInputChange}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Update Brand </Button>
+            <Button buttonType='submit' buttonClass='w-full bg-primary'>Update Brand </Button>
         </form>
     )
 }

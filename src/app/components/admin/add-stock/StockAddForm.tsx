@@ -273,7 +273,7 @@ const StockAddForm = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Add Stock</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-danger'>Add Stock</Button>
         </form>
     )
 }

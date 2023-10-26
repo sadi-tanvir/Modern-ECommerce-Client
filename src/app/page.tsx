@@ -7,7 +7,7 @@ import CategoryListLayout from './components/home/category-list/CategoryListLayo
 export default function Home() {
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-backgroundColor">
       <WelcomeMessageLayout />
 
       {/* Banner Slider */}

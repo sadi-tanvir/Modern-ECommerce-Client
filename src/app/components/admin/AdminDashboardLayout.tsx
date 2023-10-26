@@ -3,7 +3,7 @@ import SidebarMenuItems from './SidebarMenuItems'
 
 const AdminDashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="drawer lg:drawer-open">
+        <div className="drawer lg:drawer-open bg-backgroundColor w-screen">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col items-center justify-start bg-white">
                 {/* Page content here */}

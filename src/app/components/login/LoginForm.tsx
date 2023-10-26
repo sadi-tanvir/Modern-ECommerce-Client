@@ -112,7 +112,7 @@ const LoginForm = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Login</Button>
+            <Button buttonType='submit' buttonClass='w-full bg-primary'>Login</Button>
         </form>
     )
 }

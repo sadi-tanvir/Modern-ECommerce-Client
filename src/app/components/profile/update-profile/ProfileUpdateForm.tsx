@@ -169,7 +169,7 @@ const ProfileUpdateForm = () => {
                 isRequired={true}
             />
 
-            <Button color='red' buttonType='submit' buttonClass='w-full'>Update</Button>
+            <Button color='red' buttonType='submit' buttonClass='w-full bg-primary'>Update</Button>
         </form>
     )
 }

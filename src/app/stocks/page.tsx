@@ -3,7 +3,7 @@ import StockList from '../components/stock/StockList';
 
 const StockDisplay = () => {
     return (
-        <div className="bg-gray-100">
+        <div className="bg-backgroundColor">
             <StockList />
         </div>
     );

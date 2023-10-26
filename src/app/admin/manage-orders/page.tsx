@@ -1,7 +1,7 @@
 'use client'
 import React, { Component } from 'react'
 import Count from './Count';
-import { count } from 'console';
+import Button from '@/app/components/shared/Button';
 
 interface ManageOrdersProps { }
 
@@ -44,7 +44,7 @@ export default class ManageOrders extends Component<ManageOrdersProps, StateType
                 <Count count={this.state.count} />
                 <div>page</div>
                 {/* <button onClick={this.updateCountVal.bind(this)} className='btn btn-primary'>update value</button> */}
-                <button onClick={() => this.updateCountVal()} className='btn btn-primary'>update value</button>
+                <Button  onClick={() => this.updateCountVal()} buttonType='submit' buttonClass='w-52 bg-red-500'>Login</Button>
             </div>
         )
     }
