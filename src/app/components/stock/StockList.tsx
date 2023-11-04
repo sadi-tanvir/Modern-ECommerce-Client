@@ -7,6 +7,7 @@ import Button from '../shared/Button';
 import ProductFilters from './ProductFilter';
 import ProductCard from '../product-card/ProductCard';
 import ProductCardShimmerEffect from '../Shimmer-Effect/ProductCardShimmerEffect';
+import Pagination from './pagination-components/Pagination';
 
 
 
@@ -42,11 +43,19 @@ const StockList = () => {
     const [searchProduct, setSearchProduct] = useState("")
     const [isFilterTrue, setIsFilterTrue] = useState(false)
 
-
+    // pagination states
+    const [totalStockCount, setTotalStockCount] = useState<number>(0);
+    const [page, setPage] = useState<number>(0);
+    const [size, setSize] = useState<number>(10);
 
 
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
+    const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY, {
+        variables: {
+            page: page,
+            size: size
+        }
+    });
 
 
 
@@ -150,6 +159,16 @@ const StockList = () => {
     }, [filteredStocks])
 
 
+    // get all stock count
+    useEffect(() => {
+        const fetchTotalStockCount = async () => {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-count`);
+            const data = await response.json();
+            setTotalStockCount(data.totalDocuments);
+        };
+        fetchTotalStockCount();
+    }, [size]);
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center p-4 bg-accent gap-10">
@@ -175,8 +194,8 @@ const StockList = () => {
                 />
             </div>
 
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10">
+            {/* stocks showing */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10 pb-32">
                 {randomStocks?.length > 0 ?
                     randomStocks?.map((stock: StockCardTypes) => (
                         <ProductCard
@@ -197,6 +216,14 @@ const StockList = () => {
                     ))
                 }
             </div>
+
+            {/* pagination */}
+            <Pagination
+                size={size}
+                page={page}
+                totalStockCount={totalStockCount}
+                setPage={setPage}
+            />
         </>
     );
 };

@@ -19,8 +19,8 @@ export const GET_STOCKS_FOR_DISPLAY = gql`
 
 // hasn't been used yet
 export const GET_STOCKS_FOR_DETAILS_DISPLAY = gql`
-    query getStocks {
-        stocks {
+    query getStocks($page:Int, $size:Int) {
+        stocks (page:$page, size:$size){
             _id
             name
             description

@@ -4,6 +4,7 @@ import Button from '@/app/components/shared/Button';
 import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useQuery } from '@apollo/client';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -51,7 +52,7 @@ const ProductDetails = ({ params }: any) => {
                             <div className="container mx-auto pt-16">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-64 object-cover rounded-lg" />
+                                        <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-full object-cover rounded-lg" />
                                     </div>
                                     <div className='px-2'>
                                         <h2 className="text-2xl font-bold mb-4 text-secondary">{data.stockWithDetailsById.name}</h2>

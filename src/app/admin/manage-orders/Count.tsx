@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Pagination from './Test';
 
 interface CountProps {
     count: number;
@@ -42,6 +43,10 @@ export default class Count extends Component<CountProps, CountState> {
             <>
                 <div>Count : {this.state.thisCount}</div>
                 <div className={`${this.state.visibility}`}>Color : {this.state.visibility}</div>
+                <Pagination
+                    items={[20,20,20,20,20,20,20,20,20,20,20,20,]}
+                    itemsPerPage={5}
+                />
             </>
         )
     }

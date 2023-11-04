@@ -28,6 +28,7 @@ Reviewers can experience the full potential of **Modern Ecommerce** with the fol
 - **Redux Toolkit**
 - **Apollo Client**
 - **Tailwind CSS**
+- **Others Libraries...**
 
 ### Back-end
 
@@ -35,7 +36,8 @@ Reviewers can experience the full potential of **Modern Ecommerce** with the fol
 - **Apollo Server**
 - **Express.js**
 - **MongoDB**
-- **Mongoose** 
+- **Mongoose**
+- **Others Libraries...**
 
 ## Features
 
@@ -85,12 +87,8 @@ Reviewers can experience the full potential of **Modern Ecommerce** with the fol
 
 - Wishlist Management
 - Discount and Promotion Handling
-- Search and Filter Functionality
 - Product Recommendations
 - Advanced User Analytics
-- Secure Authentication and Authorization
 - Payment Gateway Integration
 - Real-time Notifications
-- Responsive Design for Mobile Devices
-- Multilingual Support
 - Social Media Sharing and Integration

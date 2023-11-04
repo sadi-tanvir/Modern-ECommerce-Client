@@ -40,7 +40,7 @@ export default class ManageOrders extends Component<ManageOrdersProps, StateType
 
     render() {
         return (
-            <div className='flex flex-col gap-10 justify-center items-center p-10'>
+            <div className='flex flex-col gap-10 justify-center items-center p-10 bg-backgroundColor h-screen w-screen'>
                 <Count count={this.state.count} />
                 <div>page</div>
                 {/* <button onClick={this.updateCountVal.bind(this)} className='btn btn-primary'>update value</button> */}
