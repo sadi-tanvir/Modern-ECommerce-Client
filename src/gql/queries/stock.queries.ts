@@ -43,8 +43,8 @@ export const GET_STOCKS_FOR_DETAILS_DISPLAY = gql`
 `;
 
 export const GET_STOCKS_FOR_ADMINISTRATOR = gql`
-    query getStocksWithDetails {
-        getStocksWithDetails {
+    query getStocksWithDetails ($page:Int, $size:Int) {
+        getStocksWithDetails (page:$page, size:$size){
             _id
             name
             description

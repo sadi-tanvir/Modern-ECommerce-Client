@@ -7,9 +7,7 @@ import Button from '../shared/Button';
 import ProductFilters from './ProductFilter';
 import ProductCard from '../product-card/ProductCard';
 import ProductCardShimmerEffect from '../Shimmer-Effect/ProductCardShimmerEffect';
-import Pagination from './pagination-components/Pagination';
-
-
+import Pagination from '../shared/pagination-components/Pagination';
 
 type StockCardTypes = {
     _id: string;
@@ -34,14 +32,14 @@ type StockCardTypes = {
 
 const StockList = () => {
     // states
-    const [randomStocks, setRandomStocks] = useState<StockCardTypes[] | []>([])
-    const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([])
+    const [randomStocks, setRandomStocks] = useState<StockCardTypes[] | []>([]);
+    const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([]);
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedPriceRange, setSelectedPriceRange] = useState<number>(0);
     const [selectedRating, setSelectedRating] = useState<number>(0);
-    const [searchProduct, setSearchProduct] = useState("")
-    const [isFilterTrue, setIsFilterTrue] = useState(false)
+    const [searchProduct, setSearchProduct] = useState("");
+    const [isFilterTrue, setIsFilterTrue] = useState(false);
 
     // pagination states
     const [totalStockCount, setTotalStockCount] = useState<number>(0);
@@ -61,11 +59,11 @@ const StockList = () => {
 
     // handle clear filter
     const handleClearFilter = () => {
-        setSelectedBrand("")
-        setSelectedCategory("")
-        setSelectedPriceRange(0)
-        setSelectedRating(0)
-    }
+        setSelectedBrand("");
+        setSelectedCategory("");
+        setSelectedPriceRange(0);
+        setSelectedRating(0);
+    };
 
 
 
@@ -108,9 +106,29 @@ const StockList = () => {
             return true;
         });
         setFilteredStocks(resultFilteredStocks)
-    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks])
+    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks]);
 
 
+
+    // Handle Decrease Pagination
+    const handleDecreasePagination = () => {
+        if (page > 0) {
+            setPage(page - 1);
+        } else {
+            setPage(Math.floor(totalStockCount / size));
+        };
+    };
+
+
+
+    // Handle Increase Pagination
+    const handleIncreasePagination = () => {
+        if ((Math.floor(totalStockCount / size)) > page) {
+            setPage(page + 1);
+        } else {
+            setPage(0);
+        };
+    };
 
 
 
@@ -156,7 +174,8 @@ const StockList = () => {
 
             setRandomStocks(queue);
         };
-    }, [filteredStocks])
+    }, [filteredStocks]);
+
 
 
     // get all stock count
@@ -223,6 +242,9 @@ const StockList = () => {
                 page={page}
                 totalStockCount={totalStockCount}
                 setPage={setPage}
+                handleDecreasePagination={handleDecreasePagination}
+                handleIncreasePagination={handleIncreasePagination}
+                positionOfPagination='bottom-0 right-0'
             />
         </>
     );

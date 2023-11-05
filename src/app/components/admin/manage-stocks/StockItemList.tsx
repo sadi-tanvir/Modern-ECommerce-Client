@@ -11,16 +11,26 @@ import { ActionIcon } from "../../shared/Icon";
 import DropdownMenuItem from "../DropdownMenuItem";
 import StockTableRowShimmerEffects from "../../Shimmer-Effect/StockTableRowShimmerEffects";
 
-const StockItemList = () => {
+interface StockItemListPropsTypes {
+    size: number;
+    page: number;
+    setPage: (page: number) => void;
+};
 
+const StockItemList = ({ size, page }: StockItemListPropsTypes) => {
     // state
-    const [openActionMenu, setOpenActionMenu] = useState(false)
-    const [idForMenuAction, setIdForMenuAction] = useState("")
+    const [openActionMenu, setOpenActionMenu] = useState(false);
+    const [idForMenuAction, setIdForMenuAction] = useState("");
 
 
 
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_ADMINISTRATOR);
+    const stocks = useQuery(GET_STOCKS_FOR_ADMINISTRATOR, {
+        variables: {
+            size: size,
+            page: page
+        }
+    });
     const [deleteStockMutation, { data, loading, error }] = useMutation(DELETE_STOCK_MUTATION, {
         refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES],
     });
@@ -34,9 +44,9 @@ const StockItemList = () => {
 
     // handle action menu
     const handleActionMenu = (id: string) => {
-        setOpenActionMenu(!openActionMenu)
-        setIdForMenuAction(id)
-    }
+        setOpenActionMenu(!openActionMenu);
+        setIdForMenuAction(id);
+    };
 
 
 
@@ -111,10 +121,10 @@ const StockItemList = () => {
                                         aria-orientation="vertical"
                                         aria-labelledby="options-menu"
                                     >
-                                        <DropdownMenuItem  rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
+                                        <DropdownMenuItem rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/update-stock?stockId=${stock
                                             ._id}`)}>Edit</DropdownMenuItem>
                                         <DropdownMenuItem rest="text-danger" onClick={() => handleDeleteStock(stock._id)}>Delete</DropdownMenuItem>
-                                        <DropdownMenuItem  rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</DropdownMenuItem>
+                                        <DropdownMenuItem rest="text-secondary" onClick={() => router.push(`/admin/manage-stocks/${stock._id}`)}>Details</DropdownMenuItem>
                                     </div>
                                 </div>
                             </div>
