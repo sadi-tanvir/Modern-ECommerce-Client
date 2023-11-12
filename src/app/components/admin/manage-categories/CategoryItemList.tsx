@@ -60,7 +60,7 @@ const CategoryItemList = () => {
         if (error) errorAlert(error.message)
 
         // if category deleted
-        if (data) successAlert(data?.deleteStockById?.message);
+        if (data) successAlert(data?.deleteProductById?.message);
     }, [data, error]);
 
     return (

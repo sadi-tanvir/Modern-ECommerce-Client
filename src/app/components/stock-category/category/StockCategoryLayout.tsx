@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ProductFilters from '../../stock/ProductFilter';
 import SearchArea from '../../stock/SearchArea';
 import { useQuery } from '@apollo/client';
-import { GET_STOCK_WITH_DETAILS_BY_CATEGORY } from '@/gql/queries/stock.queries';
+import { GET_PRODUCTS_WITH_DETAILS_BY_CATEGORY } from '@/gql/queries/product.queries';
 import ProductList from './ProductList';
 
 export type StockCardTypes = {
@@ -38,7 +38,7 @@ const StockCategoryLayout = ({ params }: any) => {
 
 
     // gql
-    const { loading, error, data, refetch } = useQuery(GET_STOCK_WITH_DETAILS_BY_CATEGORY, {
+    const { loading, error, data, refetch } = useQuery(GET_PRODUCTS_WITH_DETAILS_BY_CATEGORY, {
         variables: {
             category: selectedCategory || params.category
         }
@@ -48,7 +48,7 @@ const StockCategoryLayout = ({ params }: any) => {
 
     // search filter
     useEffect(() => {
-        const searchResults = data?.getStocksByCategory?.filter((stock: StockCardTypes) => {
+        const searchResults = data?.getProductsByCategory?.filter((stock: StockCardTypes) => {
             if (searchProduct == "") {
                 return stock;
             } else if (stock.name.toLowerCase().includes(searchProduct.toLowerCase())) {
@@ -62,7 +62,7 @@ const StockCategoryLayout = ({ params }: any) => {
 
     // Filter stocks based on selected filters
     useEffect(() => {
-        const resultFilteredStocks = data?.getStocksByCategory?.filter((stock: StockCardTypes) => {
+        const resultFilteredStocks = data?.getProductsByCategory?.filter((stock: StockCardTypes) => {
             if (selectedBrand && stock.brand.name !== selectedBrand) {
                 return false;
             }

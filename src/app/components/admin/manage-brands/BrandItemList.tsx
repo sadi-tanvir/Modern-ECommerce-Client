@@ -64,7 +64,7 @@ const BrandItemList = () => {
         if (error) errorAlert(error.message)
 
         // if brand deleted
-        if (data) successAlert(data?.deleteStockById?.message);
+        if (data) successAlert(data?.deleteProductById?.message);
     }, [data, error]);
 
 

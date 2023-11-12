@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
+import { GET_PRODUCTS_FOR_DETAILS_DISPLAY } from '@/gql/queries/product.queries';
 import SearchArea from './SearchArea';
 import Button from '../shared/Button';
 import ProductFilters from './ProductFilter';
@@ -9,7 +9,8 @@ import ProductCard from '../product-card/ProductCard';
 import ProductCardShimmerEffect from '../Shimmer-Effect/ProductCardShimmerEffect';
 import Pagination from '../shared/pagination-components/Pagination';
 
-type StockCardTypes = {
+
+type ProductCardTypes = {
     _id: string;
     name: string;
     description: string;
@@ -30,30 +31,38 @@ type StockCardTypes = {
 };
 
 
-const StockList = () => {
+const ProductsList = () => {
     // states
-    const [randomStocks, setRandomStocks] = useState<StockCardTypes[] | []>([]);
-    const [filteredStocks, setFilteredStocks] = useState<StockCardTypes[] | []>([]);
+    const [randomProducts, setRandomProducts] = useState<ProductCardTypes[] | []>([]);
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedPriceRange, setSelectedPriceRange] = useState<number>(0);
-    const [selectedRating, setSelectedRating] = useState<number>(0);
+    const [selectedPriceRange, setSelectedPriceRange] = useState<number>(-1);
+    const [selectedRating, setSelectedRating] = useState<number>(-1);
     const [searchProduct, setSearchProduct] = useState("");
     const [isFilterTrue, setIsFilterTrue] = useState(false);
 
     // pagination states
-    const [totalStockCount, setTotalStockCount] = useState<number>(0);
+    const [totalProductsCount, setTotalProductsCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [size, setSize] = useState<number>(10);
 
 
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY, {
+    const products = useQuery(GET_PRODUCTS_FOR_DETAILS_DISPLAY, {
         variables: {
-            page: page,
-            size: size
+            page,
+            size,
+            filteredBy: {
+                brand: selectedBrand,
+                category: selectedCategory,
+                price: selectedPriceRange,
+                rating: selectedRating,
+            },
+            search: searchProduct
         }
     });
+
+    console.log(products);
 
 
 
@@ -61,52 +70,9 @@ const StockList = () => {
     const handleClearFilter = () => {
         setSelectedBrand("");
         setSelectedCategory("");
-        setSelectedPriceRange(0);
-        setSelectedRating(0);
+        setSelectedPriceRange(-1);
+        setSelectedRating(-1);
     };
-
-
-
-    // search filter
-    useEffect(() => {
-        const searchResults = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
-            if (searchProduct == "") {
-                return stock;
-            } else if (stock.name.toLowerCase().includes(searchProduct.toLowerCase())) {
-                return stock;
-            }
-        })
-        setFilteredStocks(searchResults)
-    }, [searchProduct, stocks?.data?.stocks])
-
-
-
-
-    // Filter stocks based on selected filters
-    useEffect(() => {
-        if (selectedBrand || selectedCategory || selectedPriceRange || selectedRating) {
-            setIsFilterTrue(true)
-        } else {
-            setIsFilterTrue(false)
-        }
-
-        const resultFilteredStocks = stocks?.data?.stocks?.filter((stock: StockCardTypes) => {
-            if (selectedBrand && stock.brand.name !== selectedBrand) {
-                return false;
-            }
-            if (selectedCategory && stock.category.name !== selectedCategory) {
-                return false;
-            }
-            if (selectedPriceRange && stock.price > selectedPriceRange) {
-                return false;
-            }
-            if (selectedRating && stock.rating != selectedRating) {
-                return false;
-            }
-            return true;
-        });
-        setFilteredStocks(resultFilteredStocks)
-    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, stocks?.data?.stocks]);
 
 
 
@@ -115,7 +81,7 @@ const StockList = () => {
         if (page > 0) {
             setPage(page - 1);
         } else {
-            setPage(Math.floor(totalStockCount / size));
+            setPage(Math.floor(totalProductsCount / size));
         };
     };
 
@@ -123,7 +89,7 @@ const StockList = () => {
 
     // Handle Increase Pagination
     const handleIncreasePagination = () => {
-        if ((Math.floor(totalStockCount / size)) > page) {
+        if ((Math.floor(totalProductsCount / size)) > page) {
             setPage(page + 1);
         } else {
             setPage(0);
@@ -132,16 +98,71 @@ const StockList = () => {
 
 
 
+
+    // search filter
+    useEffect(() => {
+        let timer: NodeJS.Timeout | undefined;
+        clearTimeout(timer);
+        if (searchProduct) {
+            timer = setTimeout(() => {
+                console.log('executed after 3 seconds');
+
+                // refetch products
+                products.refetch({
+                    page,
+                    size,
+                    filteredBy: {
+                        brand: selectedBrand,
+                        category: selectedCategory,
+                        price: selectedPriceRange,
+                        rating: selectedRating,
+                    },
+                    search: searchProduct
+                });
+            }, 3000)
+        }
+
+        return () => clearTimeout(timer);
+    }, [searchProduct]);
+
+
+    // Filter products based on selected filters
+    useEffect(() => {
+        if (selectedBrand || selectedCategory || (selectedPriceRange > -1) || (selectedRating > -1)) {
+            setIsFilterTrue(true)
+
+            // refetch products
+            products.refetch({
+                page,
+                size,
+                filteredBy: {
+                    brand: selectedBrand,
+                    category: selectedCategory,
+                    price: selectedPriceRange,
+                    rating: selectedRating,
+                },
+                search: searchProduct
+            })
+        } else {
+            setIsFilterTrue(false)
+        }
+
+        // update product count into the state for pagination
+        if (products?.data?.getProducts?.totalProductsCount) setTotalProductsCount(products?.data?.getProducts?.totalProductsCount)
+    }, [selectedBrand, selectedCategory, selectedPriceRange, selectedRating, products?.data?.getProducts?.totalProductsCount]);
+
+
+
     // making circular queue operation for picking random products
     useEffect(() => {
-        if (filteredStocks?.length > 0) {
-            let n = filteredStocks.length;
+        if (products?.data?.getProducts?.products?.length > 0) {
+            let n = products.data.getProducts.products.length;
             let queue = new Array(n);
             let start = -1;
             let end = -1;
             let currentSize = 0;
 
-            const addProduct = (elem: StockCardTypes) => {
+            const addProduct = (elem: ProductCardTypes) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
@@ -162,7 +183,7 @@ const StockList = () => {
             let randomIndex = Math.floor(Math.random() * n);
             for (let i = randomIndex; i < n; i++) {
                 if (currentSize < queue.length) {
-                    addProduct(filteredStocks[i]);
+                    addProduct(products.data.getProducts.products[i]);
 
                     if (i == n - 1) {
                         i = -1;
@@ -172,21 +193,10 @@ const StockList = () => {
                 }
             };
 
-            setRandomStocks(queue);
+            setRandomProducts(queue);
         };
-    }, [filteredStocks]);
+    }, [products?.data?.getProducts?.products]);
 
-
-
-    // get all stock count
-    useEffect(() => {
-        const fetchTotalStockCount = async () => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-count`);
-            const data = await response.json();
-            setTotalStockCount(data.totalDocuments);
-        };
-        fetchTotalStockCount();
-    }, [size]);
 
     return (
         <>
@@ -196,9 +206,9 @@ const StockList = () => {
                         isFilterTrue={isFilterTrue}
                         setSearchProduct={setSearchProduct}
                     />
-                    <p className="text-secondary col-span-2">{filteredStocks?.length} products found</p>
+                    <p className="text-secondary col-span-2">{totalProductsCount} products found</p>
                     {isFilterTrue ?
-                        <Button onClick={handleClearFilter} buttonClass='w-52 bg-danger'>Clear Filters</Button>
+                        <Button onClick={handleClearFilter} buttonClass='w-52 bg-red-500' boxShadowColor='#dc2626'>Clear Filters</Button>
                         : null
                     }
                 </div>
@@ -213,20 +223,20 @@ const StockList = () => {
                 />
             </div>
 
-            {/* stocks showing */}
+            {/* products showing */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4 mt-10 pb-32">
-                {randomStocks?.length > 0 ?
-                    randomStocks?.map((stock: StockCardTypes) => (
+                {randomProducts?.length > 0 ?
+                    randomProducts?.map((product: ProductCardTypes) => (
                         <ProductCard
-                            key={stock._id}
-                            stockId={stock._id}
-                            imageSrc={stock.imageUrl}
-                            isTopSale={stock.isTopSale}
-                            rating={stock.rating}
-                            productPrice={stock.price}
-                            discountOffer={stock.discount}
-                            productName={stock.name}
-                            isInStock={stock.status === 'in-stock' ? true : false}
+                            key={product._id}
+                            stockId={product._id}
+                            imageSrc={product.imageUrl}
+                            isTopSale={product.isTopSale}
+                            rating={product.rating}
+                            productPrice={product.price}
+                            discountOffer={product.discount}
+                            productName={product.name}
+                            isInStock={product.status === 'in-stock' ? true : false}
                         />
                     ))
                     :
@@ -240,7 +250,7 @@ const StockList = () => {
             <Pagination
                 size={size}
                 page={page}
-                totalStockCount={totalStockCount}
+                totalStockCount={totalProductsCount}
                 setPage={setPage}
                 handleDecreasePagination={handleDecreasePagination}
                 handleIncreasePagination={handleIncreasePagination}
@@ -250,5 +260,5 @@ const StockList = () => {
     );
 };
 
-export default StockList;
+export default ProductsList;
 

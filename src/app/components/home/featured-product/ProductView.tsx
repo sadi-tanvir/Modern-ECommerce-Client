@@ -1,11 +1,11 @@
 'use client'
-import { GET_STOCKS_FOR_DETAILS_DISPLAY } from '@/gql/queries/stock.queries';
+import { GET_PRODUCTS_FOR_DETAILS_DISPLAY } from '@/gql/queries/product.queries';
 import { useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../../product-card/ProductCard';
 import ProductCardShimmerEffect from '../../Shimmer-Effect/ProductCardShimmerEffect';
 
-type StockCardTypes = {
+type ProductCardTypes = {
     _id: string;
     name: string;
     description: string;
@@ -27,22 +27,22 @@ type StockCardTypes = {
 
 const ProductView = () => {
     // states
-    const [randomProducts, setRandomProducts] = useState<StockCardTypes[] | []>([])
+    const [randomProducts, setRandomProducts] = useState<ProductCardTypes[] | []>([])
 
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_DETAILS_DISPLAY);
+    const products = useQuery(GET_PRODUCTS_FOR_DETAILS_DISPLAY);
 
 
     // making circular queue operation for picking random products
     useEffect(() => {
-        if (stocks?.data?.stocks?.length > 0) {
+        if (products?.data?.getProducts?.products?.length > 0) {
             let queue = new Array(12);
             let start = -1;
             let end = -1;
             let currentSize = 0;
-            let n = stocks.data.stocks.length;
+            let n = products.data.getProducts.products.length;
 
-            const addProduct = (elem: StockCardTypes) => {
+            const addProduct = (elem: ProductCardTypes) => {
                 if (currentSize < queue.length) {
                     if (start == -1 && end == -1) {
                         start = 0;
@@ -63,7 +63,7 @@ const ProductView = () => {
             let randomIndex = Math.floor(Math.random() * n);
             for (let i = randomIndex; i < n; i++) {
                 if (currentSize < queue.length) {
-                    addProduct(stocks.data.stocks[i]);
+                    addProduct(products.data.getProducts.products[i]);
 
                     if (i == n - 1) {
                         i = -1;
@@ -75,22 +75,22 @@ const ProductView = () => {
 
             setRandomProducts(queue);
         };
-    }, [stocks?.data?.stocks])
+    }, [products?.data?.getProducts?.products])
 
     return (
         <>
             {randomProducts.length > 0 ?
-                randomProducts.map((stock: StockCardTypes) => (
+                randomProducts.map((product: ProductCardTypes) => (
                     <ProductCard
-                        stockId={stock._id}
-                        imageSrc={stock.imageUrl}
-                        isTopSale={stock.isTopSale}
-                        rating={stock.rating}
-                        productPrice={stock.price}
-                        discountOffer={stock.discount}
-                        productName={stock.name}
-                        key={stock._id}
-                        isInStock={stock.status === 'in-stock' ? true : false}
+                        stockId={product._id}
+                        imageSrc={product.imageUrl}
+                        isTopSale={product.isTopSale}
+                        rating={product.rating}
+                        productPrice={product.price}
+                        discountOffer={product.discount}
+                        productName={product.name}
+                        key={product._id}
+                        isInStock={product.status === 'in-stock' ? true : false}
                     />
                 ))
                 :

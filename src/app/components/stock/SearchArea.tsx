@@ -8,7 +8,7 @@ type SearchAreaTypes = {
 
 const SearchArea = ({ setSearchProduct, isFilterTrue }: SearchAreaTypes) => {
     return (
-        <div className="flex items-center bg-backgroundColor rounded-lg p-1">
+        <div className="flex items-center bg-backgroundColor rounded-lg p-1" style={{ boxShadow: `0 4px 0 0 #35af00` }}>
             <input
                 onChange={(e) => setSearchProduct(e.target.value)}
                 type="text"

@@ -1,7 +1,7 @@
 'use client'
 import ProductDetailsViewShimmerEffect from '@/app/components/Shimmer-Effect/ProductDetailsViewShimmerEffect';
 import Button from '@/app/components/shared/Button';
-import { GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
+import { GET_PRODUCT_WITH_DETAILS_BY_ID } from '@/gql/queries/product.queries';
 import { useAppDispatch } from '@/redux/hooks/hooks';
 import { useQuery } from '@apollo/client';
 import Image from 'next/image';
@@ -23,12 +23,12 @@ const ProductDetails = ({ params }: any) => {
 
 
     // gql
-    const { loading, error, data, refetch } = useQuery(GET_STOCK_WITH_DETAILS_BY_ID, {
+    const { loading, error, data, refetch } = useQuery(GET_PRODUCT_WITH_DETAILS_BY_ID, {
         variables: {
             id: params.stockId
         }
     });
-    // const { _id, name, description, unit, status, imageUrl, price, discount, quantity, sellCount, category, brand } = data?.stockWithDetailsById
+    // const { _id, name, description, unit, status, imageUrl, price, discount, quantity, sellCount, category, brand } = data?.productWithDetailsById
 
 
 
@@ -41,58 +41,59 @@ const ProductDetails = ({ params }: any) => {
 
 
     // calculating product price
-    const currentProductPrice = data?.stockWithDetailsById?.price - ((data?.stockWithDetailsById?.price * data?.stockWithDetailsById?.discount) / 100)
+    const currentProductPrice = data?.productWithDetailsById?.price - ((data?.productWithDetailsById?.price * data?.productWithDetailsById?.discount) / 100)
 
     return (
         <>
             {
-                data?.stockWithDetailsById ?
+                data?.productWithDetailsById ?
                     <>
                         <div className="w-screen min-h-screen bg-backgroundColor">
                             <div className="container mx-auto pt-16">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <img src={data.stockWithDetailsById.imageUrl} alt={data.stockWithDetailsById.name} className="w-full h-full object-cover rounded-lg" />
+                                        <img src={data.productWithDetailsById.imageUrl} alt={data.productWithDetailsById.name} className="w-full h-full object-cover rounded-lg" />
                                     </div>
                                     <div className='px-2'>
-                                        <h2 className="text-2xl font-bold mb-4 text-secondary">{data.stockWithDetailsById.name}</h2>
+                                        <h2 className="text-2xl font-bold mb-4 text-secondary">{data.productWithDetailsById.name}</h2>
                                         <div className="mb-4">
                                             <span className="text-lg font-semibold text-secondary">Price: </span>
-                                            {data.stockWithDetailsById.discount > 0 ? (
+                                            {data.productWithDetailsById.discount > 0 ? (
                                                 <>
-                                                    <span className="text-danger line-through mr-2">৳{data.stockWithDetailsById.price}</span>
+                                                    <span className="text-danger line-through mr-2">৳{data.productWithDetailsById.price}</span>
                                                     <span className="text-success font-semibold">৳{currentProductPrice}</span>
-                                                    <span className="font-bold ml-2 text-danger">({data.stockWithDetailsById.discount}% off)</span>
+                                                    <span className="font-bold ml-2 text-danger">({data.productWithDetailsById.discount}% off)</span>
                                                 </>
                                             ) : (
-                                                <span className="text-lg font-semibold text-success">৳{data.stockWithDetailsById.price}</span>
+                                                <span className="text-lg font-semibold text-success">৳{data.productWithDetailsById.price}</span>
                                             )}
                                         </div>
-                                        <p className="text-secondary mb-4">{data.stockWithDetailsById.description}</p>
+                                        <p className="text-secondary mb-4">{data.productWithDetailsById.description}</p>
                                         <div className="flex items-center mb-4">
-                                            {data.stockWithDetailsById.status === 'in-stock' ? (
+                                            {data.productWithDetailsById.status === 'in-stock' ? (
                                                 <span className="text-success font-semibold">In Stock</span>
                                             ) : (
                                                 <span className="text-danger font-semibold">Out of Stock</span>
                                             )}
                                         </div>
-                                        <p className="mb-2 text-secondary">Product ID: {data.stockWithDetailsById._id}</p>
-                                        <p className="mb-2 text-secondary">Available Quantity: {data.stockWithDetailsById.quantity}{data.stockWithDetailsById.unit}</p>
-                                        <p className="mb-2 text-secondary">Total Sold: {data.stockWithDetailsById.sellCount}{data.stockWithDetailsById.unit}</p>
-                                        <p className="mb-2 text-secondary">Category: {data.stockWithDetailsById.category?.id?.name}</p>
-                                        <p className="mb-2 text-secondary">Brand: {data.stockWithDetailsById.brand?.id?.name}</p>
+                                        <p className="mb-2 text-secondary">Product ID: {data.productWithDetailsById._id}</p>
+                                        <p className="mb-2 text-secondary">Available Quantity: {data.productWithDetailsById.quantity}{data.productWithDetailsById.unit}</p>
+                                        <p className="mb-2 text-secondary">Total Sold: {data.productWithDetailsById.sellCount}{data.productWithDetailsById.unit}</p>
+                                        <p className="mb-2 text-secondary">Category: {data.productWithDetailsById.category?.id?.name}</p>
+                                        <p className="mb-2 text-secondary">Brand: {data.productWithDetailsById.brand?.id?.name}</p>
                                         <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                                            <Button onClick={() => router.push("/stocks")} buttonClass='w-full md:w-48 bg-danger'>
+                                            <Button onClick={() => router.push("/stocks")} buttonClass='w-full md:w-48 bg-red-500' boxShadowColor='#dc2626'>
                                                 Back to products List
                                             </Button>
                                             <Button
                                                 onClick={() => handleAddToCart({
-                                                    imageUrl: data.stockWithDetailsById.imageUrl,
-                                                    stockId: data.stockWithDetailsById._id,
-                                                    name: data.stockWithDetailsById.name,
+                                                    imageUrl: data.productWithDetailsById.imageUrl,
+                                                    stockId: data.productWithDetailsById._id,
+                                                    name: data.productWithDetailsById.name,
                                                     price: currentProductPrice
                                                 })}
                                                 buttonClass='w-full md:w-48 bg-primary'
+                                                boxShadowColor='#35af00'
                                             >
                                                 Add To Cart
                                             </Button>

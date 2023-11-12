@@ -84,10 +84,7 @@ const PasswordUpdateForm = () => {
                 inputType='password'
                 isRequired={true}
             />
-            <Button buttonType='submit' buttonClass='w-full bg-primary'>Update</Button>
-            {/* <Button onClick={() => router.push("/stocks")} buttonClass='w-full md:w-48 bg-danger'>
-                Back to products List
-            </Button> */}
+            <Button buttonType='submit' buttonClass='w-full bg-primary' boxShadowColor='#35af00'>Update</Button>
         </form>
     );
 };

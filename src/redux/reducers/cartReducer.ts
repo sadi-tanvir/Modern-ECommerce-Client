@@ -8,7 +8,7 @@ const initialState = {
 const addToCart = createAction('addToCart');
 const removeFromCart = createAction('removeFromCart');
 const decreaseQty = createAction('decreaseQty');
-const clearCart = createAction('clearCart');
+export const clearCart = createAction('clearCart');
 const reloadCart = createAction('reloadCart');
 
 const cartReducer = createReducer(initialState, (builder) => {

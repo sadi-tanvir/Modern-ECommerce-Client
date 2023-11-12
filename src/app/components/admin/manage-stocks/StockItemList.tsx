@@ -1,6 +1,6 @@
 'use client'
-import { DELETE_STOCK_MUTATION } from "@/gql/mutations/stock.mutations";
-import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES } from "@/gql/queries/stock.queries";
+import { DELETE_PRODUCT_MUTATION } from "@/gql/mutations/product.mutations";
+import { GET_PRODUCTS_FOR_ADMINISTRATOR } from "@/gql/queries/product.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,14 +25,14 @@ const StockItemList = ({ size, page }: StockItemListPropsTypes) => {
 
 
     // gql
-    const stocks = useQuery(GET_STOCKS_FOR_ADMINISTRATOR, {
+    const stocks = useQuery(GET_PRODUCTS_FOR_ADMINISTRATOR, {
         variables: {
             size: size,
             page: page
         }
     });
-    const [deleteStockMutation, { data, loading, error }] = useMutation(DELETE_STOCK_MUTATION, {
-        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCKS_NAMES],
+    const [deleteStockMutation, { data, loading, error }] = useMutation(DELETE_PRODUCT_MUTATION, {
+        refetchQueries: [GET_PRODUCTS_FOR_ADMINISTRATOR],
     });
 
 
@@ -68,13 +68,13 @@ const StockItemList = ({ size, page }: StockItemListPropsTypes) => {
         if (error) errorAlert(error.message)
 
         // if stock deleted
-        if (data) successAlert(data?.deleteStockById?.message);
+        if (data) successAlert(data?.deleteProductById?.message);
     }, [data, error]);
 
     return (
         <>
-            {stocks?.data?.getStocksWithDetails?.length > 0 ?
-                stocks?.data?.getStocksWithDetails.map((stock: AdminStockDetailsType) => (
+            {stocks?.data?.getProductsWithDetails?.length > 0 ?
+                stocks?.data?.getProductsWithDetails.map((stock: AdminStockDetailsType) => (
                     <tr className="text-secondary" onClick={() => openActionMenu ? setOpenActionMenu(false) : null} key={stock._id}>
                         <td className="p-4 border border-gray-300">
                             <div className="flex justify-center">

@@ -2,17 +2,19 @@
 import { successAlert, warningAlert } from '@/app/components/alert-functions/alert';
 import Button from '@/app/components/shared/Button'
 import TextInputField from '@/app/components/shared/TextInputField'
+import { bindActionCreators } from '@reduxjs/toolkit';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { clearCart } from "@/redux/reducers/cartReducer"
 
 
 type CartType = {
-    stockId: string,
-    name: string,
-    imageUrl: string,
-    qty: number,
-    price: number,
-}
+    stockId: string;
+    name: string;
+    imageUrl: string;
+    qty: number;
+    price: number;
+};
 
 interface CheckoutFormProps {
     accessToken: string;
@@ -25,16 +27,17 @@ interface CheckoutFormProps {
     subTotalPrice: number;
     deliveryFee: number;
     discount: number;
-}
+    clearCart: any;
+};
 
 interface StateTypes {
-    userId: string,
-    email: string,
-    phone: string,
-    address: string,
-    amount: number,
-    items: CartType[]
-}
+    userId: string;
+    email: string;
+    phone: string;
+    address: string;
+    amount: number;
+    items: CartType[];
+};
 
 class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
     constructor(props: CheckoutFormProps) {
@@ -48,8 +51,8 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
             address: "",
             amount: totalAmount,
             items: Object.values(cart) || []
-        }
-    }
+        };
+    };
 
 
 
@@ -59,14 +62,14 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
         this.setState({
             ...this.state,
             [name]: value
-        })
-    }
+        });
+    };
 
 
 
     // handle place order
     handleCheckoutForm(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
+        e.preventDefault();
         const { userId, items, email, phone, address, amount } = this.state;
         const { accessToken } = this.props;
         // place order
@@ -98,10 +101,16 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.warn(data.data);
+                    // clear cart data
+                    this.props.clearCart()
+
+                    // success alert
                     successAlert(data.data.createOrder.message)
+
+                    // redirect to the order page
+                    window.location.replace(`${process.env.NEXT_PUBLIC_HOSTING_URL}/orders-history`);
                 })
-        ))
+        ));
     };
 
     componentDidUpdate(prevProps: Readonly<CheckoutFormProps>, prevState: Readonly<StateTypes>, snapshot?: any): void {
@@ -114,13 +123,13 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
                 phone: ownerInfo.phone,
                 items: Object.values(cart),
                 amount: (subTotalPrice + deliveryFee) - discount
-            })
-        }
-    }
+            });
+        };
+    };
 
     render() {
-        const {email, phone, address} = this.state;
-        
+        const { email, phone, address } = this.state;
+
         return (
             <>
                 <form onSubmit={this.handleCheckoutForm.bind(this)}>
@@ -150,12 +159,12 @@ class CheckoutForm extends Component<CheckoutFormProps, StateTypes> {
                         onChange={this.handleInputChange}
                         isRequired={true}
                     />
-                    <Button buttonType='submit' buttonClass='w-full bg-primary'>Place Order</Button>
+                    <Button buttonType='submit' buttonClass='w-full bg-primary' boxShadowColor='#35af00'>Place Order</Button>
                 </form>
             </>
-        )
-    }
-}
+        );
+    };
+};
 
 const mapStateToProps = (state: any) => {
     const { ownerInfo, accessToken } = state.authReducer;
@@ -167,4 +176,13 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps)(CheckoutForm); 
+const mapDispatchToProps = (dispatch: any) => {
+    return bindActionCreators(
+        {
+            clearCart
+        },
+        dispatch
+    );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm);

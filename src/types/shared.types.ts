@@ -7,14 +7,7 @@ export type NavItemTypes = {
     navClassName?: string;
 }
 
-export type ButtonTypes = {
-    buttonType?: 'submit' | 'button' | 'reset';
-    children: string;
-    color?: string;
-    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-    buttonClass?: string;
-    disabled?: boolean;
-}
+
 
 type SingleSelectOptions = {
     label: string;

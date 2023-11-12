@@ -20,6 +20,8 @@ export default class Pagination extends Component<PaginationPropsType> {
     constructor(props: PaginationPropsType) {
         super(props);
     };
+
+
     render() {
         const { size, page, totalStockCount, setPage, handleDecreasePagination, handleIncreasePagination, positionOfPagination } = this.props;
         return (

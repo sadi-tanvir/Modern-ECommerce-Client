@@ -2,18 +2,18 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { errorAlert, successAlert, warningAlert } from '@/app/components/alert-functions/alert';
 import TextInputField from '@/app/components/shared/TextInputField';
-import { UPDATE_STOCK_MUTATION } from '@/gql/mutations/stock.mutations';
+import { UPDATE_PRODUCT_MUTATION } from '@/gql/mutations/product.mutations';
 import { GET_BRANDS } from '@/gql/queries/brand.queries';
 import { GET_CATEGORIES } from '@/gql/queries/category.queries';
-import { GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCK_WITH_DETAILS_BY_ID } from '@/gql/queries/stock.queries';
+import { GET_PRODUCTS_FOR_ADMINISTRATOR, GET_PRODUCT_WITH_DETAILS_BY_ID } from '@/gql/queries/product.queries';
 import { useMutation, useQuery } from '@apollo/client';
 import { useSearchParams } from 'next/navigation';
 import SelectInputField from "../../../shared/SelectInputField";
 import MultiSelectInputField from '@/app/components/shared/MultiSelectInputField';
 import Button from '@/app/components/shared/Button';
 
-const UpdateStockForm = () => {
-    const stockStateValues = {
+const UpdateProductForm = () => {
+    const productStateValues = {
         _id: '',
         name: '',
         description: '',
@@ -36,26 +36,26 @@ const UpdateStockForm = () => {
         }
     };
     // states
-    const [stockData, setStockData] = useState(stockStateValues);
+    const [productData, setProductData] = useState(productStateValues);
 
 
 
     // navigation
     const searchParams = useSearchParams();
-    const stockId = searchParams.get('stockId');
+    const productId = searchParams.get('stockId');
 
 
 
     // gql
-    const getStockWithDetail = useQuery(GET_STOCK_WITH_DETAILS_BY_ID, {
+    const getProductWithDetail = useQuery(GET_PRODUCT_WITH_DETAILS_BY_ID, {
         variables: {
-            id: stockId
+            id: productId
         }
     });
     const getCategories = useQuery(GET_CATEGORIES);
     const getBrands = useQuery(GET_BRANDS);
-    const [updateStockMutation, { data, loading, error }] = useMutation(UPDATE_STOCK_MUTATION, {
-        refetchQueries: [GET_STOCKS_FOR_ADMINISTRATOR, GET_STOCK_WITH_DETAILS_BY_ID],
+    const [updateProductMutation, { data, loading, error }] = useMutation(UPDATE_PRODUCT_MUTATION, {
+        refetchQueries: [GET_PRODUCTS_FOR_ADMINISTRATOR, GET_PRODUCT_WITH_DETAILS_BY_ID],
     });
 
 
@@ -63,7 +63,7 @@ const UpdateStockForm = () => {
     // getting the value of the input fields
     const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
-        setStockData({ ...stockData, [name]: value });
+        setProductData({ ...productData, [name]: value });
     };
 
 
@@ -72,7 +72,7 @@ const UpdateStockForm = () => {
     // getting the value of the select input field
     const handleSelectInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setStockData({ ...stockData, [name]: value });
+        setProductData({ ...productData, [name]: value });
     };
 
 
@@ -80,20 +80,20 @@ const UpdateStockForm = () => {
 
     // getting the value of the multi select input field
     const handleMultiCategoryInputChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        setStockData({ ...stockData, [e.target.name]: JSON.parse(e.target.value) })
+        setProductData({ ...productData, [e.target.name]: JSON.parse(e.target.value) })
     };
 
 
 
 
-    // handle submit to create a new stock
-    const handleUpdateStock = (event: FormEvent) => {
+    // handle submit to create a new product
+    const handleUpdateProduct = (event: FormEvent) => {
         event.preventDefault();
-        const { _id, name, unit, imageUrl, description, discount, price, quantity, status, category, brand } = stockData;
+        const { _id, name, unit, imageUrl, description, discount, price, quantity, status, category, brand } = productData;
 
-        // creating stock
+        // creating product
         warningAlert('Yes, Update it!', () => (
-            updateStockMutation({
+            updateProductMutation({
                 variables: {
                     id: _id,
                     info: {
@@ -104,10 +104,10 @@ const UpdateStockForm = () => {
                         price: Number(price),
                         discount: Number(discount),
                         quantity: Number(quantity),
-                        sellCount: Number(stockData.sellCount),
+                        sellCount: Number(productData.sellCount),
                         status: status,
-                        rating: Number(stockData.rating),
-                        isTopSale: JSON.parse(stockData.isTopSale),
+                        rating: Number(productData.rating),
+                        isTopSale: JSON.parse(productData.isTopSale),
                         category: {
                             id: category.id,
                             name: category.name,
@@ -122,15 +122,15 @@ const UpdateStockForm = () => {
         );
 
         // Reset the input fields
-        setStockData(stockStateValues);
+        setProductData(productStateValues);
     };
 
 
     // set the input fields value
     useEffect(() => {
-        if (getStockWithDetail?.data?.stockWithDetailsById) {
-            const { _id, name, description, unit, imageUrl, price, discount, quantity, isTopSale, rating, sellCount, status, category, brand } = getStockWithDetail?.data?.stockWithDetailsById;
-            setStockData({
+        if (getProductWithDetail?.data?.productWithDetailsById) {
+            const { _id, name, description, unit, imageUrl, price, discount, quantity, isTopSale, rating, sellCount, status, category, brand } = getProductWithDetail?.data?.productWithDetailsById;
+            setProductData({
                 _id: _id,
                 name: name,
                 description: description,
@@ -153,25 +153,25 @@ const UpdateStockForm = () => {
                 },
             });
         }
-    }, [getStockWithDetail?.data?.stockWithDetailsById]);
+    }, [getProductWithDetail?.data?.productWithDetailsById]);
 
 
     // for notification
     useEffect(() => {
-        // if stock not created
+        // if product not created
         if (error) errorAlert(error.message);
 
-        // if stock successfully created
-        if (data) successAlert(data?.updateStockById?.message);
+        // if product successfully created
+        if (data) successAlert(data?.updateProductById?.message);
     }, [data, error]);
 
     return (
-        <form onSubmit={handleUpdateStock}>
+        <form onSubmit={handleUpdateProduct}>
             <TextInputField
                 name="name"
                 labelName="Name"
                 placeholder="Product Name"
-                value={stockData.name}
+                value={productData.name}
                 onChange={handleInputChange}
             />
 
@@ -179,7 +179,7 @@ const UpdateStockForm = () => {
                 name="description"
                 labelName="description"
                 placeholder="description"
-                value={stockData.description}
+                value={productData.description}
                 onChange={handleInputChange}
             />
 
@@ -190,10 +190,10 @@ const UpdateStockForm = () => {
                     { label: 'pcs', value: 'pcs' },
                     { label: 'bag', value: 'bag' },
                 ]}
-                // value={stockData.unit}
+                // value={productData.unit}
                 onChange={handleSelectInputChange}
                 name="unit"
-                currentValue={stockData.unit}
+                currentValue={productData.unit}
                 labelName="Unit Type"
             />
 
@@ -201,7 +201,7 @@ const UpdateStockForm = () => {
                 name="imageUrl"
                 labelName="Image Url"
                 placeholder="Image Url"
-                value={stockData.imageUrl}
+                value={productData.imageUrl}
                 onChange={handleInputChange}
             />
 
@@ -210,7 +210,7 @@ const UpdateStockForm = () => {
                 labelName="price"
                 placeholder="price"
                 inputType='number'
-                value={stockData.price}
+                value={productData.price}
                 onChange={handleInputChange}
             />
 
@@ -219,7 +219,7 @@ const UpdateStockForm = () => {
                 labelName="discount"
                 placeholder="discount"
                 inputType='number'
-                value={stockData.discount}
+                value={productData.discount}
                 onChange={handleInputChange}
             />
 
@@ -228,7 +228,7 @@ const UpdateStockForm = () => {
                 labelName="quantity"
                 placeholder="quantity"
                 inputType='number'
-                value={stockData.quantity}
+                value={productData.quantity}
                 onChange={handleInputChange}
             />
 
@@ -240,10 +240,10 @@ const UpdateStockForm = () => {
                     { label: '4', value: '4' },
                     { label: '5', value: '5' },
                 ]}
-                // value={stockData.unit}
+                // value={productData.unit}
                 onChange={handleSelectInputChange}
                 name="rating"
-                currentValue={stockData.rating}
+                currentValue={productData.rating}
                 labelName="Rating"
             />
 
@@ -252,10 +252,10 @@ const UpdateStockForm = () => {
                     { label: 'yes', value: 'true' },
                     { label: 'no', value: 'false' },
                 ]}
-                // value={stockData.unit}
+                // value={productData.unit}
                 onChange={handleSelectInputChange}
                 name="isTopSale"
-                currentValue={stockData.isTopSale}
+                currentValue={productData.isTopSale}
                 labelName="Top Sale"
             />
 
@@ -263,7 +263,7 @@ const UpdateStockForm = () => {
                 name="sellCount"
                 labelName="Total Sold"
                 placeholder="Total Sold"
-                value={stockData.sellCount}
+                value={productData.sellCount}
                 onChange={handleInputChange}
                 isRequired={true}
             />
@@ -274,11 +274,11 @@ const UpdateStockForm = () => {
                     { label: 'out-of-stock', value: 'out-of-stock' },
                     { label: 'discontinued', value: 'discontinued' },
                 ]}
-                // value={stockData.unit}
+                // value={productData.unit}
                 onChange={handleSelectInputChange}
                 name="status"
-                currentValue={stockData.status}
-                labelName="Stock Status"
+                currentValue={productData.status}
+                labelName="Product Status"
             />
 
             <MultiSelectInputField
@@ -286,7 +286,7 @@ const UpdateStockForm = () => {
                     label: queries.name,
                     value: { id: queries._id, name: queries.name }
                 }))}
-                value={stockData.category}
+                value={productData.category}
                 onChange={handleMultiCategoryInputChange}
                 name="category"
                 labelName="Category"
@@ -297,15 +297,15 @@ const UpdateStockForm = () => {
                     label: queries.name,
                     value: { id: queries._id, name: queries.name }
                 }))}
-                value={stockData.brand}
+                value={productData.brand}
                 onChange={handleMultiCategoryInputChange}
                 name="brand"
                 labelName="Brand"
             />
 
-            <Button buttonType='submit' buttonClass='bg-primary w-full'>Update Stock</Button>
+            <Button buttonType='submit' buttonClass='bg-primary w-full'>Update Product</Button>
         </form>
     );
 };
 
-export default UpdateStockForm;
+export default UpdateProductForm;

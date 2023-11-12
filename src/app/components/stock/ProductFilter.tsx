@@ -19,7 +19,6 @@ const ProductFilters = ({ setSelectedBrand, setSelectedCategory, setSelectedPric
     const getBrands = useQuery(GET_BRANDS);
     const getCategories = useQuery(GET_CATEGORIES);
 
-
     return (
         <>
             <div className="space-x-4 flex flex-row justify-end items-center">

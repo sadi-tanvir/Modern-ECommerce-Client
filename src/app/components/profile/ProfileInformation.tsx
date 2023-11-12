@@ -15,7 +15,11 @@ const ProfileInformation = () => {
     return (
         <>
             <div className="w-full text-end">
-                <Button onClick={() => router.push('/profile/update-profile')} buttonClass="bg-primary text-white px-4 py-1 rounded-md hover:bg-opacity-75 transition-colors ml-auto">
+                <Button
+                    onClick={() => router.push('/profile/update-profile')}
+                    buttonClass="bg-primary text-white px-4 py-1 rounded-md hover:bg-opacity-75 transition-colors ml-auto"
+                    boxShadowColor='#35af00'
+                    >
                     Edit Profile
                 </Button>
             </div>

@@ -96,7 +96,7 @@ const ProductCard = ({
                 </div>
                 <div className='mt-10'>
                     <div className='w-full flex gap-1 absolute bottom-3 left-0 px-2'>
-                        <Button onClick={() => router.push(`/stocks/${stockId}`)} buttonClass='bg-primary w-full '>
+                        <Button onClick={() => router.push(`/stocks/${stockId}`)} buttonClass='bg-[#99f6e4] text-[#14b8a6] w-full '>
                             Details
                         </Button>
                         <Button
@@ -107,7 +107,7 @@ const ProductCard = ({
                                 name: productName,
                                 price: currentProductPrice
                             })}
-                            buttonClass='bg-success w-full disabled:cursor-not-allowed disabled:bg-slate-400'
+                            buttonClass='bg-[#bbf7d0] text-primary w-full disabled:cursor-not-allowed disabled:bg-slate-400'
                         >
                             Add to Cart
                         </Button>

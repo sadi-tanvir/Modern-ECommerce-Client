@@ -5,6 +5,32 @@ import React from 'react'
 
 const SidebarMenuItems = () => {
     const pathname = usePathname();
+
+    // style={{ boxShadow: pathname == '/admin/manage-brands' ? `0 4px 0 0 #35af00` : "" }}
+
+    const adminMenuPath = [
+        {
+            path: '/admin/manage-brands',
+            labelName: "Manage Brands"
+        },
+        {
+            path: '/admin/manage-categories',
+            labelName: "Manage Categories"
+        },
+        {
+            path: '/admin/add-stock',
+            labelName: "Create Stock"
+        },
+        {
+            path: '/admin/add-category',
+            labelName: "Create Category"
+        },
+        {
+            path: '/admin/add-brand',
+            labelName: "Create Brand"
+        },
+    ]
+
     return (
         <ul className="menu p-4 w-80 h-full bg-accent text-secondary">
             {/* <Link href="/admin"> */}
@@ -16,60 +42,28 @@ const SidebarMenuItems = () => {
             {/* </li> */}
             {/* </Link> */}
             <Link href="/admin/manage-stocks">
-                <li className={`${pathname == '/admin/manage-stocks' || pathname == '/admin' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
+                <li className={`${pathname == ('/admin/manage-stocks' || '/admin') ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`} style={{ boxShadow: pathname == '/admin/manage-stocks' ? `0 4px 0 0 #35af00` : "" }}>
+                    <a className='hover:text-primary'>
                         Manage Stocks
                     </a>
                 </li>
             </Link>
-            <Link href="/admin/manage-brands">
-                <li className={`${pathname == '/admin/manage-brands' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
-                        Manage Brands
-                    </a>
-                </li>
-            </Link>
-            <Link href="/admin/manage-categories">
-                <li className={`${pathname == '/admin/manage-categories' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
-                        Manage Categories
-                    </a>
-                </li>
-            </Link>
-            <Link href="/admin/add-stock">
-                <li className={`${pathname == '/admin/add-stock' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
-                        {/* <AddStockIcon pathname='/admin/add-stock' /> */}
-                        Create Stock
-                    </a>
-                </li>
-            </Link>
-            {/* <Link href="/admin/add-product">
-                        <li className={`${pathname == '/admin/add-product' ? 'bg-primary rounded-md text-white my-2' : ''}`}>
-                            <a>
-                                <AddProductIcon />
-                                Add Product
-                            </a>
+
+            {
+                adminMenuPath.map((elem, index) => (
+                    <Link key={index} href={elem.path}>
+                        <li
+                            className={`${pathname == elem.path ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}
+                            style={{ boxShadow: pathname == elem.path ? `0 4px 0 0 #35af00` : "" }}
+                        >
+                            <a>{elem.labelName}</a>
                         </li>
-                    </Link> */}
-            <Link href="/admin/add-category">
-                <li className={`${pathname == '/admin/add-category' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
-                        {/* <AddCategoryIcon /> */}
-                        Create Category
-                    </a>
-                </li>
-            </Link>
-            <Link href="/admin/add-brand">
-                <li className={`${pathname == '/admin/add-brand' ? 'bg-primary rounded-md text-white my-2' : ''} font-semibold`}>
-                    <a>
-                        {/* <AddBrandIcon /> */}
-                        Create Brand
-                    </a>
-                </li>
-            </Link>
+                    </Link>
+                ))
+            }
+
         </ul>
     )
 }
 
-export default SidebarMenuItems
+export default SidebarMenuItems;

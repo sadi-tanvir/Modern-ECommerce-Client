@@ -54,7 +54,7 @@ const Navbar = () => {
     }, [])
 
     return (
-        <nav className="bg-primary text-white py-4">
+        <nav className="bg-primary text-white py-4 mb-[5px] rounded-b-lg" style={{ boxShadow: `0 10px 0 0 #35af00` }}>
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center">
                     <Link href="/">
@@ -99,7 +99,7 @@ const Navbar = () => {
                             <>
                                 <CartNav />
                                 <ProfileMenu />
-                                <Button onClick={handleLogout} buttonClass="bg-danger hover:bg-gray-500 lg:ml-7 w-40">
+                                <Button onClick={handleLogout} buttonClass="bg-red-500 hover:bg-gray-500 lg:ml-7 w-40" boxShadowColor='#dc2626'>
                                     Logout
                                 </Button>
                             </>

@@ -35,7 +35,7 @@ const ManageAdminStockLayout = () => {
     // get all stock count
     useEffect(() => {
         const fetchTotalStockCount = async () => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stock/stock-count`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/products-count`);
             const data = await response.json();
             setTotalStockCount(data.totalDocuments);
         };

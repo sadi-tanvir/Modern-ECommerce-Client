@@ -141,11 +141,11 @@ const CartLayout = () => {
                         </div>
 
                         <div className='w-full flex justify-center lg:justify-start gap-5 items-center'>
-                            <Button onClick={() => router.push('/cart/checkout')} buttonClass="bg-primary w-full lg:w-72">
-                                Checkout
-                            </Button>
-                            <Button onClick={handleClearCart} buttonClass="bg-danger w-full lg:w-72">
+                            <Button onClick={handleClearCart} buttonClass="bg-red-500 w-full lg:w-72" boxShadowColor='#dc2626'>
                                 Clear Cart
+                            </Button>
+                            <Button onClick={() => router.push('/cart/checkout')} buttonClass="bg-primary w-full lg:w-72" boxShadowColor='#35af00'>
+                                Checkout
                             </Button>
                         </div>
                     </div>
